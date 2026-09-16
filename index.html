@@ -2,469 +2,1644 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Jessie 的電子書櫃</title>
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>潔心 的小書櫃</title>
+  
   <style>
-    /* 基礎設定 */
+    /* ==========================================================================
+       一、基本設定與 CSS 變數 (童趣溫暖木質調)
+       ========================================================================== */
     :root {
-      --primary: #ff8fa3;
-      --bg: #f9f9f9;
-      --text: #333;
-      --card-bg: #fff;
+      --bg-cream: #FAF5EF;
+      --bg-cream-dark: #F2E8DC;
+      --wood-dark: #5C3A21;
+      --wood-mid: #8C5E35;
+      --wood-light: #D4A373;
+      --wood-shelf: #A67C52;
+      --wood-plank-top: #E2B887;
+      --wood-plank-bottom: #6E472B;
+      --text-main: #3D2612;
+      --text-muted: #8C735D;
+      --primary-coral: #E07A5F;
+      --primary-coral-hover: #D0694E;
+      --accent-yellow: #F4A261;
+      --accent-green: #81B29A;
+      --accent-favorite: #FFB703;
+      --card-bg: #FFFFFF;
+      --shadow-soft: 0 8px 20px rgba(92, 58, 33, 0.12);
+      --shadow-wood: 0 10px 0px #5C3A21, 0 15px 25px rgba(0, 0, 0, 0.15);
+      --radius-lg: 20px;
+      --radius-md: 12px;
+      --radius-sm: 8px;
     }
-    
+
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: 'Helvetica Neue', Arial, 'PingFang TC', 'Heiti TC', 'Microsoft JhengHei', sans-serif;
-    }
-    
-    body {
-      background-color: var(--bg);
-      color: var(--text);
-      padding-bottom: 80px; /* 留空間給底部的新增按鈕 */
+      -webkit-tap-highlight-color: transparent;
     }
 
-    /* 頂部標題與搜尋 */
-    header {
-      background-color: #fff;
-      padding: 20px 15px 15px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
-
-    h1 {
-      font-size: 24px;
-      margin-bottom: 15px;
-      color: var(--primary);
-    }
-
-    #search {
+    html, body {
       width: 100%;
-      padding: 12px 15px;
-      border: 1px solid #ddd;
-      border-radius: 25px;
+      min-height: 100vh;
+      background-color: var(--bg-cream);
+      color: var(--text-main);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      overflow-x: hidden; /* 確保 body 永遠不出水平捲軸 */
+      position: relative;
+    }
+
+    /* 溫暖點點背景紋理 */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-image: radial-gradient(var(--wood-light) 0.75px, transparent 0.75px);
+      background-size: 24px 24px;
+      opacity: 0.18;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* 可縮減動畫 (Accessibility) */
+    @media (prefers-reduced-motion: reduce) {
+      *, ::before, ::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+
+    /* App 主容器 */
+    .app-container {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 600px; /* 桌機/平板置中 */
+      margin: 0 auto;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding-bottom: calc(90px + env(safe-area-inset-bottom));
+    }
+
+    /* ==========================================================================
+       二、首頁 Header 區域
+       ========================================================================== */
+    .app-header {
+      padding: 20px 20px 10px 20px;
+      text-align: center;
+    }
+
+    .header-card {
+      background: #FFFFFF;
+      border: 3px solid var(--wood-light);
+      border-radius: 24px;
+      padding: 16px 20px;
+      box-shadow: 0 6px 16px rgba(140, 94, 53, 0.08);
+      position: relative;
+    }
+
+    .header-decor-star {
+      position: absolute;
+      font-size: 18px;
+      opacity: 0.6;
+    }
+    .star-left { top: 12px; left: 16px; }
+    .star-right { bottom: 12px; right: 16px; }
+
+    .app-title {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--wood-dark);
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .app-subtitle {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--primary-coral);
+      margin-top: 4px;
+    }
+
+    .app-stats {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 4px 14px;
+      background-color: var(--bg-cream-dark);
+      color: var(--text-muted);
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    /* 家長模式提示橫幅 */
+    .parent-banner {
+      display: none;
+      margin: 12px 20px 0 20px;
+      padding: 10px 16px;
+      background-color: #FFF3E0;
+      border: 2px dashed var(--accent-yellow);
+      border-radius: 14px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--wood-dark);
+      align-items: center;
+      justify-content: space-between;
+    }
+    .parent-banner.active {
+      display: flex;
+    }
+
+    /* ==========================================================================
+       三、核心：互動木書櫃 (Shelf Carousel)
+       ========================================================================== */
+    .bookshelf-section {
+      margin-top: 15px;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+
+    .shelf-group {
+      position: relative;
+    }
+
+    .shelf-title-wrap {
+      padding: 0 24px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .shelf-title {
       font-size: 16px;
-      outline: none;
-      transition: border-color 0.3s;
+      font-weight: 800;
+      color: var(--wood-dark);
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
 
-    #search:focus {
-      border-color: var(--primary);
+    .shelf-count-badge {
+      font-size: 11px;
+      background: var(--wood-light);
+      color: #FFF;
+      padding: 2px 8px;
+      border-radius: 10px;
     }
 
-    /* 分類導覽列 (可橫向滾動) */
-    #categories {
+    /* 水平 Scroll-Snap 容器 */
+    .shelf-carousel {
       display: flex;
       overflow-x: auto;
-      padding: 15px;
-      gap: 10px;
-      white-space: nowrap;
-      /* 隱藏捲軸 */
-      scrollbar-width: none; 
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+      padding: 15px calc(50% - 85px) 20px calc(50% - 85px); /* 計算讓中央書本置中 */
+      gap: 16px;
+      scrollbar-width: none; /* Firefox */
     }
-    #categories::-webkit-scrollbar {
-      display: none;
+    .shelf-carousel::-webkit-scrollbar {
+      display: none; /* Chrome/Safari */
     }
 
-    #categories button {
-      background: #fff;
-      border: 1px solid #ddd;
-      padding: 8px 16px;
-      border-radius: 20px;
-      font-size: 14px;
+    /* 單一本童書卡片 */
+    .book-card {
+      flex: 0 0 170px;
+      scroll-snap-align: center;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       cursor: pointer;
-      color: #666;
-      transition: all 0.2s;
+      transition: transform 0.25s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.25s ease, filter 0.25s ease;
+      transform: scale(0.88);
+      opacity: 0.8;
+      filter: brightness(0.95);
+      user-select: none;
     }
 
-    #categories button.active {
-      background: var(--primary);
-      color: #fff;
-      border-color: var(--primary);
+    /* 中央選中的書本 */
+    .book-card.active {
+      transform: scale(1.08);
+      opacity: 1;
+      filter: brightness(1);
+      z-index: 2;
     }
 
-    /* 書櫃網格 */
-    #bookshelf {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr); /* 手機版一排兩本 */
-      gap: 15px;
-      padding: 0 15px 15px;
-    }
-
-    /* 書籍卡片 */
-    .book {
-      background: var(--card-bg);
+    /* 書封外殼 */
+    .book-cover-container {
+      width: 100%;
+      height: 220px;
       border-radius: 12px;
       overflow: hidden;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.04);
+      background-color: #E8DFD5;
+      box-shadow: 0 8px 18px rgba(92, 58, 33, 0.22);
       position: relative;
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
+      border: 1px solid rgba(255, 255, 255, 0.4);
     }
 
-    .book img {
+    .book-cover-img {
       width: 100%;
-      aspect-ratio: 3/4; /* 統一封面比例 */
+      height: 100%;
       object-fit: cover;
-      background-color: #eee;
+      display: block;
+      transition: transform 0.3s ease;
     }
 
-    .book-info {
-      padding: 10px;
+    /* 預設 SVG 書封 placeholder */
+    .book-cover-placeholder {
+      width: 100%;
+      height: 100%;
       display: flex;
       flex-direction: column;
-      gap: 5px;
-      flex-grow: 1;
-    }
-
-    .book-info strong {
-      font-size: 14px;
-      line-height: 1.3;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
-
-    .book-meta {
-      display: flex;
-      justify-content: space-between;
       align-items: center;
-      margin-top: auto;
+      justify-content: center;
+      padding: 16px;
+      text-align: center;
+      box-sizing: border-box;
+      color: #FFF;
+      font-weight: bold;
     }
 
-    .book-meta span {
-      font-size: 12px;
-      color: #888;
+    .book-title-text {
+      margin-top: 10px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--wood-dark);
+      text-align: center;
+      width: 100%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      padding: 0 4px;
     }
 
-    .book-meta .category-tag {
-      background: #f0f0f0;
-      padding: 2px 6px;
-      border-radius: 4px;
-      color: #555;
-    }
-
-    /* 刪除按鈕 */
-    .delete-btn {
+    /* 最愛星號標誌 */
+    .favorite-badge {
       position: absolute;
       top: 8px;
       right: 8px;
-      background: rgba(255, 59, 48, 0.9);
-      color: white;
-      border: none;
+      background: rgba(255, 255, 255, 0.92);
+      border-radius: 50%;
       width: 28px;
       height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    }
+
+    /* 家長模式下的快速編輯按鈕 */
+    .parent-book-actions {
+      display: none;
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      gap: 6px;
+      z-index: 5;
+    }
+    .body-parent-mode .parent-book-actions {
+      display: flex;
+    }
+    .action-icon-btn {
+      width: 30px;
+      height: 30px;
       border-radius: 50%;
+      border: none;
+      background: rgba(255, 255, 255, 0.95);
+      color: var(--wood-dark);
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      cursor: pointer;
+    }
+
+    /* 有厚度的立體木頭架子 (Plank) */
+    .shelf-plank {
+      width: 100%;
+      height: 18px;
+      background: linear-gradient(180deg, var(--wood-plank-top) 0%, var(--wood-shelf) 40%, var(--wood-plank-bottom) 100%);
+      border-top: 3px solid #F3D2A9;
+      border-bottom: 2px solid #422917;
+      box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+      position: relative;
+      margin-top: -8px;
+    }
+    .shelf-plank::after {
+      content: "";
+      position: absolute;
+      bottom: -6px;
+      left: 0; right: 0;
+      height: 6px;
+      background: rgba(0, 0, 0, 0.08);
+    }
+
+    /* 空書櫃提示 */
+    .empty-shelf-notice {
+      padding: 30px 20px;
+      text-align: center;
+      color: var(--text-muted);
       font-size: 14px;
+      font-weight: 600;
+      background: rgba(255,255,255,0.5);
+      border-radius: var(--radius-md);
+      margin: 0 20px;
+      border: 2px dashed var(--wood-light);
+    }
+
+    /* ==========================================================================
+       四、底部固定導覽列 & 家長模式按鈕
+       ========================================================================== */
+    .app-footer {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 600px;
+      padding: 10px 20px calc(12px + env(safe-area-inset-bottom)) 20px;
+      background: rgba(250, 245, 239, 0.94);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-top: 1px solid rgba(212, 163, 115, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 100;
+    }
+
+    .footer-btn {
+      min-height: 44px;
+      padding: 10px 18px;
+      border-radius: 22px;
+      border: 2px solid var(--wood-light);
+      background: #FFFFFF;
+      color: var(--wood-dark);
+      font-size: 14px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      transition: all 0.2s ease;
+    }
+    .footer-btn:active {
+      transform: scale(0.96);
+    }
+
+    .parent-mode-toggle {
+      background: var(--bg-cream-dark);
+      border-color: var(--wood-light);
+      color: var(--wood-dark);
+    }
+
+    /* 家長專用功能區 (在 Footer 或獨立 Panel) */
+    .parent-controls {
+      display: none;
+      gap: 8px;
+    }
+    .body-parent-mode .parent-controls {
+      display: flex;
+    }
+
+    .btn-add-book {
+      background: var(--primary-coral);
+      color: #FFFFFF;
+      border-color: var(--primary-coral);
+    }
+
+    /* ==========================================================================
+       五、全螢幕 / Modal 彈出視窗 UI
+       ========================================================================== */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(61, 38, 18, 0.6);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 1000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-card {
+      background: #FFFFFF;
+      border-radius: 28px;
+      width: 100%;
+      max-width: 420px;
+      max-height: 88vh;
+      overflow-y: auto;
+      padding: 24px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+      border: 4px solid var(--wood-light);
+      position: relative;
+      transform: translateY(20px) scale(0.95);
+      transition: transform 0.25s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    .modal-overlay.active .modal-card {
+      transform: translateY(0) scale(1);
+    }
+
+    .modal-close-btn {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: none;
+      background: var(--bg-cream-dark);
+      color: var(--wood-dark);
+      font-size: 20px;
+      font-weight: bold;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      z-index: 10;
     }
 
-    /* 新增按鈕 (固定於底部) */
-    #addBook {
-      position: fixed;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: var(--primary);
-      color: white;
-      border: none;
-      padding: 14px 30px;
-      border-radius: 30px;
-      font-size: 16px;
-      font-weight: bold;
-      box-shadow: 0 4px 12px rgba(255, 143, 163, 0.4);
-      cursor: pointer;
-      z-index: 20;
-    }
-
-    /* 新增書籍的彈出視窗 */
-    dialog {
-      width: 90%;
-      max-width: 400px;
-      margin: auto;
-      border: none;
-      border-radius: 16px;
-      padding: 20px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-    }
-    
-    dialog::backdrop {
-      background: rgba(0,0,0,0.5);
-    }
-
-    dialog h2 {
-      margin-bottom: 15px;
-      font-size: 20px;
-      color: var(--primary);
-    }
-
-    dialog input, dialog select {
-      width: 100%;
-      padding: 12px;
-      margin-bottom: 12px;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      font-size: 16px;
-    }
-
-    .dialog-buttons {
+    /* --- 書本詳細 Pop-up (孩子/共讀模式) --- */
+    .book-detail-view {
       display: flex;
-      justify-content: flex-end;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .detail-cover-box {
+      width: 180px;
+      height: 240px;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+      margin-bottom: 16px;
+      background-color: #E8DFD5;
+      position: relative;
+    }
+
+    .detail-cover-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .detail-title {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--wood-dark);
+      margin-bottom: 6px;
+    }
+
+    .detail-meta {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+      display: flex;
       gap: 10px;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .meta-badge {
+      background: var(--bg-cream-dark);
+      padding: 4px 10px;
+      border-radius: 12px;
+    }
+
+    /* 核心大按鈕：今天讀這本！ */
+    .btn-read-today {
+      width: 100%;
+      min-height: 56px;
+      background: linear-gradient(135deg, #FF9F1C 0%, var(--primary-coral) 100%);
+      color: #FFFFFF;
+      border: none;
+      border-radius: 28px;
+      font-size: 19px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(224, 122, 95, 0.35);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-read-today:active {
+      transform: scale(0.96);
+    }
+
+    /* 反饋訊息 */
+    .read-feedback-msg {
+      display: none;
+      margin-top: 12px;
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--primary-coral);
+      animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    @keyframes popIn {
+      0% { transform: scale(0.5); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .detail-actions-secondary {
+      display: flex;
+      gap: 12px;
+      width: 100%;
+      margin-top: 14px;
+    }
+
+    .btn-favorite-toggle {
+      flex: 1;
+      min-height: 44px;
+      border-radius: 22px;
+      border: 2px solid var(--wood-light);
+      background: #FFF;
+      color: var(--wood-dark);
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    /* 媽媽備註框 (家長模式/詳細 Modal 內) */
+    .mother-note-box {
+      width: 100%;
+      margin-top: 16px;
+      padding: 12px;
+      background: #FFFBF0;
+      border: 2px dashed var(--accent-yellow);
+      border-radius: 14px;
+      text-align: left;
+      font-size: 13px;
+      color: var(--text-main);
+      display: none;
+    }
+    .mother-note-box.visible {
+      display: block;
+    }
+    .mother-note-title {
+      font-weight: 800;
+      color: var(--wood-dark);
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* --- 表單 UI (新增/編輯書籍) --- */
+    .form-title {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--wood-dark);
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .form-group {
+      margin-bottom: 14px;
+      text-align: left;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--wood-dark);
+      margin-bottom: 6px;
+    }
+
+    .form-input, .form-select, .form-textarea {
+      width: 100%;
+      padding: 12px 14px;
+      border: 2px solid var(--wood-light);
+      border-radius: 12px;
+      font-size: 14px;
+      outline: none;
+      background: #FAF8F5;
+      color: var(--text-main);
+    }
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+      border-color: var(--primary-coral);
+      background: #FFFFFF;
+    }
+
+    .image-preview-box {
+      width: 100%;
+      height: 140px;
+      border: 2px dashed var(--wood-light);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      margin-top: 8px;
+      background: #FAF8F5;
+      position: relative;
+    }
+    .image-preview-img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .form-submit-btn {
+      width: 100%;
+      min-height: 48px;
+      background: var(--primary-coral);
+      color: #FFF;
+      border: none;
+      border-radius: 24px;
+      font-size: 16px;
+      font-weight: 800;
+      cursor: pointer;
       margin-top: 10px;
     }
 
-    .dialog-buttons button {
-      padding: 10px 20px;
-      border: none;
-      border-radius: 8px;
-      font-size: 16px;
-      cursor: pointer;
+    /* --- PIN 碼解鎖視窗 --- */
+    .pin-input-group {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin: 20px 0;
+    }
+    .pin-field {
+      width: 48px;
+      height: 56px;
+      border: 3px solid var(--wood-light);
+      border-radius: 12px;
+      text-align: center;
+      font-size: 24px;
+      font-weight: 800;
+      background: #FAF8F5;
     }
 
-    .btn-cancel {
-      background: #eee;
-      color: #333;
+    /* 動畫愛心/星星 Particles */
+    .particle {
+      position: fixed;
+      pointer-events: none;
+      font-size: 20px;
+      z-index: 2000;
+      animation: floatUp 0.8s ease-out forwards;
     }
-
-    .btn-submit {
-      background: var(--primary);
-      color: white;
+    @keyframes floatUp {
+      0% { transform: translate(0, 0) scale(0.6); opacity: 1; }
+      100% { transform: translate(var(--dx), var(--dy)) scale(1.4); opacity: 0; }
     }
   </style>
 </head>
 
 <body>
 
-  <header>
-    <h1>Jessie 的書櫃 📚</h1>
-    <input id="search" type="search" placeholder="搜尋書名...">
-  </header>
+  <div class="app-container">
 
-  <nav id="categories">
-    <button data-category="all" class="active">全部</button>
-    <button data-category="story">故事</button>
-    <button data-category="english">英文繪本</button>
-    <button data-category="sensory">感官</button>
-    <button data-category="cognitive">認知</button>
-    <button data-category="music">兒歌</button>
-  </nav>
-
-  <main id="bookshelf"></main>
-
-  <button id="addBook">＋ 新增書籍</button>
-
-  <!-- 新增書籍表單 (彈出視窗) -->
-  <dialog id="bookModal">
-    <form id="bookForm" method="dialog">
-      <h2>新增書籍</h2>
-      <input type="text" id="bookTitle" placeholder="書名 (必填)" required>
-      <select id="bookCategory" required>
-        <option value="" disabled selected>選擇分類</option>
-        <option value="story">故事</option>
-        <option value="english">英文繪本</option>
-        <option value="sensory">感官</option>
-        <option value="cognitive">認知</option>
-        <option value="music">兒歌</option>
-      </select>
-      <input type="text" id="bookAge" placeholder="適合年齡 (例如: 0-2歲)">
-      <input type="url" id="bookCover" placeholder="封面圖片網址 (選填)">
-      
-      <div class="dialog-buttons">
-        <button type="button" class="btn-cancel" id="cancelBtn">取消</button>
-        <button type="submit" class="btn-submit">儲存</button>
+    <!-- 首頁頂部標題區 -->
+    <header class="app-header">
+      <div class="header-card">
+        <span class="header-decor-star star-left">✨</span>
+        <span class="header-decor-star star-right">☁️</span>
+        <h1 class="app-title">📚 潔心 的小書櫃</h1>
+        <div class="app-subtitle">今天想讀哪一本？</div>
+        <div class="app-stats" id="appStats">0 本小書 · 已共讀 0 次</div>
       </div>
-    </form>
-  </dialog>
 
+      <!-- 家長模式開啟時的提示資訊 -->
+      <div class="parent-banner" id="parentBanner">
+        <span>🔓 家長管理模式已開啟</span>
+        <button class="footer-btn" style="min-height:32px; padding:4px 10px; font-size:12px;" onclick="openBackupModal()">💾 備份/匯入</button>
+      </div>
+    </header>
+
+    <!-- 木頭書櫃的主要區域 (JavaScript 動態渲染) -->
+    <main class="bookshelf-section" id="bookshelfSection">
+      <!-- 內容將由 JavaScript 動態填入 -->
+    </main>
+
+    <!-- 底部固定控制欄 -->
+    <footer class="app-footer">
+      <button class="footer-btn parent-mode-toggle" id="parentModeBtn" onclick="handleParentModeToggle()" aria-label="切換家長模式">
+        <span id="parentModeIcon">🔒</span> <span id="parentModeText">家長模式</span>
+      </button>
+
+      <!-- 家長專用新增按鈕 -->
+      <div class="parent-controls">
+        <button class="footer-btn btn-add-book" onclick="openAddBookModal()" aria-label="新增書籍">
+          ➕ 新增書籍
+        </button>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- ==========================================================================
+     MODALS 視窗區域
+     ========================================================================== -->
+
+  <!-- 1. 書本詳細視窗 (親子共讀/選擇) -->
+  <div class="modal-overlay" id="bookDetailModal" role="dialog" aria-modal="true">
+    <div class="modal-card">
+      <button class="modal-close-btn" onclick="closeModal('bookDetailModal')" aria-label="關閉">✕</button>
+      <div class="book-detail-view">
+        <div class="detail-cover-box" id="detailCoverBox">
+          <!-- 圖片動態填入 -->
+        </div>
+        <h2 class="detail-title" id="detailTitle">書名</h2>
+        <div class="detail-meta">
+          <span class="meta-badge" id="detailCategory">分類</span>
+          <span class="meta-badge" id="detailAge">適讀年齡</span>
+          <span class="meta-badge" id="detailReadCount">已共讀 0 次</span>
+        </div>
+
+        <!-- 媽媽備註 (只在有內容或家長模式下顯示) -->
+        <div class="mother-note-box" id="detailMotherNoteBox">
+          <div class="mother-note-title">📝 媽媽的筆記：</div>
+          <div id="detailMotherNoteText">無備註</div>
+        </div>
+
+        <div style="width: 100%; margin-top: 20px;">
+          <button class="btn-read-today" id="btnReadToday" onclick="handleReadToday()">
+            📖 今天讀這本！
+          </button>
+          <div class="read-feedback-msg" id="readFeedbackMsg">今天一起讀這本 ♡</div>
+        </div>
+
+        <div class="detail-actions-secondary">
+          <button class="btn-favorite-toggle" id="btnFavoriteToggle" onclick="handleToggleFavorite()">
+            <span id="favIcon">♡</span> <span id="favText">加入最愛</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. 解鎖家長模式 PIN Modal -->
+  <div class="modal-overlay" id="pinModal" role="dialog" aria-modal="true">
+    <div class="modal-card">
+      <button class="modal-close-btn" onclick="closeModal('pinModal')" aria-label="關閉">✕</button>
+      <h3 class="form-title">🔒 請輸入家長 PIN 碼</h3>
+      <p style="font-size:13px; color:var(--text-muted); text-align:center;">預設密碼為 1234</p>
+      
+      <div class="pin-input-group">
+        <input type="password" maxlength="4" id="pinInput" class="form-input" style="text-align:center; font-size:24px; letter-spacing:10px; width:180px;" inputmode="numeric" placeholder="••••">
+      </div>
+
+      <button class="form-submit-btn" onclick="verifyPin()">解鎖模式</button>
+    </div>
+  </div>
+
+  <!-- 3. 新增/編輯書籍 Modal -->
+  <div class="modal-overlay" id="bookFormModal" role="dialog" aria-modal="true">
+    <div class="modal-card">
+      <button class="modal-close-btn" onclick="closeModal('bookFormModal')" aria-label="關閉">✕</button>
+      <h3 class="form-title" id="formModalTitle">➕ 新增書籍</h3>
+      
+      <form id="bookForm" onsubmit="handleFormSubmit(event)">
+        <input type="hidden" id="formBookId">
+
+        <div class="form-group">
+          <label class="form-label" for="formTitle">書名 (必填)</label>
+          <input type="text" id="formTitle" class="form-input" placeholder="例如：Dear Zoo" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">📷 選擇封面照片 (自動壓縮圖檔)</label>
+          <input type="file" id="formCoverFile" accept="image/*" class="form-input" onchange="handleFileSelect(event)">
+          <div class="image-preview-box" id="imagePreviewBox">
+            <span style="font-size:12px; color:var(--text-muted);">預覽封面</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="formCategory">分類</label>
+          <select id="formCategory" class="form-select">
+            <option value="story">📖 故事</option>
+            <option value="english">🔤 英文</option>
+            <option value="sensory">✋ 感官／互動</option>
+            <option value="cognitive">🧠 認知</option>
+            <option value="music">🎵 兒歌</option>
+            <option value="other">🧸 其他</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="formReadingStatus">共讀階段</label>
+          <select id="formReadingStatus" class="form-select">
+            <option value="now">🌟 現在適合</option>
+            <option value="later">🌱 長大再讀</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="formAge">適讀年齡</label>
+          <input type="text" id="formAge" class="form-input" placeholder="例如：0–2歲">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="formNote">媽媽筆記／備註</label>
+          <textarea id="formNote" class="form-textarea" rows="3" placeholder="例如：潔心最近很喜歡摸這一本的毛毛獅子..."></textarea>
+        </div>
+
+        <button type="submit" class="form-submit-btn" id="formSubmitBtn">儲存書籍</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- 4. 刪除確認 Modal (二次確認，避免誤觸) -->
+  <div class="modal-overlay" id="deleteConfirmModal" role="dialog" aria-modal="true">
+    <div class="modal-card" style="text-align: center;">
+      <h3 class="form-title" style="color:#D90429;">🗑 確定要刪除這本書嗎？</h3>
+      <p id="deleteConfirmText" style="font-size:14px; margin-bottom:20px; color:var(--text-main);"></p>
+      <div style="display:flex; gap:12px;">
+        <button class="footer-btn" style="flex:1; justify-content:center;" onclick="closeModal('deleteConfirmModal')">取消</button>
+        <button class="footer-btn" style="flex:1; justify-content:center; background:#D90429; color:#FFF; border-color:#D90429;" onclick="confirmDeleteBook()">確定刪除</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. 備份 / 匯入 Modal -->
+  <div class="modal-overlay" id="backupModal" role="dialog" aria-modal="true">
+    <div class="modal-card">
+      <button class="modal-close-btn" onclick="closeModal('backupModal')" aria-label="關閉">✕</button>
+      <h3 class="form-title">💾 備份與匯入資料</h3>
+      <p style="font-size:13px; color:var(--text-muted); margin-bottom:16px;">您可以匯出 JSON 備份檔，或從舊備份恢復資料。</p>
+
+      <button class="form-submit-btn" style="background:var(--wood-dark); margin-bottom:12px;" onclick="exportDataJSON()">📤 匯出 JSON 備份檔</button>
+      
+      <div style="border-top:1px solid var(--wood-light); padding-top:14px; margin-top:10px;">
+        <label class="form-label">📥 匯入 JSON 備份檔</label>
+        <input type="file" id="importJsonFile" accept=".json" class="form-input" onchange="importDataJSON(event)">
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ==========================================================================
+     JavaScript 邏輯
+     ========================================================================== -->
   <script>
-    // 預設書籍資料
-    // 圖片網址暫時替換為 placehold.co 產生器，以確保你現在能看到畫面。
-    // 你可以隨時改回原本的 "covers/xxx.jpg"
-    let books = [
+    /* --------------------------------------------------------------------------
+       一、頂部設定與靜態資料結構
+       -------------------------------------------------------------------------- */
+    // 家長模式 PIN 碼 (可隨時修改)
+    const PARENT_PIN = "1234";
+
+    // 本地儲存 KEY
+    const STORAGE_KEY = "jessie_little_bookshelf_v1";
+
+    // 分類字典表
+    const CATEGORY_MAP = {
+      story: { name: "故事繪本", icon: "📖" },
+      english: { name: "英文繪本", icon: "🔤" },
+      sensory: { name: "感官與觸摸", icon: "✋" },
+      cognitive: { name: "認知學習", icon: "🧠" },
+      music: { name: "兒歌與發聲", icon: "🎵" },
+      other: { name: "其他繪本", icon: "🧸" }
+    };
+
+    // 預設預載書籍 (若使用者第一次使用)
+    const DEFAULT_BOOKS = [
       {
-        title: "See, Touch, Feel",
-        category: "sensory",
-        age: "0–1歲",
-        cover: "https://placehold.co/300x400/FFE4E1/555?text=See+Touch+Feel" 
-      },
-      {
-        title: "Brown Bear, Brown Bear, What Do You See?",
-        category: "english",
-        age: "0–2歲",
-        cover: "https://placehold.co/300x400/E6E6FA/555?text=Brown+Bear"
-      },
-      {
+        id: "book_def_1",
         title: "Dear Zoo",
         category: "english",
         age: "0–2歲",
-        cover: "https://placehold.co/300x400/FFF0F5/555?text=Dear+Zoo"
+        readingStatus: "now",
+        cover: generateSVGPlaceholder("Dear Zoo", "#E07A5F"),
+        note: "經典翻翻書，潔心最喜歡摸最後那一頁小狗！",
+        favorite: true,
+        readCount: 5,
+        createdAt: 1710000000000
       },
       {
-        title: "小藍和小黃",
+        id: "book_def_2",
+        title: "See, Touch, Feel",
+        category: "sensory",
+        age: "0–1歲",
+        readingStatus: "now",
+        cover: generateSVGPlaceholder("See Touch Feel", "#81B29A"),
+        note: "觸覺觸摸書，適合遊戲時間一起摸摸看。",
+        favorite: true,
+        readCount: 3,
+        createdAt: 1710000001000
+      },
+      {
+        id: "book_def_3",
+        title: "小黃點",
         category: "story",
-        age: "1歲+",
-        cover: "https://placehold.co/300x400/E0FFFF/555?text=小藍和小黃"
+        age: "1–3歲",
+        readingStatus: "now",
+        cover: generateSVGPlaceholder("小黃點", "#F4A261"),
+        note: "很有互動感的繪本，可以用手指壓壓看。",
+        favorite: false,
+        readCount: 2,
+        createdAt: 1710000002000
       },
       {
-        title: "100種動物",
-        category: "cognitive",
-        age: "1歲+",
-        cover: "https://placehold.co/300x400/F5F5DC/555?text=100種動物"
+        id: "book_def_4",
+        title: "Brown Bear, Brown Bear",
+        category: "english",
+        age: "0–2歲",
+        readingStatus: "now",
+        cover: generateSVGPlaceholder("Brown Bear", "#A67C52"),
+        note: "顏色與動物認知啟蒙必備。",
+        favorite: false,
+        readCount: 4,
+        createdAt: 1710000003000
       }
     ];
 
-    let currentCategory = 'all';
-
-    // 類別對照表 (供顯示用)
-    const categoryNames = {
-      story: "故事",
-      english: "英文繪本",
-      sensory: "感官",
-      cognitive: "認知",
-      music: "兒歌"
+    // 全域 App 狀態
+    let appState = {
+      books: [],
+      isParentMode: false,
+      activeBookIdInModal: null,
+      bookIdToDelete: null,
+      tempCompressedImage: null
     };
 
-    // 顯示書籍
-    function renderBooks(list = books) {
-      const shelf = document.getElementById("bookshelf");
-      shelf.innerHTML = "";
+    /* --------------------------------------------------------------------------
+       二、SVG Placeholder 產生器 (無外部連結依賴)
+       -------------------------------------------------------------------------- */
+    function generateSVGPlaceholder(title, bgColor) {
+      const escapedTitle = escapeHTML(title);
+      const svg = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="300" height="400" viewBox="0 0 300 400">
+          <rect width="100%" height="100%" fill="${bgColor}"/>
+          <circle cx="150" cy="140" r="55" fill="#FFFFFF" opacity="0.25"/>
+          <text x="50%" y="42%" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="22" font-weight="bold" fill="#FFFFFF">${escapedTitle}</text>
+          <text x="50%" y="78%" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#FFFFFF" opacity="0.8">潔心的小書櫃</text>
+        </svg>
+      `;
+      return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
+    }
 
-      list.forEach((book, index) => {
-        // 如果沒有圖片，給一張預設圖
-        const imgUrl = book.cover ? book.cover : "https://placehold.co/300x400/ddd/555?text=No+Cover";
-        const catName = categoryNames[book.category] || "其他";
+    /* --------------------------------------------------------------------------
+       三、資料持久化 (localStorage) & 安全性
+       -------------------------------------------------------------------------- */
+    function loadData() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) {
+          appState.books = JSON.parse(raw);
+        } else {
+          appState.books = [...DEFAULT_BOOKS];
+          saveData();
+        }
+      } catch (err) {
+        console.error("載入資料失敗:", err);
+        appState.books = [...DEFAULT_BOOKS];
+      }
+    }
 
-        const element = document.createElement("article");
-        element.className = "book";
+    function saveData() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(appState.books));
+        updateHeaderStats();
+      } catch (err) {
+        if (err.name === 'QuotaExceededError') {
+          alert("⚠️ 儲存空間已滿！照片尺寸可能過大，請刪除部分舊書籍或使用較小的照片。");
+        } else {
+          alert("儲存失敗: " + err.message);
+        }
+      }
+    }
 
-        element.innerHTML = `
-          <button class="delete-btn" onclick="deleteBook(${index}, event)">✖</button>
-          <img src="${imgUrl}" alt="${book.title}" loading="lazy">
-          <div class="book-info">
-            <strong>${book.title}</strong>
-            <div class="book-meta">
-              <span>${book.age}</span>
-              <span class="category-tag">${catName}</span>
-            </div>
+    // HTML XSS 防護安全跳脫
+    function escapeHTML(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    /* --------------------------------------------------------------------------
+       四、畫面渲染核心 (Render Engine)
+       -------------------------------------------------------------------------- */
+    function renderApp() {
+      const container = document.getElementById("bookshelfSection");
+      container.innerHTML = "";
+
+      // 1. 更新 Body Class
+      if (appState.isParentMode) {
+        document.body.classList.add("body-parent-mode");
+      } else {
+        document.body.classList.remove("body-parent-mode");
+      }
+
+      // 2. 依照分類分組書籍
+      const categories = Object.keys(CATEGORY_MAP);
+      let totalRenderedBooks = 0;
+
+      categories.forEach(catKey => {
+        const catBooks = appState.books.filter(b => b.category === catKey);
+        
+        // 孩子模式下，如果該分類無書則不顯示該層架
+        if (catBooks.length === 0 && !appState.isParentMode) return;
+
+        totalRenderedBooks += catBooks.length;
+
+        // 創建書架群組
+        const groupEl = document.createElement("section");
+        groupEl.className = "shelf-group";
+
+        const catInfo = CATEGORY_MAP[catKey];
+        groupEl.innerHTML = `
+          <div class="shelf-title-wrap">
+            <h2 class="shelf-title">${catInfo.icon} ${catInfo.name}</h2>
+            <span class="shelf-count-badge">${catBooks.length} 本</span>
           </div>
         `;
 
-        element.onclick = () => openBook(index);
-        shelf.appendChild(element);
-      });
-    }
+        if (catBooks.length > 0) {
+          const carouselEl = document.createElement("div");
+          carouselEl.className = "shelf-carousel";
 
-    // 刪除書籍
-    function deleteBook(index, event) {
-      event.stopPropagation(); // 避免觸發點擊書籍的動作
-      if(confirm(`確定要刪除這本書嗎？`)) {
-        books.splice(index, 1);
-        saveBooks();
-        filterBooks(); // 重新渲染目前的分類狀態
+          catBooks.forEach((book, idx) => {
+            const cardEl = createBookCardElement(book);
+            carouselEl.appendChild(cardEl);
+          });
+
+          groupEl.appendChild(carouselEl);
+
+          // 綁定 Scroll Center 自動放大感應
+          bindCarouselCenterObserver(carouselEl);
+        } else {
+          // 家長模式下的空架子提示
+          const emptyNotice = document.createElement("div");
+          emptyNotice.className = "empty-shelf-notice";
+          emptyNotice.textContent = "此層架目前沒有書籍，點擊下方「＋ 新增書籍」加入！";
+          groupEl.appendChild(emptyNotice);
+        }
+
+        // 架子木板 (Plank)
+        const plankEl = document.createElement("div");
+        plankEl.className = "shelf-plank";
+        groupEl.appendChild(plankEl);
+
+        container.appendChild(groupEl);
+      });
+
+      if (totalRenderedBooks === 0 && !appState.isParentMode) {
+        container.innerHTML = `
+          <div class="empty-shelf-notice" style="margin-top: 40px;">
+            📚 目前書櫃是空的喔！<br>請切換至「家長模式」新增書籍。
+          </div>
+        `;
       }
+
+      updateHeaderStats();
     }
 
-    // 點擊書籍 (預留功能)
-    function openBook(index) {
-      alert(`你點擊了：${books[index].title}\n(這裡可以接後續的閱讀或編輯頁面)`);
-    }
+    // 建立單一本童書卡片 DOM (純 Element API 防 XSS)
+    function createBookCardElement(book) {
+      const card = document.createElement("div");
+      card.className = "book-card";
+      card.setAttribute("data-book-id", book.id);
 
-    // 搜尋
-    document.getElementById("search").addEventListener("input", event => {
-      filterBooks();
-    });
+      // 書封容器
+      const coverBox = document.createElement("div");
+      coverBox.className = "book-cover-container";
 
-    // 分類按鈕點擊
-    const categoryButtons = document.querySelectorAll("#categories button");
-    categoryButtons.forEach(btn => {
-      btn.addEventListener("click", (e) => {
-        // 移除所有 active 樣式
-        categoryButtons.forEach(b => b.classList.remove("active"));
-        // 加上目前點擊的 active 樣式
-        e.target.classList.add("active");
-        
-        currentCategory = e.target.getAttribute("data-category");
-        filterBooks();
-      });
-    });
+      if (book.cover) {
+        const img = document.createElement("img");
+        img.className = "book-cover-img";
+        img.src = book.cover;
+        img.alt = `${book.title} 的封面`;
+        img.loading = "lazy";
+        img.onerror = function() {
+          this.onerror = null;
+          this.src = generateSVGPlaceholder(book.title, "#E07A5F");
+        };
+        coverBox.appendChild(img);
+      } else {
+        const fallback = document.createElement("div");
+        fallback.className = "book-cover-placeholder";
+        fallback.style.backgroundColor = "#E07A5F";
+        fallback.textContent = book.title;
+        coverBox.appendChild(fallback);
+      }
 
-    // 綜合過濾 (搜尋 + 分類)
-    function filterBooks() {
-      const keyword = document.getElementById("search").value.toLowerCase();
+      // 最愛 Badge
+      if (book.favorite) {
+        const favBadge = document.createElement("div");
+        favBadge.className = "favorite-badge";
+        favBadge.innerHTML = "⭐";
+        coverBox.appendChild(favBadge);
+      }
+
+      // 家長模式專用按鈕 (編輯 & 刪除)
+      const parentActions = document.createElement("div");
+      parentActions.className = "parent-book-actions";
       
-      const results = books.filter(book => {
-        const matchKeyword = book.title.toLowerCase().includes(keyword);
-        const matchCategory = (currentCategory === "all") || (book.category === currentCategory);
-        return matchKeyword && matchCategory;
-      });
-
-      renderBooks(results);
-    }
-
-    // --- 新增書籍功能 ---
-    const modal = document.getElementById("bookModal");
-    const btnAdd = document.getElementById("addBook");
-    const btnCancel = document.getElementById("cancelBtn");
-    const form = document.getElementById("bookForm");
-
-    // 打開視窗
-    btnAdd.addEventListener("click", () => {
-      form.reset(); // 清空表單
-      modal.showModal();
-    });
-
-    // 關閉視窗
-    btnCancel.addEventListener("click", () => {
-      modal.close();
-    });
-
-    // 表單送出 (新增書籍)
-    form.addEventListener("submit", () => {
-      const newBook = {
-        title: document.getElementById("bookTitle").value,
-        category: document.getElementById("bookCategory").value,
-        age: document.getElementById("bookAge").value || "不限",
-        cover: document.getElementById("bookCover").value
+      const editBtn = document.createElement("button");
+      editBtn.className = "action-icon-btn";
+      editBtn.innerHTML = "✏️";
+      editBtn.title = "編輯";
+      editBtn.onclick = (e) => {
+        e.stopPropagation();
+        openEditBookModal(book.id);
       };
 
-      books.push(newBook);
-      saveBooks();
-      
-      // 切換回「全部」分類以便看到新書
-      document.querySelector('[data-category="all"]').click(); 
+      const delBtn = document.createElement("button");
+      delBtn.className = "action-icon-btn";
+      delBtn.innerHTML = "🗑️";
+      delBtn.title = "刪除";
+      delBtn.onclick = (e) => {
+        e.stopPropagation();
+        openDeleteConfirmModal(book.id);
+      };
+
+      parentActions.appendChild(editBtn);
+      parentActions.appendChild(delBtn);
+      coverBox.appendChild(parentActions);
+
+      card.appendChild(coverBox);
+
+      // 書名標題
+      const titleEl = document.createElement("div");
+      titleEl.className = "book-title-text";
+      titleEl.textContent = book.title;
+      card.appendChild(titleEl);
+
+      // 點擊事件：開啟共讀 Modal
+      card.onclick = () => {
+        openBookDetailModal(book.id);
+      };
+
+      return card;
+    }
+
+    /* --------------------------------------------------------------------------
+       五、Scroll-Snap 中央書本自動放大檢測 (RAF Optimized)
+       -------------------------------------------------------------------------- */
+    function bindCarouselCenterObserver(carousel) {
+      let ticking = false;
+
+      function updateActive() {
+        const carouselRect = carousel.getBoundingClientRect();
+        const carouselCenter = carouselRect.left + carouselRect.width / 2;
+
+        let closestBook = null;
+        let minDistance = Infinity;
+
+        const books = carousel.querySelectorAll(".book-card");
+        books.forEach(book => {
+          const rect = book.getBoundingClientRect();
+          const bookCenter = rect.left + rect.width / 2;
+          const dist = Math.abs(carouselCenter - bookCenter);
+
+          if (dist < minDistance) {
+            minDistance = dist;
+            closestBook = book;
+          }
+        });
+
+        books.forEach(b => b.classList.remove("active"));
+        if (closestBook) {
+          closestBook.classList.add("active");
+        }
+
+        ticking = false;
+      }
+
+      carousel.addEventListener("scroll", () => {
+        if (!ticking) {
+          window.requestAnimationFrame(updateActive);
+          ticking = true;
+        }
+      }, { passive: true });
+
+      // 初始化觸發一次
+      setTimeout(updateActive, 100);
+    }
+
+    function updateHeaderStats() {
+      const totalBooks = appState.books.length;
+      const totalRead = appState.books.reduce((acc, b) => acc + (b.readCount || 0), 0);
+      document.getElementById("appStats").textContent = `${totalBooks} 本小書 · 已共讀 ${totalRead} 次`;
+    }
+
+    /* --------------------------------------------------------------------------
+       六、書本詳細 Popup & 今天讀這本！互動
+       -------------------------------------------------------------------------- */
+    function openBookDetailModal(bookId) {
+      const book = appState.books.find(b => b.id === bookId);
+      if (!book) return;
+
+      appState.activeBookIdInModal = bookId;
+
+      // 封面
+      const coverBox = document.getElementById("detailCoverBox");
+      coverBox.innerHTML = "";
+      if (book.cover) {
+        const img = document.createElement("img");
+        img.className = "detail-cover-img";
+        img.src = book.cover;
+        img.alt = `${book.title} 封面`;
+        coverBox.appendChild(img);
+      } else {
+        coverBox.innerHTML = `<div class="book-cover-placeholder" style="background:#E07A5F;">${escapeHTML(book.title)}</div>`;
+      }
+
+      // 文字
+      document.getElementById("detailTitle").textContent = book.title;
+      document.getElementById("detailCategory").textContent = CATEGORY_MAP[book.category]?.name || "繪本";
+      document.getElementById("detailAge").textContent = book.age || "全年齡";
+      document.getElementById("detailReadCount").textContent = `已共讀 ${book.readCount || 0} 次`;
+
+      // 媽媽筆記
+      const noteBox = document.getElementById("detailMotherNoteBox");
+      const noteText = document.getElementById("detailMotherNoteText");
+      if (book.note && book.note.trim() !== "") {
+        noteText.textContent = book.note;
+        noteBox.classList.add("visible");
+      } else if (appState.isParentMode) {
+        noteText.textContent = "(點擊編輯按鈕可新增筆記)";
+        noteBox.classList.add("visible");
+      } else {
+        noteBox.classList.remove("visible");
+      }
+
+      // 最愛按鈕狀態
+      updateFavoriteBtnState(book.favorite);
+
+      // 隱藏反饋字樣
+      document.getElementById("readFeedbackMsg").style.display = "none";
+
+      openModal("bookDetailModal");
+    }
+
+    function handleReadToday() {
+      const bookId = appState.activeBookIdInModal;
+      const book = appState.books.find(b => b.id === bookId);
+      if (!book) return;
+
+      book.readCount = (book.readCount || 0) + 1;
+      saveData();
+
+      // 更新畫面次數
+      document.getElementById("detailReadCount").textContent = `已共讀 ${book.readCount} 次`;
+
+      // 顯示反饋訊息
+      const feedbackMsg = document.getElementById("readFeedbackMsg");
+      feedbackMsg.style.display = "block";
+
+      // 觸發愛心/星星動態粒子
+      triggerParticleAnimation();
+    }
+
+    function handleToggleFavorite() {
+      const bookId = appState.activeBookIdInModal;
+      const book = appState.books.find(b => b.id === bookId);
+      if (!book) return;
+
+      book.favorite = !book.favorite;
+      saveData();
+
+      updateFavoriteBtnState(book.favorite);
+      renderApp();
+    }
+
+    function updateFavoriteBtnState(isFav) {
+      document.getElementById("favIcon").textContent = isFav ? "⭐" : "♡";
+      document.getElementById("favText").textContent = isFav ? "已在最愛" : "加入最愛";
+    }
+
+    // 飄升愛心/星星動態粒子效果
+    function triggerParticleAnimation() {
+      const btn = document.getElementById("btnReadToday");
+      const rect = btn.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+
+      const particles = ["💖", "⭐", "✨", "🌸", "📖"];
+
+      for (let i = 0; i < 8; i++) {
+        const p = document.createElement("div");
+        p.className = "particle";
+        p.textContent = particles[Math.floor(Math.random() * particles.length)];
+        
+        const dx = (Math.random() - 0.5) * 160;
+        const dy = - (Math.random() * 120 + 60);
+
+        p.style.left = `${centerX}px`;
+        p.style.top = `${centerY}px`;
+        p.style.setProperty("--dx", `${dx}px`);
+        p.style.setProperty("--dy", `${dy}px`);
+
+        document.body.appendChild(p);
+
+        setTimeout(() => p.remove(), 800);
+      }
+    }
+
+    /* --------------------------------------------------------------------------
+       七、家長模式 PIN 碼驗證 & 權限控制
+       -------------------------------------------------------------------------- */
+    function handleParentModeToggle() {
+      if (appState.isParentMode) {
+        // 退出家長模式
+        appState.isParentMode = false;
+        updateParentModeUI();
+        renderApp();
+      } else {
+        // 開啟 PIN 碼對話框
+        document.getElementById("pinInput").value = "";
+        openModal("pinModal");
+      }
+    }
+
+    function verifyPin() {
+      const input = document.getElementById("pinInput").value;
+      if (input === PARENT_PIN) {
+        appState.isParentMode = true;
+        closeModal("pinModal");
+        updateParentModeUI();
+        renderApp();
+      } else {
+        alert("🔒 PIN 碼不正確，請再試一次。");
+      }
+    }
+
+    function updateParentModeUI() {
+      const btnText = document.getElementById("parentModeText");
+      const btnIcon = document.getElementById("parentModeIcon");
+      const banner = document.getElementById("parentBanner");
+
+      if (appState.isParentMode) {
+        btnText.textContent = "退出家長";
+        btnIcon.textContent = "🔓";
+        banner.classList.add("active");
+      } else {
+        btnText.textContent = "家長模式";
+        btnIcon.textContent = "🔒";
+        banner.classList.remove("active");
+      }
+    }
+
+    /* --------------------------------------------------------------------------
+       八、新增 / 編輯書籍 & Canvas 圖片壓縮
+       -------------------------------------------------------------------------- */
+    function openAddBookModal() {
+      document.getElementById("formModalTitle").textContent = "➕ 新增書籍";
+      document.getElementById("bookForm").reset();
+      document.getElementById("formBookId").value = "";
+      appState.tempCompressedImage = null;
+      document.getElementById("imagePreviewBox").innerHTML = `<span style="font-size:12px; color:var(--text-muted);">預覽封面</span>`;
+
+      openModal("bookFormModal");
+    }
+
+    function openEditBookModal(bookId) {
+      const book = appState.books.find(b => b.id === bookId);
+      if (!book) return;
+
+      document.getElementById("formModalTitle").textContent = "✏️ 編輯書籍";
+      document.getElementById("formBookId").value = book.id;
+      document.getElementById("formTitle").value = book.title;
+      document.getElementById("formCategory").value = book.category;
+      document.getElementById("formReadingStatus").value = book.readingStatus || "now";
+      document.getElementById("formAge").value = book.age || "";
+      document.getElementById("formNote").value = book.note || "";
+
+      appState.tempCompressedImage = book.cover;
+
+      const previewBox = document.getElementById("imagePreviewBox");
+      if (book.cover) {
+        previewBox.innerHTML = `<img src="${book.cover}" class="image-preview-img" alt="預覽">`;
+      } else {
+        previewBox.innerHTML = `<span style="font-size:12px; color:var(--text-muted);">預覽封面</span>`;
+      }
+
+      openModal("bookFormModal");
+    }
+
+    // 處理圖片選擇與 Canvas 端壓圖
+    function handleFileSelect(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const img = new Image();
+        img.onload = function() {
+          // Canvas 壓縮至最長邊 800px
+          const canvas = document.createElement("canvas");
+          let width = img.width;
+          let height = img.height;
+          const maxDim = 800;
+
+          if (width > height) {
+            if (width > maxDim) {
+              height = Math.round((height * maxDim) / width);
+              width = maxDim;
+            }
+          } else {
+            if (height > maxDim) {
+              width = Math.round((width * maxDim) / height);
+              height = maxDim;
+            }
+          }
+
+          canvas.width = width;
+          canvas.height = height;
+
+          const ctx = canvas.getContext("2d");
+          ctx.drawImage(img, 0, 0, width, height);
+
+          // 轉為 Quality 0.8 JPEG DataURL
+          const compressedDataUrl = canvas.toDataURL("image/jpeg", 0.8);
+          appState.tempCompressedImage = compressedDataUrl;
+
+          // 顯示預覽
+          const previewBox = document.getElementById("imagePreviewBox");
+          previewBox.innerHTML = `<img src="${compressedDataUrl}" class="image-preview-img" alt="預覽">`;
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function handleFormSubmit(event) {
+      event.preventDefault();
+
+      const bookId = document.getElementById("formBookId").value;
+      const title = document.getElementById("formTitle").value.trim();
+      const category = document.getElementById("formCategory").value;
+      const readingStatus = document.getElementById("formReadingStatus").value;
+      const age = document.getElementById("formAge").value.trim();
+      const note = document.getElementById("formNote").value.trim();
+
+      if (!title) return;
+
+      let cover = appState.tempCompressedImage;
+      if (!cover) {
+        cover = generateSVGPlaceholder(title, "#E07A5F");
+      }
+
+      if (bookId) {
+        // 編輯模式
+        const book = appState.books.find(b => b.id === bookId);
+        if (book) {
+          book.title = title;
+          book.category = category;
+          book.readingStatus = readingStatus;
+          book.age = age;
+          book.note = note;
+          book.cover = cover;
+        }
+      } else {
+        // 新增模式
+        const newBook = {
+          id: "book_" + Date.now() + "_" + Math.random().toString(36).substr(2, 4),
+          title: title,
+          category: category,
+          readingStatus: readingStatus,
+          age: age || "全年齡",
+          cover: cover,
+          note: note,
+          favorite: false,
+          readCount: 0,
+          createdAt: Date.now()
+        };
+        appState.books.unshift(newBook);
+      }
+
+      saveData();
+      closeModal("bookFormModal");
+      renderApp();
+    }
+
+    /* --------------------------------------------------------------------------
+       九、刪除書籍二次確認
+       -------------------------------------------------------------------------- */
+    function openDeleteConfirmModal(bookId) {
+      const book = appState.books.find(b => b.id === bookId);
+      if (!book) return;
+
+      appState.bookIdToDelete = bookId;
+      document.getElementById("deleteConfirmText").textContent = `確定要刪除《${book.title}》嗎？此操作無法撤銷。`;
+      openModal("deleteConfirmModal");
+    }
+
+    function confirmDeleteBook() {
+      const bookId = appState.bookIdToDelete;
+      if (!bookId) return;
+
+      appState.books = appState.books.filter(b => b.id !== bookId);
+      saveData();
+
+      closeModal("deleteConfirmModal");
+      renderApp();
+    }
+
+    /* --------------------------------------------------------------------------
+       十、備份 JSON 匯出與匯入
+       -------------------------------------------------------------------------- */
+    function openBackupModal() {
+      openModal("backupModal");
+    }
+
+    function exportDataJSON() {
+      const dataStr = JSON.stringify(appState.books, null, 2);
+      const blob = new Blob([dataStr], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `jessie_bookshelf_backup_${new Date().toISOString().slice(0, 10)}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function importDataJSON(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const imported = JSON.parse(e.target.result);
+          if (Array.isArray(imported) && imported.every(b => b.id && b.title)) {
+            if (confirm(`確定要將備份資料（共 ${imported.length} 本）覆蓋當前書櫃嗎？`)) {
+              appState.books = imported;
+              saveData();
+              renderApp();
+              closeModal("backupModal");
+              alert("✅ 資料成功恢復！");
+            }
+          } else {
+            alert("⚠️ JSON 備份檔格式不正確。");
+          }
+        } catch (err) {
+          alert("解析備份檔案失敗: " + err.message);
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    /* --------------------------------------------------------------------------
+       十一、通用 Modal 控制 Helper
+       -------------------------------------------------------------------------- */
+    function openModal(id) {
+      const modal = document.getElementById(id);
+      if (modal) modal.classList.add("active");
+    }
+
+    function closeModal(id) {
+      const modal = document.getElementById(id);
+      if (modal) modal.classList.remove("active");
+    }
+
+    // 點擊 Overlay 背景關閉 Modal
+    document.querySelectorAll(".modal-overlay").forEach(overlay => {
+      overlay.addEventListener("click", (e) => {
+        if (e.target === overlay) {
+          overlay.classList.remove("active");
+        }
+      });
     });
 
-
-    // 儲存至 localStorage
-    function saveBooks() {
-      localStorage.setItem("jessie-bookshelf", JSON.stringify(books));
-    }
-
-    // 讀取 localStorage
-    function loadBooks() {
-      const saved = localStorage.getItem("jessie-bookshelf");
-      if (saved) {
-        books = JSON.parse(saved);
-      }
-      renderBooks();
-    }
-
-    // 啟動程式
-    loadBooks();
-
+    /* --------------------------------------------------------------------------
+       十二、初始化 App
+       -------------------------------------------------------------------------- */
+    window.addEventListener("DOMContentLoaded", () => {
+      loadData();
+      renderApp();
+    });
   </script>
-
 </body>
 </html>
