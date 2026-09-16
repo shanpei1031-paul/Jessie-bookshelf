@@ -3,119 +3,174 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#fbf5e9">
+<meta name="theme-color" content="#fbf7ef">
 <title>Jessie 的小圖書館</title>
 
 <style>
 :root{
-  --bg:#fbf5e9;
-  --paper:#fffdf8;
-  --text:#513a2b;
-  --muted:#9a8676;
-  --pink:#eca3b3;
-  --orange:#e99a5d;
-  --wood:#c98a50;
-  --wood-light:#e3b47e;
-  --wood-dark:#7e4d2b;
-  --danger:#a54c4c;
+  --bg:#fbf7ef;
+  --paper:#fffefa;
+  --text:#4e392c;
+  --muted:#9b8878;
+  --line:#eadfd2;
+
+  --wood:#d6a26b;
+  --woodLight:#edc694;
+  --woodDark:#9c6538;
+
+  --accent:#e69463;
+  --pink:#eaa2b2;
+  --danger:#a84f4f;
 }
 
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;width:100%;max-width:100%;overflow-x:hidden}
+*{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
+
+html,body{
+  margin:0;
+  width:100%;
+  overflow-x:hidden;
+}
+
 body{
+  min-height:100vh;
+  padding-bottom:calc(100px + env(safe-area-inset-bottom));
   background:
-    radial-gradient(circle at 50% 0,#fff 0,#fffaf2 35%,var(--bg) 100%);
+    radial-gradient(circle at 50% -10%,#fff 0,#fffdf8 32%,var(--bg) 75%);
   color:var(--text);
-  font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Microsoft JhengHei",sans-serif;
-  padding-bottom:calc(95px + env(safe-area-inset-bottom));
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "PingFang TC",
+    "Microsoft JhengHei",
+    sans-serif;
 }
-button,input,select,textarea{font:inherit}
-button{touch-action:manipulation}
-img{display:block}
 
-/* ================= HEADER ================= */
+button,input,select,textarea{
+  font:inherit;
+}
+
+button{
+  touch-action:manipulation;
+}
+
+img{
+  display:block;
+}
+
+/* =========================
+   HEADER
+========================= */
 
 header{
   text-align:center;
-  padding:calc(23px + env(safe-area-inset-top)) 18px 12px;
+  padding:
+    calc(25px + env(safe-area-inset-top))
+    18px
+    12px;
 }
+
 h1{
   margin:0;
-  font-size:clamp(29px,8vw,42px);
-  font-weight:900;
+  font-size:clamp(30px,8vw,42px);
+  font-weight:950;
+  letter-spacing:-1px;
 }
+
 .subtitle{
   margin-top:7px;
   color:var(--muted);
-  font-size:16px;
+  font-size:15px;
 }
+
 .stats{
-  display:inline-block;
+  display:inline-flex;
+  align-items:center;
   margin-top:13px;
   padding:8px 15px;
+  border:1px solid #f0e8df;
   border-radius:999px;
-  background:white;
-  box-shadow:0 5px 18px rgba(74,46,28,.07);
-  font-size:14px;
+  background:rgba(255,255,255,.9);
+  box-shadow:0 5px 18px rgba(74,46,28,.06);
+  font-size:13px;
 }
 
-/* ================= SEARCH ================= */
+/* =========================
+   SEARCH
+========================= */
 
 .search-area{
-  width:calc(100% - 28px);
+  width:calc(100% - 30px);
   max-width:680px;
-  margin:8px auto 15px;
+  margin:5px auto 15px;
 }
+
 .search-box{
   position:relative;
 }
-.search-box span{
+
+.search-icon{
   position:absolute;
-  left:15px;
+  left:16px;
   top:50%;
   transform:translateY(-50%);
+  pointer-events:none;
 }
+
 #searchInput{
   width:100%;
   height:52px;
   padding:0 45px;
-  border:1.5px solid #e4d3c0;
+  border:1.5px solid #e7dbcd;
   border-radius:18px;
   outline:none;
   background:#fff;
+  color:var(--text);
   font-size:16px;
+  box-shadow:0 4px 14px rgba(77,50,31,.04);
 }
-#searchInput:focus{border-color:#d7a473}
 
-/* ================= TODAY ================= */
+#searchInput:focus{
+  border-color:#d7ae85;
+}
+
+/* =========================
+   TODAY
+========================= */
 
 .today-card{
-  width:calc(100% - 28px);
+  width:calc(100% - 30px);
   max-width:680px;
-  margin:0 auto 22px;
-  padding:15px;
-  border:2px solid #ecd4b8;
-  border-radius:22px;
-  background:rgba(255,255,255,.82);
+  margin:0 auto 23px;
+  padding:14px;
+  border:1.5px solid #ead6be;
+  border-radius:21px;
+  background:rgba(255,255,255,.76);
 }
+
 .today-head{
   display:flex;
-  justify-content:space-between;
   align-items:center;
+  justify-content:space-between;
   font-weight:900;
 }
+
 .today-total{
   padding:5px 10px;
   border-radius:999px;
-  background:#f2e7da;
+  background:#f3e9de;
   font-size:12px;
 }
+
 .today-list{
   display:flex;
   flex-direction:column;
   gap:6px;
-  margin-top:10px;
+  margin-top:9px;
 }
+
 .today-row{
   display:flex;
   align-items:center;
@@ -123,633 +178,1078 @@ h1{
   padding:9px 10px;
   border:0;
   border-radius:13px;
-  background:#fff9f2;
+  background:#fffaf4;
   color:var(--text);
   text-align:left;
 }
+
 .today-name{
   flex:1;
   min-width:0;
-  margin-left:8px;
+  margin-left:7px;
   overflow:hidden;
   text-overflow:ellipsis;
   white-space:nowrap;
 }
+
 .today-count{
   padding:4px 8px;
   border-radius:999px;
-  background:#eee2d4;
+  background:#eee3d7;
   font-weight:900;
 }
+
 .empty{
   padding-top:9px;
-  color:var(--muted);
-  font-size:14px;
-}
-
-/* ================= LIBRARY TITLE ================= */
-
-.library-title{
-  width:calc(100% - 30px);
-  max-width:680px;
-  margin:0 auto 11px;
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-end;
-}
-.library-title strong{
-  font-size:22px;
-}
-.library-title span{
   color:var(--muted);
   font-size:13px;
 }
 
-/* ================= LIBRARY CABINET ================= */
+/* =========================
+   LIBRARY HEADER
+========================= */
+
+.library-heading{
+  width:calc(100% - 34px);
+  max-width:680px;
+  margin:0 auto 10px;
+}
+
+.library-heading-row{
+  display:flex;
+  align-items:end;
+  justify-content:space-between;
+}
+
+.library-heading strong{
+  font-size:21px;
+}
+
+.library-heading small{
+  color:var(--muted);
+  font-size:12px;
+}
+
+/* =========================
+   LIBRARY FRAME
+========================= */
 
 .library{
-  width:calc(100% - 20px);
+  width:calc(100% - 24px);
   max-width:680px;
   margin:auto;
-  padding:14px 0 24px;
-  border:8px solid #956039;
-  border-radius:24px 24px 14px 14px;
+
+  border-left:6px solid #d3a16d;
+  border-right:6px solid #d3a16d;
+
+  border-radius:15px;
+
   background:
-    linear-gradient(90deg,rgba(255,255,255,.09),transparent 35%,rgba(70,35,16,.06)),
-    #d8a26c;
+    linear-gradient(
+      90deg,
+      rgba(205,161,111,.07),
+      rgba(255,255,255,.15) 18%,
+      rgba(255,255,255,.15) 82%,
+      rgba(205,161,111,.07)
+    );
+
   box-shadow:
-    inset 0 0 30px rgba(78,43,21,.2),
-    0 12px 30px rgba(67,42,27,.14);
+    0 8px 25px rgba(70,43,25,.07);
 }
+
+/* =========================
+   CATEGORY SHELF
+========================= */
 
 .library-section{
-  margin-bottom:17px;
+  position:relative;
 }
 
-.section-heading{
+/* 整個分類標題可按 */
+.section-header{
+  width:100%;
+  min-height:52px;
+
   display:flex;
   align-items:center;
-  justify-content:space-between;
-  padding:0 13px 7px;
-}
-.section-title{
-  font-size:16px;
-  font-weight:900;
-  color:#684329;
-}
-.section-open{
+
+  padding:10px 14px 4px;
+
   border:0;
-  background:rgba(255,255,255,.45);
-  color:#704a30;
-  border-radius:999px;
-  padding:6px 10px;
-  font-size:12px;
-  font-weight:850;
+  background:transparent;
+  color:var(--text);
+
+  text-align:left;
 }
 
-/* ================= BOOK SPINES ================= */
+.section-icon{
+  width:31px;
+  font-size:20px;
+}
+
+.section-name{
+  flex:1;
+  font-size:17px;
+  font-weight:950;
+}
+
+.section-count{
+  color:var(--muted);
+  font-size:12px;
+  font-weight:750;
+}
+
+.section-arrow{
+  margin-left:7px;
+  color:#a88a72;
+  font-size:20px;
+}
+
+/* =========================
+   BOOK AREA
+========================= */
 
 .spine-shelf{
-  position:relative;
   display:flex;
   align-items:flex-end;
-  gap:3px;
-  height:205px;
-  padding:13px 12px 0;
+  gap:4px;
+
+  min-height:153px;
+
+  padding:
+    6px
+    13px
+    0;
+
   overflow-x:auto;
+  overflow-y:hidden;
+
   scrollbar-width:none;
   -webkit-overflow-scrolling:touch;
 }
-.spine-shelf::-webkit-scrollbar{display:none}
+
+.spine-shelf::-webkit-scrollbar{
+  display:none;
+}
+
+/* =========================
+   BOOK SPINE
+========================= */
 
 .spine-book{
   position:relative;
   flex:0 0 auto;
-  border:0;
+
   padding:0;
-  border-radius:4px 4px 1px 1px;
+  border:0;
+
+  overflow:hidden;
+
+  border-radius:
+    4px
+    4px
+    2px
+    2px;
+
   color:white;
-  overflow:hidden;
+
   box-shadow:
-    inset 3px 0 4px rgba(255,255,255,.2),
-    inset -3px 0 5px rgba(50,20,5,.16),
-    2px 3px 5px rgba(55,30,15,.25);
+    inset 3px 0 4px rgba(255,255,255,.18),
+    inset -3px 0 5px rgba(50,25,8,.13),
+    2px 2px 3px rgba(64,39,21,.17),
+    3px 5px 7px rgba(64,39,21,.12);
+
   transform-origin:center bottom;
-  transition:transform .18s ease,filter .18s ease;
-}
-.spine-book:active{
-  transform:translateY(-15px) scale(1.04);
-  filter:brightness(1.06);
+
+  transition:
+    transform .18s ease,
+    filter .18s ease,
+    box-shadow .18s ease;
 }
 
-/* 上下裝飾線 */
-.spine-book::before,
-.spine-book::after{
-  content:"";
+/* 書背左側凹槽 */
+.spine-book .spine-groove{
   position:absolute;
-  left:4px;
-  right:4px;
-  height:2px;
-  background:rgba(255,255,255,.27);
-}
-.spine-book::before{top:9px}
-.spine-book::after{
-  bottom:9px;
-  background:rgba(60,25,10,.16);
-}
+  left:5px;
+  top:0;
+  bottom:0;
 
-.spine-title{
-  position:absolute;
-  inset:18px 4px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  writing-mode:vertical-rl;
-  text-orientation:mixed;
-  overflow:hidden;
-  font-size:12px;
-  font-weight:900;
-  line-height:1.1;
-  text-shadow:0 1px 2px rgba(0,0,0,.25);
-}
+  width:2px;
 
-.spine-favorite{
-  position:absolute;
-  left:50%;
-  bottom:14px;
-  transform:translateX(-50%);
-  font-size:10px;
-}
-
-/* 木層板 */
-.wood-board{
-  position:relative;
-  height:22px;
-  margin-top:0;
   background:
-    linear-gradient(#e8bb87,#c6874b);
-  border-top:2px solid rgba(255,255,255,.3);
-  border-bottom:6px solid var(--wood-dark);
-  box-shadow:0 7px 9px rgba(58,32,17,.28);
-}
-.wood-board::after{
-  content:"";
-  position:absolute;
-  inset:3px 0 6px;
-  opacity:.14;
-  background:
-    repeating-linear-gradient(
-      3deg,
-      transparent 0,
-      transparent 20px,
-      #633919 21px,
-      transparent 23px
+    linear-gradient(
+      90deg,
+      rgba(50,20,5,.16),
+      rgba(255,255,255,.13)
     );
 }
 
-/* ================= COVER VIEW ================= */
+/* 上下細線 */
+.spine-book::before{
+  content:"";
+  position:absolute;
+
+  left:6px;
+  right:5px;
+  top:8px;
+
+  height:2px;
+
+  border-radius:999px;
+  background:rgba(255,255,255,.27);
+}
+
+.spine-book::after{
+  content:"";
+  position:absolute;
+
+  left:5px;
+  right:5px;
+  bottom:7px;
+
+  height:2px;
+
+  border-radius:999px;
+  background:rgba(55,25,8,.12);
+}
+
+.spine-book:active{
+  transform:
+    translateY(-11px)
+    scale(1.035)
+    rotate(0deg) !important;
+
+  filter:brightness(1.05);
+
+  box-shadow:
+    inset 3px 0 4px rgba(255,255,255,.18),
+    4px 8px 12px rgba(61,35,18,.22);
+}
+
+/* 書名 */
+.spine-title{
+  position:absolute;
+  inset:17px 5px 16px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  overflow:hidden;
+
+  writing-mode:vertical-rl;
+  text-orientation:mixed;
+
+  font-size:12px;
+  line-height:1.12;
+  font-weight:900;
+
+  text-shadow:0 1px 2px rgba(0,0,0,.18);
+}
+
+/* 英文改旋轉顯示，比逐字直排好看 */
+.spine-title.english{
+  writing-mode:horizontal-tb;
+
+  inset:auto;
+
+  left:50%;
+  top:50%;
+
+  width:120px;
+
+  transform:
+    translate(-50%,-50%)
+    rotate(90deg);
+
+  white-space:nowrap;
+  text-align:center;
+}
+
+/* 愛心 */
+.spine-heart{
+  position:absolute;
+  left:50%;
+  bottom:11px;
+  transform:translateX(-50%);
+  font-size:9px;
+}
+
+/* =========================
+   WOOD SHELF
+========================= */
+
+.wood-shelf{
+  position:relative;
+
+  height:17px;
+
+  background:
+    linear-gradient(
+      to bottom,
+      #efc895 0%,
+      #d9a268 45%,
+      #c2864e 100%
+    );
+
+  border-top:1px solid rgba(255,255,255,.6);
+  border-bottom:4px solid #a76c3b;
+
+  box-shadow:
+    0 5px 6px rgba(75,43,22,.16);
+}
+
+.wood-shelf::after{
+  content:"";
+
+  position:absolute;
+  left:0;
+  right:0;
+  top:4px;
+
+  height:1px;
+
+  background:rgba(120,72,35,.11);
+}
+
+/* =========================
+   CATEGORY / SEARCH VIEW
+========================= */
 
 #categoryView{
   display:none;
 }
 
 .category-top{
-  width:calc(100% - 28px);
+  width:calc(100% - 30px);
   max-width:680px;
-  margin:0 auto 15px;
+  margin:0 auto 16px;
 }
+
 .back-btn{
   min-height:44px;
   padding:0 15px;
+
   border:0;
   border-radius:999px;
-  background:white;
+
+  background:#fff;
   color:var(--text);
+
   font-weight:850;
-  box-shadow:0 4px 13px rgba(0,0,0,.07);
-}
-.category-big-title{
-  margin:18px 2px 4px;
-  font-size:26px;
-}
-.category-description{
-  color:var(--muted);
-  font-size:14px;
+
+  box-shadow:0 4px 13px rgba(0,0,0,.06);
 }
 
+.category-title{
+  margin:19px 2px 4px;
+  font-size:27px;
+}
+
+.category-description{
+  color:var(--muted);
+  font-size:13px;
+}
+
+/* =========================
+   COVER GRID
+========================= */
+
 .cover-grid{
-  width:calc(100% - 28px);
+  width:calc(100% - 30px);
   max-width:680px;
+
   margin:auto;
+
   display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:20px 14px;
+  grid-template-columns:
+    repeat(2,minmax(0,1fr));
+
+  gap:22px 15px;
 }
 
 .cover-card{
   min-width:0;
-  border:0;
+
   padding:0;
+  border:0;
+
   background:transparent;
   color:var(--text);
+
   text-align:center;
 }
+
 .book-cover{
   position:relative;
+
   width:100%;
   aspect-ratio:3/4;
+
   overflow:hidden;
-  border-radius:5px 10px 8px 4px;
+
+  border-radius:
+    5px
+    10px
+    8px
+    4px;
+
   background:#e79b68;
+
   box-shadow:
-    8px 12px 18px rgba(55,33,19,.22),
-    1px 2px 2px rgba(55,33,19,.12);
+    7px 11px 17px rgba(55,33,19,.2);
 }
+
 .book-cover::before{
   content:"";
+
   position:absolute;
   z-index:2;
+
   left:0;
   top:0;
   bottom:0;
+
   width:7px;
-  background:linear-gradient(90deg,rgba(45,20,7,.25),transparent);
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(45,20,7,.23),
+      transparent
+    );
 }
+
 .book-cover img{
   width:100%;
   height:100%;
   object-fit:cover;
 }
+
 .fake-cover{
   width:100%;
   height:100%;
+
   display:flex;
   flex-direction:column;
-  justify-content:center;
   align-items:center;
+  justify-content:center;
+
   padding:14px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #efae79,
+      #dc815e
+    );
+
   color:white;
-  background:linear-gradient(145deg,#efae79,#dc815e);
+
+  text-align:center;
   font-weight:900;
 }
+
 .fake-cover b{
   margin-bottom:12px;
   font-size:30px;
 }
+
 .cover-name{
   margin-top:10px;
+
   font-size:13px;
   font-weight:850;
-  line-height:1.3;
+  line-height:1.35;
 }
 
-/* ================= PARENT ================= */
+/* =========================
+   PARENT TOOLS
+========================= */
 
 .parent-tools{
   display:none;
-  width:calc(100% - 28px);
+
+  width:calc(100% - 30px);
   max-width:680px;
-  margin:17px auto;
-  grid-template-columns:repeat(3,1fr);
+
+  margin:18px auto;
+
+  grid-template-columns:
+    repeat(3,1fr);
+
   gap:8px;
 }
+
 body.parent .parent-tools{
   display:grid;
 }
+
 .parent-tools button{
   min-width:0;
-  min-height:50px;
+  min-height:49px;
+
+  padding:7px;
+
   border:0;
-  border-radius:16px;
+  border-radius:15px;
+
   background:white;
   color:var(--text);
-  font-size:13px;
+
+  font-size:12px;
   font-weight:850;
-  box-shadow:0 4px 14px rgba(0,0,0,.07);
+
+  box-shadow:0 4px 13px rgba(0,0,0,.06);
 }
 
-/* ================= DIALOG ================= */
+/* =========================
+   DIALOG
+========================= */
 
 dialog{
   width:min(92vw,440px);
   max-height:92dvh;
+
   margin:auto;
   padding:0;
+
   overflow:auto;
-  border:4px solid #c89a67;
+
+  border:3px solid #cda574;
   border-radius:27px;
+
   background:var(--paper);
   color:var(--text);
-  box-shadow:0 25px 80px rgba(0,0,0,.4);
+
+  box-shadow:0 25px 80px rgba(0,0,0,.38);
 }
+
 dialog::backdrop{
-  background:rgba(55,45,37,.64);
+  background:rgba(55,45,37,.63);
   backdrop-filter:blur(4px);
 }
+
 .modal{
   padding:18px;
 }
+
 .close{
   position:sticky;
   top:0;
-  z-index:20;
+  z-index:30;
+
   display:grid;
   place-items:center;
+
   width:46px;
   height:46px;
+
   margin-left:auto;
+
   border:0;
   border-radius:50%;
-  background:#f0e7dc;
+
+  background:#f0e8df;
   color:var(--text);
+
   font-size:24px;
 }
 
-/* DETAIL */
+/* =========================
+   DETAIL
+========================= */
+
 .detail-cover{
   width:min(55vw,215px);
   aspect-ratio:3/4;
+
   margin:-25px auto 18px;
+
   overflow:hidden;
-  border-radius:6px 14px 11px 4px;
+
+  border-radius:
+    6px
+    14px
+    11px
+    4px;
+
   background:#e69a68;
-  box-shadow:10px 15px 22px rgba(50,30,17,.25);
+
+  box-shadow:
+    10px 15px 22px rgba(50,30,17,.24);
 }
+
 .detail-cover img{
   width:100%;
   height:100%;
   object-fit:cover;
 }
+
 .detail-title{
   margin:10px 0;
+
   text-align:center;
+
   font-size:24px;
 }
+
 .tags{
   display:flex;
   justify-content:center;
   flex-wrap:wrap;
+
   gap:6px;
 }
+
 .tag{
   padding:7px 10px;
+
   border-radius:999px;
-  background:#f1e8de;
+
+  background:#f1e9e0;
+
   font-size:13px;
   font-weight:800;
 }
+
 .read-stats{
   display:grid;
   grid-template-columns:1fr 1fr;
+
   gap:8px;
+
   margin-top:16px;
 }
+
 .read-stat{
   padding:11px;
+
   border-radius:16px;
-  background:#f7f1e9;
+
+  background:#f7f1ea;
+
   text-align:center;
 }
+
 .read-stat strong{
   display:block;
   font-size:25px;
 }
+
 .read-stat span{
   color:var(--muted);
   font-size:12px;
 }
+
 .read-btn{
   width:100%;
   min-height:61px;
+
   margin-top:11px;
+
   border:0;
   border-radius:21px;
-  background:linear-gradient(135deg,#efa05c,#dd805e);
+
+  background:
+    linear-gradient(
+      135deg,
+      #efa05c,
+      #dd805e
+    );
+
   color:white;
+
   font-size:19px;
   font-weight:900;
 }
-.favorite-btn,.history-btn{
+
+.favorite-btn,
+.history-btn{
   width:100%;
   min-height:50px;
+
   margin-top:8px;
+
   border-radius:17px;
+
   font-weight:900;
 }
+
 .favorite-btn{
   border:3px solid #c99c6a;
+
   background:white;
   color:var(--text);
 }
+
 .history-btn{
   border:0;
+
   background:#f1ebe4;
   color:var(--text);
 }
+
+/* 媽媽筆記 */
 .note{
   display:none;
+
   margin-top:14px;
   padding:14px;
+
   border:2px dashed #dda06d;
   border-radius:17px;
+
   background:#fff9f1;
+
+  line-height:1.5;
 }
-body.parent .note{display:block}
+
+body.parent .note{
+  display:block;
+}
+
 .parent-actions{
   display:none;
+
   grid-template-columns:1fr 1fr;
+
   gap:8px;
+
   margin-top:10px;
 }
-body.parent .parent-actions{display:grid}
+
+body.parent .parent-actions{
+  display:grid;
+}
+
 .parent-actions button{
   min-height:48px;
+
   border:0;
   border-radius:15px;
+
   font-weight:900;
 }
-.edit-btn{background:#eee;color:#555}
-.delete-btn{background:#ffe4e4;color:var(--danger)}
 
-/* ================= HISTORY ================= */
+.edit-btn{
+  background:#eee;
+  color:#555;
+}
+
+.delete-btn{
+  background:#ffe4e4;
+  color:var(--danger);
+}
+
+/* =========================
+   HISTORY
+========================= */
 
 .history-list{
   display:flex;
   flex-direction:column;
+
   gap:7px;
+
   margin-top:12px;
 }
+
 .history-row{
   display:flex;
   align-items:center;
+
   gap:8px;
+
   padding:10px;
+
   border-radius:14px;
+
   background:#f7f1ea;
 }
+
 .history-time{
   flex:1;
   font-size:14px;
 }
+
 .history-delete{
+  padding:7px 10px;
+
   border:0;
   border-radius:10px;
-  padding:7px 10px;
+
   background:#ffe4e4;
   color:var(--danger);
+
   font-weight:850;
 }
 
-/* ================= FORM ================= */
+/* =========================
+   FORM
+========================= */
 
 label{
   display:block;
+
   margin:12px 2px 5px;
+
   font-size:13px;
   font-weight:900;
 }
-input,select,textarea{
+
+input,
+select,
+textarea{
   width:100%;
+
   padding:13px;
+
   border:1px solid #ddd1c4;
   border-radius:13px;
+
   outline:none;
+
   background:white;
   color:var(--text);
+
   font-size:16px;
 }
+
 textarea{
   min-height:90px;
   resize:vertical;
 }
-.cover-preview{
-  display:none;
-  width:120px;
-  height:160px;
-  margin:12px auto;
-  object-fit:cover;
-  border-radius:7px;
-  box-shadow:5px 8px 14px rgba(0,0,0,.18);
+
+.help{
+  margin-top:5px;
+  color:var(--muted);
+  font-size:11px;
 }
 
-/* 網路封面搜尋 */
+.cover-preview{
+  display:none;
+
+  width:120px;
+  height:160px;
+
+  margin:12px auto;
+
+  object-fit:cover;
+
+  border-radius:7px;
+
+  box-shadow:5px 8px 14px rgba(0,0,0,.17);
+}
+
+/* 網路封面 */
 .cover-search-btn{
   width:100%;
-  min-height:48px;
+  min-height:47px;
+
   margin-top:7px;
+
   border:0;
   border-radius:14px;
-  background:#efe6db;
+
+  background:#efe7dd;
   color:var(--text);
+
   font-weight:900;
 }
+
 .cover-results{
   display:grid;
   grid-template-columns:repeat(3,1fr);
+
   gap:8px;
+
   margin-top:10px;
 }
+
 .cover-choice{
   min-width:0;
-  border:3px solid transparent;
+
   padding:0;
-  border-radius:9px;
+
   overflow:hidden;
+
+  border:3px solid transparent;
+  border-radius:9px;
+
   background:#eee;
 }
+
 .cover-choice.selected{
   border-color:var(--pink);
 }
+
 .cover-choice img{
   width:100%;
   aspect-ratio:3/4;
+
   object-fit:cover;
 }
+
 .search-message{
-  margin-top:9px;
+  margin-top:8px;
+
   color:var(--muted);
-  font-size:13px;
+
+  font-size:12px;
+  line-height:1.4;
 }
 
 .form-actions{
   display:grid;
   grid-template-columns:1fr 1fr;
+
   gap:8px;
+
   margin-top:17px;
 }
+
 .form-actions button{
   min-height:49px;
+
   border:0;
   border-radius:14px;
+
   font-weight:900;
 }
-.cancel-btn{background:#eee}
-.save-btn{background:var(--orange);color:white}
 
-/* ================= BOTTOM ================= */
+.cancel-btn{
+  background:#eee;
+}
+
+.save-btn{
+  background:var(--accent);
+  color:white;
+}
+
+/* =========================
+   BOTTOM
+========================= */
 
 .bottom-bar{
   position:fixed;
+
   left:0;
   right:0;
   bottom:0;
+
   z-index:50;
+
   display:flex;
   justify-content:center;
-  padding:22px 12px calc(12px + env(safe-area-inset-bottom));
-  background:linear-gradient(transparent,var(--bg) 35%);
+
+  padding:
+    22px
+    12px
+    calc(12px + env(safe-area-inset-bottom));
+
+  background:
+    linear-gradient(
+      transparent,
+      var(--bg) 38%
+    );
+
   pointer-events:none;
 }
+
 #parentBtn{
   pointer-events:auto;
+
   min-height:52px;
+
   padding:0 22px;
-  border:0;
+
+  border:1px solid #eee4d9;
   border-radius:999px;
+
   background:white;
   color:var(--text);
+
   font-weight:900;
-  box-shadow:0 7px 22px rgba(0,0,0,.13);
+
+  box-shadow:
+    0 7px 22px rgba(0,0,0,.12);
 }
 
-/* ================= TOAST ================= */
+/* =========================
+   TOAST
+========================= */
 
 .toast{
   position:fixed;
+
   left:50%;
   bottom:calc(95px + env(safe-area-inset-bottom));
+
   z-index:300;
+
   display:flex;
   align-items:center;
   justify-content:space-between;
+
   gap:10px;
+
   width:calc(100% - 28px);
   max-width:410px;
+
   padding:12px 14px;
+
   border-radius:18px;
+
   background:#493d35;
   color:white;
+
   opacity:0;
-  transform:translate(-50%,40px);
+
+  transform:
+    translate(-50%,40px);
+
   pointer-events:none;
+
   transition:.2s;
 }
+
 .toast.show{
   opacity:1;
-  transform:translate(-50%,0);
+
+  transform:
+    translate(-50%,0);
+
   pointer-events:auto;
 }
+
 .toast button{
+  padding:7px 11px;
+
   border:0;
   border-radius:999px;
-  padding:7px 11px;
+
   background:white;
   color:var(--text);
+
   font-weight:900;
 }
 
+/* =========================
+   DESKTOP
+========================= */
+
 @media(min-width:600px){
-  .cover-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+
+  .cover-grid{
+    grid-template-columns:
+      repeat(3,minmax(0,1fr));
+  }
+
+  .spine-shelf{
+    padding-left:20px;
+    padding-right:20px;
+  }
 }
 </style>
 </head>
@@ -758,1044 +1258,2642 @@ textarea{
 
 <header>
   <h1>📚 Jessie 的小圖書館</h1>
-  <div class="subtitle">今天想從書架上拿哪一本？</div>
+  <div class="subtitle">今天想讀哪一本？</div>
   <div class="stats" id="stats"></div>
 </header>
 
+<!-- 搜尋 -->
 <section class="search-area">
   <div class="search-box">
-    <span>🔎</span>
-    <input id="searchInput" type="search" placeholder="找一本書……">
+    <span class="search-icon">🔎</span>
+    <input
+      id="searchInput"
+      type="search"
+      placeholder="搜尋 Jessie 的書……"
+    >
   </div>
 </section>
 
+<!-- 今天 -->
 <section class="today-card">
   <div class="today-head">
     <span>☀️ 今天的共讀</span>
-    <span class="today-total" id="todayTotal">0 次</span>
+    <span class="today-total" id="todayTotal">
+      0 次
+    </span>
   </div>
+
   <div id="todayContent"></div>
 </section>
 
-<!-- 圖書館首頁 -->
+<!-- 首頁 -->
 <main id="libraryHome">
-  <div class="library-title">
-    <strong>🪵 Jessie Library</strong>
-    <span>點一本書把它抽出來 ♡</span>
+
+  <div class="library-heading">
+
+    <div class="library-heading-row">
+      <strong>Jessie Library</strong>
+      <small>點書脊抽一本書 ♡</small>
+    </div>
+
   </div>
 
-  <div class="library" id="library"></div>
+  <div
+    class="library"
+    id="library">
+  </div>
+
 </main>
 
-<!-- 分類 / 搜尋結果 -->
+<!-- 分類 / 搜尋 -->
 <main id="categoryView">
+
   <section class="category-top">
-    <button class="back-btn" id="backBtn">← 回圖書館</button>
-    <h2 class="category-big-title" id="categoryTitle"></h2>
-    <div class="category-description" id="categoryDescription"></div>
+
+    <button
+      class="back-btn"
+      id="backBtn">
+      ← 回圖書館
+    </button>
+
+    <h2
+      class="category-title"
+      id="categoryTitle">
+    </h2>
+
+    <div
+      class="category-description"
+      id="categoryDescription">
+    </div>
+
   </section>
 
-  <div class="cover-grid" id="coverGrid"></div>
+  <div
+    class="cover-grid"
+    id="coverGrid">
+  </div>
+
 </main>
 
+<!-- 家長工具 -->
 <section class="parent-tools">
-  <button id="addBookBtn">＋ 新增書籍</button>
-  <button id="exportBtn">⇩ 匯出備份</button>
-  <button id="importBtn">⇧ 匯入備份</button>
-  <input id="importFile" type="file" accept="application/json" hidden>
+
+  <button id="addBookBtn">
+    ＋ 新增書籍
+  </button>
+
+  <button id="exportBtn">
+    ⇩ 匯出備份
+  </button>
+
+  <button id="importBtn">
+    ⇧ 匯入備份
+  </button>
+
+  <input
+    id="importFile"
+    type="file"
+    accept="application/json"
+    hidden
+  >
+
 </section>
 
+<!-- 家長模式 -->
 <div class="bottom-bar">
-  <button id="parentBtn">🔒 家長模式</button>
+
+  <button id="parentBtn">
+    🔒 家長模式
+  </button>
+
 </div>
 
-<!-- 書籍 -->
+<!-- ======================
+     書籍詳細
+====================== -->
+
 <dialog id="detailDialog">
+
   <div class="modal">
-    <button class="close" id="closeDetail">×</button>
 
-    <div class="detail-cover" id="detailCover"></div>
+    <button
+      class="close"
+      id="closeDetail">
+      ×
+    </button>
 
-    <h2 class="detail-title" id="detailTitle"></h2>
+    <div
+      class="detail-cover"
+      id="detailCover">
+    </div>
+
+    <h2
+      class="detail-title"
+      id="detailTitle">
+    </h2>
 
     <div class="tags">
-      <span class="tag" id="detailCategory"></span>
-      <span class="tag" id="detailAge"></span>
-      <span class="tag" id="detailStatus"></span>
+
+      <span
+        class="tag"
+        id="detailCategory">
+      </span>
+
+      <span
+        class="tag"
+        id="detailAge">
+      </span>
+
+      <span
+        class="tag"
+        id="detailStatus">
+      </span>
+
     </div>
 
     <div class="read-stats">
+
       <div class="read-stat">
-        <strong id="todayBookCount">0</strong>
-        <span>今天讀這本</span>
+        <strong id="todayBookCount">
+          0
+        </strong>
+        <span>今天</span>
       </div>
+
       <div class="read-stat">
-        <strong id="totalBookCount">0</strong>
+        <strong id="totalBookCount">
+          0
+        </strong>
         <span>累積共讀</span>
       </div>
+
     </div>
 
-    <button class="read-btn" id="readBtn">✓ 完成一次共讀</button>
-    <button class="favorite-btn" id="favoriteBtn">♡ 加入最愛</button>
-    <button class="history-btn" id="historyBtn">🕘 管理共讀紀錄 ›</button>
+    <button
+      class="read-btn"
+      id="readBtn">
+      ✓ 完成一次共讀
+    </button>
+
+    <button
+      class="favorite-btn"
+      id="favoriteBtn">
+      ♡ 加入最愛
+    </button>
+
+    <button
+      class="history-btn"
+      id="historyBtn">
+      🕘 管理共讀紀錄 ›
+    </button>
 
     <div class="note">
       <strong>📝 媽媽的筆記</strong>
-      <div id="detailNote" style="margin-top:5px"></div>
+      <div
+        id="detailNote"
+        style="margin-top:5px">
+      </div>
     </div>
 
     <div class="parent-actions">
-      <button class="edit-btn" id="editBtn">✏️ 編輯</button>
-      <button class="delete-btn" id="deleteBtn">🗑 刪除書籍</button>
+
+      <button
+        class="edit-btn"
+        id="editBtn">
+        ✏️ 編輯
+      </button>
+
+      <button
+        class="delete-btn"
+        id="deleteBtn">
+        🗑 刪除書籍
+      </button>
+
     </div>
+
   </div>
+
 </dialog>
 
-<!-- 共讀歷史 -->
+<!-- ======================
+     共讀紀錄
+====================== -->
+
 <dialog id="historyDialog">
+
   <div class="modal">
-    <button class="close" id="closeHistory">×</button>
-    <h2>🕘 共讀紀錄</h2>
-    <div id="historyBookName" style="color:var(--muted)"></div>
-    <div class="history-list" id="historyList"></div>
-  </div>
-</dialog>
 
-<!-- 新增 / 編輯 -->
-<dialog id="editDialog">
-  <form class="modal" id="bookForm">
-
-    <h2 id="formTitle">新增書籍</h2>
-
-    <label>書名 *</label>
-    <input id="bookTitle" required placeholder="例如：Dear Zoo">
-
-    <button type="button" class="cover-search-btn" id="onlineCoverBtn">
-      🔎 用書名尋找網路封面
+    <button
+      class="close"
+      id="closeHistory">
+      ×
     </button>
 
-    <div class="search-message" id="coverSearchMessage"></div>
-    <div class="cover-results" id="coverResults"></div>
+    <h2>🕘 共讀紀錄</h2>
 
-    <label>或從手機上傳真實封面</label>
-    <input id="coverFile" type="file" accept="image/*">
-
-    <img class="cover-preview" id="coverPreview">
-
-    <label>圖書館分類</label>
-    <select id="bookCategory">
-      <option value="story">📕 故事繪本</option>
-      <option value="english">🔤 英文繪本</option>
-      <option value="sensory">✋ 感官・互動</option>
-      <option value="cognitive">🧠 認知探索</option>
-      <option value="music">🎵 兒歌・有聲</option>
-      <option value="other">📚 其他</option>
-    </select>
-
-    <label>適讀年齡</label>
-    <input id="bookAge" placeholder="例如：6M+、1–3歲">
-
-    <label>閱讀階段</label>
-    <select id="bookStatus">
-      <option value="now">🌱 現在適合</option>
-      <option value="later">🌿 長大再讀</option>
-    </select>
-
-    <label>書脊顏色</label>
-    <input id="spineColor" type="color" value="#bd765f">
-
-    <label>📝 媽媽的筆記</label>
-    <textarea id="bookNote" placeholder="例如：Jessie 很喜歡這本的動物頁。"></textarea>
-
-    <div class="form-actions">
-      <button type="button" class="cancel-btn" id="cancelEdit">取消</button>
-      <button type="submit" class="save-btn">儲存</button>
+    <div
+      id="historyBookName"
+      style="color:var(--muted)">
     </div>
 
-  </form>
+    <div
+      class="history-list"
+      id="historyList">
+    </div>
+
+  </div>
+
 </dialog>
 
-<div class="toast" id="toast">
+<!-- ======================
+     新增 / 編輯
+====================== -->
+
+<dialog id="editDialog">
+
+<form
+  class="modal"
+  id="bookForm">
+
+  <h2 id="formTitle">
+    新增書籍
+  </h2>
+
+  <label>
+    書名 *
+  </label>
+
+  <input
+    id="bookTitle"
+    required
+    placeholder="完整書名"
+  >
+
+  <!-- 新增：書脊短名 -->
+  <label>
+    書脊短名
+  </label>
+
+  <input
+    id="bookSpineTitle"
+    placeholder="例如：Brown Bear"
+  >
+
+  <div class="help">
+    留白會自動使用完整書名。長書名建議填短一點，書架會漂亮很多。
+  </div>
+
+  <!-- 網路封面 -->
+  <button
+    type="button"
+    class="cover-search-btn"
+    id="onlineCoverBtn">
+    🔎 尋找網路封面
+  </button>
+
+  <div
+    class="search-message"
+    id="coverSearchMessage">
+  </div>
+
+  <div
+    class="cover-results"
+    id="coverResults">
+  </div>
+
+  <!-- 自己上傳 -->
+  <label>
+    或從手機選擇真實封面
+  </label>
+
+  <input
+    id="coverFile"
+    type="file"
+    accept="image/*"
+  >
+
+  <img
+    class="cover-preview"
+    id="coverPreview"
+  >
+
+  <!-- 分類 -->
+  <label>
+    圖書館分類
+  </label>
+
+  <select id="bookCategory">
+
+    <option value="story">
+      📕 故事繪本
+    </option>
+
+    <option value="english">
+      🔤 英文繪本
+    </option>
+
+    <option value="sensory">
+      ✋ 感官・互動
+    </option>
+
+    <option value="cognitive">
+      🧠 認知探索
+    </option>
+
+    <option value="music">
+      🎵 兒歌・有聲
+    </option>
+
+    <option value="other">
+      📚 其他
+    </option>
+
+  </select>
+
+  <label>
+    適讀年齡
+  </label>
+
+  <input
+    id="bookAge"
+    placeholder="例如：6M+、1–3歲"
+  >
+
+  <label>
+    閱讀階段
+  </label>
+
+  <select id="bookStatus">
+
+    <option value="now">
+      🌱 現在適合
+    </option>
+
+    <option value="later">
+      🌿 長大再讀
+    </option>
+
+  </select>
+
+  <label>
+    書脊顏色
+  </label>
+
+  <input
+    id="spineColor"
+    type="color"
+    value="#bd765f"
+  >
+
+  <label>
+    📝 媽媽的筆記
+  </label>
+
+  <textarea
+    id="bookNote"
+    placeholder="Jessie 對這本書的反應、共讀方式……">
+  </textarea>
+
+  <div class="form-actions">
+
+    <button
+      type="button"
+      class="cancel-btn"
+      id="cancelEdit">
+      取消
+    </button>
+
+    <button
+      type="submit"
+      class="save-btn">
+      儲存
+    </button>
+
+  </div>
+
+</form>
+
+</dialog>
+
+<!-- Toast -->
+<div
+  class="toast"
+  id="toast">
+
   <span id="toastText"></span>
-  <button id="undoBtn">↩︎ 復原</button>
+
+  <button id="undoBtn">
+    ↩︎ 復原
+  </button>
+
 </div>
 
 <script>
 (()=>{
 "use strict";
 
+/* ======================
+   CONFIG
+====================== */
+
+/*
+  故意沿用舊 key
+  保留 V8 / V7 的資料
+*/
 const STORAGE_KEY="jessie-bookshelf-v5";
+
 const PIN="1234";
 
 const categories=[
-  {id:"story",name:"故事繪本",icon:"📕",description:"有角色、情節與完整故事的繪本"},
-  {id:"english",name:"英文繪本",icon:"🔤",description:"英文共讀與語感累積"},
-  {id:"sensory",name:"感官・互動",icon:"✋",description:"觸摸、翻翻、聲音與互動遊戲"},
-  {id:"cognitive",name:"認知探索",icon:"🧠",description:"動物、生活、顏色、找一找與認知"},
-  {id:"music",name:"兒歌・有聲",icon:"🎵",description:"兒歌、音樂與有聲書"},
-  {id:"other",name:"其他",icon:"📚",description:"其他收藏"}
+
+  {
+    id:"story",
+    name:"故事繪本",
+    icon:"📕",
+    description:"角色、情節與完整故事"
+  },
+
+  {
+    id:"english",
+    name:"英文繪本",
+    icon:"🔤",
+    description:"英文共讀與語感"
+  },
+
+  {
+    id:"sensory",
+    name:"感官・互動",
+    icon:"✋",
+    description:"觸摸、翻翻、聲音與互動"
+  },
+
+  {
+    id:"cognitive",
+    name:"認知探索",
+    icon:"🧠",
+    description:"生活、動物、顏色與找一找"
+  },
+
+  {
+    id:"music",
+    name:"兒歌・有聲",
+    icon:"🎵",
+    description:"兒歌、音樂與有聲書"
+  },
+
+  {
+    id:"other",
+    name:"其他",
+    icon:"📚",
+    description:"其他收藏"
+  }
+
 ];
 
 const palette=[
-  "#b7655d","#ca7958","#d49a58","#718d8e",
-  "#7f936d","#ad7e91","#8e735e","#627b8d",
-  "#b88a58","#8c665c","#77845f","#a86e61"
+  "#6f9096",
+  "#d1875c",
+  "#b65f59",
+  "#78946f",
+  "#d2a153",
+  "#9b7488",
+  "#776c91",
+  "#5f7d8c",
+  "#bd7a61",
+  "#89956f",
+  "#a9675c",
+  "#c88d66"
 ];
 
 let books=[];
+
 let selectedId=null;
 let editingId=null;
+
 let pendingCover="";
+
 let lastReading=null;
-let toastTimer;
+let toastTimer=null;
 
-const $=id=>document.getElementById(id);
+const $=id=>
+  document.getElementById(id);
 
-function makeId(prefix){
-  return prefix+"_"+Date.now().toString(36)+"_"+Math.random().toString(36).slice(2,8);
+/* ======================
+   HELPERS
+====================== */
+
+function makeId(prefix="id"){
+
+  return (
+    prefix+
+    "_"+
+    Date.now().toString(36)+
+    "_"+
+    Math.random()
+      .toString(36)
+      .slice(2,8)
+  );
+
 }
 
 function getBook(id){
-  return books.find(b=>b.id===id);
+
+  return books.find(
+    book=>book.id===id
+  );
+
 }
 
 function categoryInfo(id){
-  return categories.find(c=>c.id===id)||categories.at(-1);
+
+  return (
+    categories.find(
+      category=>category.id===id
+    ) ||
+    categories[categories.length-1]
+  );
+
 }
 
 function dayKey(timestamp=Date.now()){
+
   const d=new Date(timestamp);
+
   return [
     d.getFullYear(),
-    String(d.getMonth()+1).padStart(2,"0"),
-    String(d.getDate()).padStart(2,"0")
+    String(
+      d.getMonth()+1
+    ).padStart(2,"0"),
+    String(
+      d.getDate()
+    ).padStart(2,"0")
   ].join("-");
+
 }
 
 function totalReads(book){
-  return (book.readingHistory||[]).length;
+
+  return (
+    book.readingHistory || []
+  ).length;
+
 }
 
 function todayReads(book){
+
   const today=dayKey();
-  return (book.readingHistory||[]).filter(r=>r.timestamp&&dayKey(r.timestamp)===today).length;
+
+  return (
+    book.readingHistory || []
+  ).filter(record=>
+
+    record.timestamp &&
+    dayKey(record.timestamp)===today
+
+  ).length;
+
 }
 
 function formatTime(timestamp){
-  if(!timestamp)return "舊版共讀紀錄";
-  const d=new Date(timestamp);
-  return `${d.getMonth()+1}/${d.getDate()} ${String(d.getHours()).padStart(2,"0")}:${String(d.getMinutes()).padStart(2,"0")}`;
-}
 
-/* ---------- STORAGE ---------- */
-
-function load(){
-  try{
-    const raw=localStorage.getItem(STORAGE_KEY);
-    books=raw?JSON.parse(raw):[];
-    if(!Array.isArray(books))books=[];
-  }catch{
-    books=[];
+  if(!timestamp){
+    return "舊版共讀紀錄";
   }
 
-  books.forEach((book,index)=>{
-    if(!book.id)book.id=makeId("book");
-    if(!book.category)book.category="other";
-    if(!book.readingStatus)book.readingStatus="now";
-    if(typeof book.favorite!=="boolean")book.favorite=false;
-    if(!book.spineColor)book.spineColor=palette[index%palette.length];
+  const d=new Date(timestamp);
 
-    if(!Array.isArray(book.readingHistory)){
-      book.readingHistory=[];
-      const old=Number(book.readCount)||0;
+  return (
+    `${d.getMonth()+1}/${d.getDate()} `+
+    `${String(d.getHours()).padStart(2,"0")}:`+
+    `${String(d.getMinutes()).padStart(2,"0")}`
+  );
 
-      for(let i=0;i<old;i++){
-        book.readingHistory.push({
-          id:makeId("legacy"),
-          timestamp:null
-        });
-      }
+}
+
+/* ======================
+   STORAGE
+====================== */
+
+function load(){
+
+  try{
+
+    const raw=
+      localStorage.getItem(
+        STORAGE_KEY
+      );
+
+    books=
+      raw
+      ? JSON.parse(raw)
+      : [];
+
+    if(!Array.isArray(books)){
+      books=[];
     }
 
-    book.readingHistory.forEach(record=>{
-      if(!record.id)record.id=makeId("read");
-    });
-  });
+  }catch(error){
+
+    books=[];
+
+  }
+
+  /*
+    相容舊版本
+  */
+  books.forEach(
+    (book,index)=>{
+
+      if(!book.id){
+        book.id=makeId("book");
+      }
+
+      if(!book.category){
+        book.category="other";
+      }
+
+      if(!book.readingStatus){
+        book.readingStatus="now";
+      }
+
+      if(
+        typeof book.favorite!=="boolean"
+      ){
+        book.favorite=false;
+      }
+
+      if(!book.spineColor){
+
+        book.spineColor=
+          palette[
+            index % palette.length
+          ];
+
+      }
+
+      /*
+        V9 新欄位
+        不動原本 title
+      */
+      if(
+        typeof book.spineTitle!=="string"
+      ){
+        book.spineTitle="";
+      }
+
+      /*
+        舊版 readCount 遷移
+      */
+      if(
+        !Array.isArray(
+          book.readingHistory
+        )
+      ){
+
+        book.readingHistory=[];
+
+        const old=
+          Number(book.readCount) || 0;
+
+        for(
+          let i=0;
+          i<old;
+          i++
+        ){
+
+          book.readingHistory.push({
+            id:makeId("legacy"),
+            timestamp:null
+          });
+
+        }
+
+      }
+
+      book.readingHistory
+        .forEach(record=>{
+
+          if(!record.id){
+            record.id=
+              makeId("read");
+          }
+
+        });
+
+    }
+  );
 
   save();
+
 }
 
 function save(){
+
   try{
-    localStorage.setItem(STORAGE_KEY,JSON.stringify(books));
-    return true;
-  }catch{
-    alert("手機瀏覽器的儲存空間不足。建議先匯出備份，或換較小的封面照片。");
-    return false;
-  }
-}
 
-/* ---------- HEADER ---------- */
-
-function renderStats(){
-  const reads=books.reduce((sum,b)=>sum+totalReads(b),0);
-  $("stats").textContent=`${books.length} 本藏書 · 累積共讀 ${reads} 次`;
-}
-
-/* ---------- TODAY ---------- */
-
-function renderToday(){
-  $("todayContent").innerHTML="";
-
-  const items=books
-    .map(book=>({book,count:todayReads(book)}))
-    .filter(item=>item.count>0);
-
-  const total=items.reduce((sum,item)=>sum+item.count,0);
-
-  $("todayTotal").textContent=`${total} 次`;
-
-  if(!items.length){
-    const empty=document.createElement("div");
-    empty.className="empty";
-    empty.textContent="今天還沒有共讀，從書架挑一本吧 ♡";
-    $("todayContent").appendChild(empty);
-    return;
-  }
-
-  const list=document.createElement("div");
-  list.className="today-list";
-
-  items.forEach(({book,count})=>{
-    const row=document.createElement("button");
-    row.className="today-row";
-
-    const icon=document.createElement("span");
-    icon.textContent="📖";
-
-    const name=document.createElement("span");
-    name.className="today-name";
-    name.textContent=book.title;
-
-    const amount=document.createElement("span");
-    amount.className="today-count";
-    amount.textContent=`× ${count}`;
-
-    row.append(icon,name,amount);
-    row.onclick=()=>openBook(book.id);
-
-    list.appendChild(row);
-  });
-
-  $("todayContent").appendChild(list);
-}
-
-/* ---------- REALISTIC SPINE ---------- */
-
-function spineDimensions(book,index){
-  /* 固定依 id/title 算，不會每次重新整理亂跳 */
-  const seed=[...(book.id||book.title)].reduce((a,c)=>a+c.charCodeAt(0),0);
-
-  return {
-    width:36+(seed%4)*6,
-    height:142+(seed%6)*8,
-    tilt:((seed%5)-2)*0.35
-  };
-}
-
-function createSpine(book,index){
-  const dimensions=spineDimensions(book,index);
-
-  const button=document.createElement("button");
-  button.className="spine-book";
-  button.style.width=dimensions.width+"px";
-  button.style.height=dimensions.height+"px";
-  button.style.background=book.spineColor||palette[index%palette.length];
-  button.style.transform=`rotate(${dimensions.tilt}deg)`;
-
-  const title=document.createElement("span");
-  title.className="spine-title";
-  title.textContent=book.title;
-
-  button.appendChild(title);
-
-  if(book.favorite){
-    const heart=document.createElement("span");
-    heart.className="spine-favorite";
-    heart.textContent="♥";
-    button.appendChild(heart);
-  }
-
-  button.onclick=()=>openBook(book.id);
-
-  return button;
-}
-
-/* ---------- LIBRARY ---------- */
-
-function renderLibrary(){
-  $("library").innerHTML="";
-
-  categories.forEach(category=>{
-    const categoryBooks=books.filter(book=>
-      book.category===category.id &&
-      book.readingStatus!=="later"
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify(books)
     );
 
-    if(!categoryBooks.length)return;
+    return true;
 
-    const section=document.createElement("section");
-    section.className="library-section";
+  }catch(error){
 
-    const heading=document.createElement("div");
-    heading.className="section-heading";
+    alert(
+      "手機瀏覽器的儲存空間不足。\n\n"+
+      "建議先匯出備份，再減少封面照片大小。"
+    );
 
-    const title=document.createElement("div");
-    title.className="section-title";
-    title.textContent=`${category.icon} ${category.name} · ${categoryBooks.length} 本`;
+    return false;
 
-    const open=document.createElement("button");
-    open.className="section-open";
-    open.textContent="查看全部 ›";
-    open.onclick=()=>showCategory(category.id);
-
-    heading.append(title,open);
-
-    const shelf=document.createElement("div");
-    shelf.className="spine-shelf";
-
-    categoryBooks.forEach((book,index)=>{
-      shelf.appendChild(createSpine(book,index));
-    });
-
-    const board=document.createElement("div");
-    board.className="wood-board";
-
-    section.append(heading,shelf,board);
-    $("library").appendChild(section);
-  });
-
-  const later=books.filter(b=>b.readingStatus==="later");
-
-  if(later.length){
-    const section=document.createElement("section");
-    section.className="library-section";
-
-    const heading=document.createElement("div");
-    heading.className="section-heading";
-
-    const title=document.createElement("div");
-    title.className="section-title";
-    title.textContent=`🌿 長大再讀 · ${later.length} 本`;
-
-    const open=document.createElement("button");
-    open.className="section-open";
-    open.textContent="查看全部 ›";
-    open.onclick=()=>showCategory("later");
-
-    heading.append(title,open);
-
-    const shelf=document.createElement("div");
-    shelf.className="spine-shelf";
-
-    later.forEach((book,index)=>{
-      shelf.appendChild(createSpine(book,index));
-    });
-
-    const board=document.createElement("div");
-    board.className="wood-board";
-
-    section.append(heading,shelf,board);
-    $("library").appendChild(section);
   }
+
 }
 
-/* ---------- COVER CARD ---------- */
+/* ======================
+   STATS
+====================== */
 
-function makeCover(book){
-  const button=document.createElement("button");
-  button.className="cover-card";
+function renderStats(){
 
-  const cover=document.createElement("div");
-  cover.className="book-cover";
+  const reads=
+    books.reduce(
+      (sum,book)=>
+        sum+totalReads(book),
+      0
+    );
 
-  if(book.cover){
-    const image=document.createElement("img");
-    image.src=book.cover;
-    image.alt=book.title;
-    cover.appendChild(image);
-  }else{
-    const fake=document.createElement("div");
-    fake.className="fake-cover";
+  $("stats").textContent=
+    `${books.length} 本藏書 · `+
+    `累積共讀 ${reads} 次`;
 
-    const icon=document.createElement("b");
-    icon.textContent=book.emoji||"📖";
+}
 
-    const title=document.createElement("span");
-    title.textContent=book.title;
+/* ======================
+   TODAY
+====================== */
 
-    fake.append(icon,title);
-    cover.appendChild(fake);
+function renderToday(){
+
+  $("todayContent").innerHTML="";
+
+  const items=
+    books
+      .map(book=>({
+        book,
+        count:todayReads(book)
+      }))
+      .filter(
+        item=>item.count>0
+      );
+
+  const total=
+    items.reduce(
+      (sum,item)=>
+        sum+item.count,
+      0
+    );
+
+  $("todayTotal").textContent=
+    `${total} 次`;
+
+  if(!items.length){
+
+    const empty=
+      document.createElement("div");
+
+    empty.className="empty";
+
+    empty.textContent=
+      "今天還沒有共讀，讓 Jessie 從書架挑一本吧 ♡";
+
+    $("todayContent")
+      .appendChild(empty);
+
+    return;
+
   }
 
-  const name=document.createElement("div");
-  name.className="cover-name";
-  name.textContent=book.title;
+  const list=
+    document.createElement("div");
 
-  button.append(cover,name);
-  button.onclick=()=>openBook(book.id);
+  list.className="today-list";
+
+  items.forEach(
+    ({book,count})=>{
+
+      const row=
+        document.createElement("button");
+
+      row.className="today-row";
+
+      const icon=
+        document.createElement("span");
+
+      icon.textContent="📖";
+
+      const name=
+        document.createElement("span");
+
+      name.className="today-name";
+      name.textContent=book.title;
+
+      const amount=
+        document.createElement("span");
+
+      amount.className="today-count";
+      amount.textContent=`× ${count}`;
+
+      row.append(
+        icon,
+        name,
+        amount
+      );
+
+      row.onclick=()=>
+        openBook(book.id);
+
+      list.appendChild(row);
+
+    }
+  );
+
+  $("todayContent")
+    .appendChild(list);
+
+}
+
+/* ======================
+   BOOK SPINE
+====================== */
+
+/*
+  每本書固定一組比例，
+  不會重新整理就亂跳
+*/
+function bookSeed(book){
+
+  const source=
+    book.id || book.title || "";
+
+  return [...source]
+    .reduce(
+      (sum,char)=>
+        sum+char.charCodeAt(0),
+      0
+    );
+
+}
+
+function spineDimensions(book){
+
+  const seed=bookSeed(book);
+
+  /*
+    不再像上一版那麼巨大
+  */
+  return {
+
+    width:
+      38+
+      (seed%4)*5,
+
+    height:
+      112+
+      (seed%5)*7,
+
+    tilt:
+      ((seed%5)-2)*0.22
+
+  };
+
+}
+
+/*
+  如果沒有填短名，
+  自動稍微縮短幾個
+  常見長英文書名
+*/
+function getSpineTitle(book){
+
+  if(
+    book.spineTitle &&
+    book.spineTitle.trim()
+  ){
+
+    return book.spineTitle.trim();
+
+  }
+
+  const title=book.title || "";
+
+  const lower=
+    title.toLowerCase();
+
+  if(
+    lower.includes(
+      "brown bear"
+    )
+  ){
+    return "Brown Bear";
+  }
+
+  if(
+    lower.includes(
+      "see, touch, feel"
+    )
+  ){
+    return "See, Touch, Feel";
+  }
+
+  return title;
+
+}
+
+function isMostlyEnglish(text){
+
+  const latin=
+    (
+      text.match(/[A-Za-z]/g)
+      || []
+    ).length;
+
+  const chinese=
+    (
+      text.match(
+        /[\u3400-\u9fff]/g
+      ) || []
+    ).length;
+
+  return latin>chinese;
+
+}
+
+function createSpine(book){
+
+  const dimensions=
+    spineDimensions(book);
+
+  const button=
+    document.createElement("button");
+
+  button.className=
+    "spine-book";
+
+  button.style.width=
+    dimensions.width+"px";
+
+  button.style.height=
+    dimensions.height+"px";
+
+  button.style.background=
+    book.spineColor ||
+    palette[
+      bookSeed(book) %
+      palette.length
+    ];
+
+  button.style.transform=
+    `rotate(${dimensions.tilt}deg)`;
+
+  /*
+    凹槽
+  */
+  const groove=
+    document.createElement("span");
+
+  groove.className=
+    "spine-groove";
+
+  /*
+    書名
+  */
+  const title=
+    document.createElement("span");
+
+  title.className=
+    "spine-title";
+
+  const spineTitle=
+    getSpineTitle(book);
+
+  title.textContent=
+    spineTitle;
+
+  if(
+    isMostlyEnglish(spineTitle)
+  ){
+
+    title.classList.add(
+      "english"
+    );
+
+  }
+
+  button.append(
+    groove,
+    title
+  );
+
+  /*
+    最愛
+  */
+  if(book.favorite){
+
+    const heart=
+      document.createElement("span");
+
+    heart.className=
+      "spine-heart";
+
+    heart.textContent="♥";
+
+    button.appendChild(heart);
+
+  }
+
+  button.onclick=()=>
+    openBook(book.id);
 
   return button;
+
 }
 
-function showCategory(categoryId,customBooks=null,titleOverride=null){
-  let list;
-  let title;
+/* ======================
+   LIBRARY
+====================== */
+
+function makeLibrarySection({
+  icon,
+  name,
+  books:list,
+  categoryId
+}){
+
+  if(!list.length){
+    return null;
+  }
+
+  const section=
+    document.createElement(
+      "section"
+    );
+
+  section.className=
+    "library-section";
+
+  /*
+    分類標題整條可按
+  */
+  const header=
+    document.createElement(
+      "button"
+    );
+
+  header.className=
+    "section-header";
+
+  const iconEl=
+    document.createElement("span");
+
+  iconEl.className=
+    "section-icon";
+
+  iconEl.textContent=icon;
+
+  const nameEl=
+    document.createElement("span");
+
+  nameEl.className=
+    "section-name";
+
+  nameEl.textContent=name;
+
+  const count=
+    document.createElement("span");
+
+  count.className=
+    "section-count";
+
+  count.textContent=
+    `${list.length} 本`;
+
+  const arrow=
+    document.createElement("span");
+
+  arrow.className=
+    "section-arrow";
+
+  arrow.textContent="›";
+
+  header.append(
+    iconEl,
+    nameEl,
+    count,
+    arrow
+  );
+
+  header.onclick=()=>{
+
+    showCategory(
+      categoryId
+    );
+
+  };
+
+  /*
+    書
+  */
+  const shelf=
+    document.createElement("div");
+
+  shelf.className=
+    "spine-shelf";
+
+  list.forEach(book=>{
+
+    shelf.appendChild(
+      createSpine(book)
+    );
+
+  });
+
+  /*
+    層板
+  */
+  const wood=
+    document.createElement("div");
+
+  wood.className=
+    "wood-shelf";
+
+  section.append(
+    header,
+    shelf,
+    wood
+  );
+
+  return section;
+
+}
+
+function renderLibrary(){
+
+  $("library").innerHTML="";
+
+  /*
+    正常分類
+  */
+  categories.forEach(category=>{
+
+    const list=
+      books.filter(book=>
+
+        book.category===category.id &&
+        book.readingStatus!=="later"
+
+      );
+
+    const section=
+      makeLibrarySection({
+
+        icon:category.icon,
+        name:category.name,
+        books:list,
+        categoryId:category.id
+
+      });
+
+    if(section){
+
+      $("library")
+        .appendChild(section);
+
+    }
+
+  });
+
+  /*
+    長大再讀獨立一層
+  */
+  const later=
+    books.filter(
+      book=>
+        book.readingStatus==="later"
+    );
+
+  const laterSection=
+    makeLibrarySection({
+
+      icon:"🌿",
+      name:"長大再讀",
+      books:later,
+      categoryId:"later"
+
+    });
+
+  if(laterSection){
+
+    $("library")
+      .appendChild(
+        laterSection
+      );
+
+  }
+
+}
+
+/* ======================
+   COVER GRID
+====================== */
+
+function createCoverCard(book){
+
+  const button=
+    document.createElement(
+      "button"
+    );
+
+  button.className=
+    "cover-card";
+
+  const cover=
+    document.createElement(
+      "div"
+    );
+
+  cover.className=
+    "book-cover";
+
+  if(book.cover){
+
+    const image=
+      document.createElement("img");
+
+    image.src=book.cover;
+    image.alt=book.title;
+
+    cover.appendChild(image);
+
+  }else{
+
+    const fake=
+      document.createElement("div");
+
+    fake.className=
+      "fake-cover";
+
+    const icon=
+      document.createElement("b");
+
+    icon.textContent=
+      book.emoji || "📖";
+
+    const title=
+      document.createElement("span");
+
+    title.textContent=
+      book.title;
+
+    fake.append(
+      icon,
+      title
+    );
+
+    cover.appendChild(fake);
+
+  }
+
+  const name=
+    document.createElement("div");
+
+  name.className=
+    "cover-name";
+
+  name.textContent=
+    book.title;
+
+  button.append(
+    cover,
+    name
+  );
+
+  button.onclick=()=>
+    openBook(book.id);
+
+  return button;
+
+}
+
+/* ======================
+   CATEGORY VIEW
+====================== */
+
+function showCategory(
+  categoryId,
+  customBooks=null,
+  titleOverride=null
+){
+
+  let list=[];
+  let title="";
   let description="";
 
   if(customBooks){
+
     list=customBooks;
-    title=titleOverride||"搜尋結果";
-  }else if(categoryId==="later"){
-    list=books.filter(b=>b.readingStatus==="later");
-    title="🌿 長大再讀";
-    description="先收藏起來，等 Jessie 再大一點慢慢探索。";
+
+    title=
+      titleOverride ||
+      "搜尋結果";
+
+  }else if(
+    categoryId==="later"
+  ){
+
+    list=
+      books.filter(
+        book=>
+          book.readingStatus==="later"
+      );
+
+    title=
+      "🌿 長大再讀";
+
+    description=
+      "先收藏起來，等 Jessie 再大一點慢慢探索";
+
   }else{
-    const info=categoryInfo(categoryId);
-    list=books.filter(b=>b.category===categoryId);
-    title=`${info.icon} ${info.name}`;
-    description=info.description;
+
+    const info=
+      categoryInfo(categoryId);
+
+    list=
+      books.filter(
+        book=>
+          book.category===categoryId &&
+          book.readingStatus!=="later"
+      );
+
+    title=
+      `${info.icon} ${info.name}`;
+
+    description=
+      info.description;
+
   }
 
-  $("libraryHome").style.display="none";
-  $("categoryView").style.display="block";
+  $("libraryHome")
+    .style.display="none";
 
-  $("categoryTitle").textContent=title;
-  $("categoryDescription").textContent=`${description}${description?" · ":""}${list.length} 本`;
+  $("categoryView")
+    .style.display="block";
 
-  $("coverGrid").innerHTML="";
-  list.forEach(book=>$("coverGrid").appendChild(makeCover(book)));
+  $("categoryTitle")
+    .textContent=title;
 
-  window.scrollTo({top:0,behavior:"smooth"});
+  $("categoryDescription")
+    .textContent=
+      `${description}`+
+      `${description?" · ":""}`+
+      `${list.length} 本`;
+
+  $("coverGrid")
+    .innerHTML="";
+
+  list.forEach(book=>{
+
+    $("coverGrid")
+      .appendChild(
+        createCoverCard(book)
+      );
+
+  });
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
 }
 
 $("backBtn").onclick=()=>{
-  $("categoryView").style.display="none";
-  $("libraryHome").style.display="block";
+
+  $("categoryView")
+    .style.display="none";
+
+  $("libraryHome")
+    .style.display="block";
+
   $("searchInput").value="";
+
 };
 
-/* ---------- SEARCH ---------- */
+/* ======================
+   SEARCH
+====================== */
 
-$("searchInput").addEventListener("input",event=>{
-  const keyword=event.target.value.trim().toLowerCase();
+$("searchInput")
+  .addEventListener(
+    "input",
+    event=>{
 
-  if(!keyword){
-    $("categoryView").style.display="none";
-    $("libraryHome").style.display="block";
-    return;
-  }
+      const raw=
+        event.target.value.trim();
 
-  const results=books.filter(book=>
-    book.title.toLowerCase().includes(keyword) ||
-    (book.note||"").toLowerCase().includes(keyword)
+      const keyword=
+        raw.toLowerCase();
+
+      if(!keyword){
+
+        $("categoryView")
+          .style.display="none";
+
+        $("libraryHome")
+          .style.display="block";
+
+        return;
+
+      }
+
+      const results=
+        books.filter(book=>
+
+          (
+            book.title || ""
+          )
+            .toLowerCase()
+            .includes(keyword)
+
+          ||
+
+          (
+            book.spineTitle || ""
+          )
+            .toLowerCase()
+            .includes(keyword)
+
+          ||
+
+          (
+            book.note || ""
+          )
+            .toLowerCase()
+            .includes(keyword)
+
+        );
+
+      showCategory(
+        null,
+        results,
+        `🔎「${raw}」`
+      );
+
+    }
   );
 
-  showCategory(null,results,`🔎「${event.target.value.trim()}」`);
-});
-
-/* ---------- DETAIL ---------- */
+/* ======================
+   DETAIL
+====================== */
 
 function renderDetail(book){
-  $("detailCover").innerHTML="";
+
+  $("detailCover")
+    .innerHTML="";
 
   if(book.cover){
-    const image=document.createElement("img");
+
+    const image=
+      document.createElement("img");
+
     image.src=book.cover;
     image.alt=book.title;
-    $("detailCover").appendChild(image);
+
+    $("detailCover")
+      .appendChild(image);
+
   }else{
-    const fake=document.createElement("div");
-    fake.className="fake-cover";
 
-    const icon=document.createElement("b");
-    icon.textContent=book.emoji||"📖";
+    const fake=
+      document.createElement("div");
 
-    const title=document.createElement("span");
-    title.textContent=book.title;
+    fake.className=
+      "fake-cover";
 
-    fake.append(icon,title);
-    $("detailCover").appendChild(fake);
+    const icon=
+      document.createElement("b");
+
+    icon.textContent=
+      book.emoji || "📖";
+
+    const title=
+      document.createElement("span");
+
+    title.textContent=
+      book.title;
+
+    fake.append(
+      icon,
+      title
+    );
+
+    $("detailCover")
+      .appendChild(fake);
+
   }
 
-  const category=categoryInfo(book.category);
+  const category=
+    categoryInfo(
+      book.category
+    );
 
-  $("detailTitle").textContent=book.title;
-  $("detailCategory").textContent=category.name;
-  $("detailAge").textContent=book.age||"不限";
-  $("detailStatus").textContent=
-    book.readingStatus==="later"?"🌿 長大再讀":"🌱 現在適合";
+  $("detailTitle")
+    .textContent=
+      book.title;
 
-  $("todayBookCount").textContent=todayReads(book);
-  $("totalBookCount").textContent=totalReads(book);
+  $("detailCategory")
+    .textContent=
+      category.name;
 
-  $("favoriteBtn").textContent=
-    book.favorite?"♥ Jessie 的最愛":"♡ 加入最愛";
+  $("detailAge")
+    .textContent=
+      book.age || "不限";
 
-  $("detailNote").textContent=book.note||"還沒有備註";
+  $("detailStatus")
+    .textContent=
+      book.readingStatus==="later"
+      ? "🌿 長大再讀"
+      : "🌱 現在適合";
+
+  $("todayBookCount")
+    .textContent=
+      todayReads(book);
+
+  $("totalBookCount")
+    .textContent=
+      totalReads(book);
+
+  $("favoriteBtn")
+    .textContent=
+      book.favorite
+      ? "♥ Jessie 的最愛"
+      : "♡ 加入最愛";
+
+  $("detailNote")
+    .textContent=
+      book.note ||
+      "還沒有備註";
+
 }
 
 function openBook(bookId){
-  const book=getBook(bookId);
-  if(!book)return;
+
+  const book=
+    getBook(bookId);
+
+  if(!book){
+    return;
+  }
 
   selectedId=bookId;
+
   renderDetail(book);
-  $("detailDialog").showModal();
+
+  $("detailDialog")
+    .showModal();
+
 }
 
-$("closeDetail").onclick=()=>$("detailDialog").close();
+$("closeDetail").onclick=()=>{
 
-/* ---------- READING ---------- */
+  $("detailDialog")
+    .close();
+
+};
+
+/* ======================
+   COMPLETE READING
+====================== */
+
+let readLocked=false;
 
 $("readBtn").onclick=()=>{
-  const book=getBook(selectedId);
-  if(!book)return;
+
+  /*
+    防止快速連點
+  */
+  if(readLocked){
+    return;
+  }
+
+  readLocked=true;
+
+  setTimeout(
+    ()=>readLocked=false,
+    900
+  );
+
+  const book=
+    getBook(selectedId);
+
+  if(!book){
+    return;
+  }
 
   const record={
+
     id:makeId("read"),
-    timestamp:Date.now()
+
+    timestamp:Date.now(),
+
+    dateKey:dayKey(),
+
+    source:"manual"
+
   };
 
-  book.readingHistory.push(record);
+  book.readingHistory
+    .push(record);
 
   lastReading={
+
     bookId:book.id,
+
     recordId:record.id
+
   };
 
   save();
+
   renderAll();
+
   renderDetail(book);
-  showToast("✓ 已記錄一次共讀",true);
+
+  showToast(
+    "✓ 已記錄一次共讀",
+    true
+  );
+
 };
 
+/* ======================
+   UNDO
+====================== */
+
 $("undoBtn").onclick=()=>{
-  if(!lastReading)return;
 
-  const book=getBook(lastReading.bookId);
+  if(!lastReading){
+    return;
+  }
 
-  if(book){
-    book.readingHistory=book.readingHistory.filter(
-      record=>record.id!==lastReading.recordId
+  const book=
+    getBook(
+      lastReading.bookId
     );
 
+  if(book){
+
+    book.readingHistory=
+      book.readingHistory
+        .filter(
+          record=>
+            record.id!==
+            lastReading.recordId
+        );
+
     save();
+
     renderAll();
 
-    if(selectedId===book.id)renderDetail(book);
+    if(
+      selectedId===book.id
+    ){
+
+      renderDetail(book);
+
+    }
+
   }
 
   lastReading=null;
+
   hideToast();
+
 };
 
-/* ---------- FAVORITE ---------- */
+/* ======================
+   FAVORITE
+====================== */
 
 $("favoriteBtn").onclick=()=>{
-  const book=getBook(selectedId);
-  if(!book)return;
 
-  book.favorite=!book.favorite;
+  const book=
+    getBook(selectedId);
+
+  if(!book){
+    return;
+  }
+
+  book.favorite=
+    !book.favorite;
 
   save();
+
   renderAll();
+
   renderDetail(book);
+
 };
 
-/* ---------- HISTORY ---------- */
+/* ======================
+   HISTORY
+====================== */
 
 $("historyBtn").onclick=()=>{
-  const book=getBook(selectedId);
-  if(!book)return;
 
-  $("historyBookName").textContent=book.title;
+  const book=
+    getBook(selectedId);
+
+  if(!book){
+    return;
+  }
+
+  $("historyBookName")
+    .textContent=
+      book.title;
 
   renderHistory(book);
 
-  $("detailDialog").close();
-  $("historyDialog").showModal();
+  $("detailDialog")
+    .close();
+
+  $("historyDialog")
+    .showModal();
+
 };
 
 function renderHistory(book){
-  $("historyList").innerHTML="";
 
-  const history=[...book.readingHistory].reverse();
+  $("historyList")
+    .innerHTML="";
+
+  const history=
+    [...book.readingHistory]
+      .reverse();
 
   if(!history.length){
-    $("historyList").innerHTML='<div class="empty">還沒有共讀紀錄。</div>';
+
+    $("historyList")
+      .innerHTML=
+        '<div class="empty">還沒有共讀紀錄。</div>';
+
     return;
+
   }
 
   history.forEach(record=>{
-    const row=document.createElement("div");
-    row.className="history-row";
 
-    const time=document.createElement("div");
-    time.className="history-time";
-    time.textContent="📖 "+formatTime(record.timestamp);
+    const row=
+      document.createElement("div");
 
-    const remove=document.createElement("button");
-    remove.className="history-delete";
-    remove.textContent="刪除";
+    row.className=
+      "history-row";
 
-    remove.onclick=()=>{
-      if(!confirm("確定刪除這一次共讀紀錄嗎？"))return;
+    const time=
+      document.createElement("div");
 
-      book.readingHistory=book.readingHistory.filter(
-        item=>item.id!==record.id
+    time.className=
+      "history-time";
+
+    time.textContent=
+      "📖 "+
+      formatTime(
+        record.timestamp
       );
 
+    const remove=
+      document.createElement(
+        "button"
+      );
+
+    remove.className=
+      "history-delete";
+
+    remove.textContent=
+      "刪除";
+
+    remove.onclick=()=>{
+
+      const ok=
+        confirm(
+          "確定刪除這一次共讀紀錄嗎？"
+        );
+
+      if(!ok){
+        return;
+      }
+
+      book.readingHistory=
+        book.readingHistory
+          .filter(
+            item=>
+              item.id!==record.id
+          );
+
       save();
+
       renderAll();
+
       renderHistory(book);
+
     };
 
-    row.append(time,remove);
-    $("historyList").appendChild(row);
+    row.append(
+      time,
+      remove
+    );
+
+    $("historyList")
+      .appendChild(row);
+
   });
+
 }
 
 $("closeHistory").onclick=()=>{
-  $("historyDialog").close();
 
-  const book=getBook(selectedId);
+  $("historyDialog")
+    .close();
+
+  const book=
+    getBook(selectedId);
 
   if(book){
+
     renderDetail(book);
-    $("detailDialog").showModal();
+
+    $("detailDialog")
+      .showModal();
+
   }
+
 };
 
-/* ---------- PARENT MODE ---------- */
+/* ======================
+   PARENT MODE
+====================== */
 
 $("parentBtn").onclick=()=>{
-  if(document.body.classList.contains("parent")){
-    document.body.classList.remove("parent");
-    $("parentBtn").textContent="🔒 家長模式";
+
+  if(
+    document.body
+      .classList
+      .contains("parent")
+  ){
+
+    document.body
+      .classList
+      .remove("parent");
+
+    $("parentBtn")
+      .textContent=
+        "🔒 家長模式";
+
     return;
+
   }
 
-  const pin=prompt("請輸入家長 PIN");
+  const pin=
+    prompt(
+      "請輸入家長 PIN"
+    );
 
-  if(pin===null)return;
+  if(pin===null){
+    return;
+  }
 
   if(pin!==PIN){
-    alert("PIN 不正確");
+
+    alert(
+      "PIN 不正確"
+    );
+
     return;
+
   }
 
-  document.body.classList.add("parent");
-  $("parentBtn").textContent="🔓 離開家長模式";
+  document.body
+    .classList
+    .add("parent");
+
+  $("parentBtn")
+    .textContent=
+      "🔓 離開家長模式";
+
 };
 
-/* ---------- EDIT FORM ---------- */
+/* ======================
+   EDIT
+====================== */
 
-function openForm(bookId=null){
+function openForm(
+  bookId=null
+){
+
   editingId=bookId;
 
-  const book=bookId?getBook(bookId):null;
+  const book=
+    bookId
+    ? getBook(bookId)
+    : null;
 
-  $("formTitle").textContent=book?"編輯書籍":"新增書籍";
-  $("bookTitle").value=book?.title||"";
-  $("bookCategory").value=book?.category||"story";
-  $("bookAge").value=book?.age||"";
-  $("bookStatus").value=book?.readingStatus||"now";
-  $("spineColor").value=book?.spineColor||palette[Math.floor(Math.random()*palette.length)];
-  $("bookNote").value=book?.note||"";
+  $("formTitle")
+    .textContent=
+      book
+      ? "編輯書籍"
+      : "新增書籍";
 
-  pendingCover=book?.cover||"";
+  $("bookTitle")
+    .value=
+      book?.title || "";
+
+  $("bookSpineTitle")
+    .value=
+      book?.spineTitle || "";
+
+  $("bookCategory")
+    .value=
+      book?.category || "story";
+
+  $("bookAge")
+    .value=
+      book?.age || "";
+
+  $("bookStatus")
+    .value=
+      book?.readingStatus ||
+      "now";
+
+  $("spineColor")
+    .value=
+      book?.spineColor ||
+      palette[
+        Math.floor(
+          Math.random()*
+          palette.length
+        )
+      ];
+
+  $("bookNote")
+    .value=
+      book?.note || "";
+
+  pendingCover=
+    book?.cover || "";
 
   $("coverFile").value="";
-  $("coverResults").innerHTML="";
-  $("coverSearchMessage").textContent="";
+
+  $("coverResults")
+    .innerHTML="";
+
+  $("coverSearchMessage")
+    .textContent="";
 
   updateCoverPreview();
 
-  $("editDialog").showModal();
+  $("editDialog")
+    .showModal();
+
 }
 
-$("addBookBtn").onclick=()=>openForm();
+$("addBookBtn").onclick=()=>{
 
-$("editBtn").onclick=()=>{
-  $("detailDialog").close();
-  openForm(selectedId);
+  openForm();
+
 };
 
-$("cancelEdit").onclick=()=>$("editDialog").close();
+$("editBtn").onclick=()=>{
+
+  $("detailDialog")
+    .close();
+
+  openForm(selectedId);
+
+};
+
+$("cancelEdit").onclick=()=>{
+
+  $("editDialog")
+    .close();
+
+};
 
 function updateCoverPreview(){
+
   if(pendingCover){
-    $("coverPreview").src=pendingCover;
-    $("coverPreview").style.display="block";
+
+    $("coverPreview").src=
+      pendingCover;
+
+    $("coverPreview")
+      .style.display="block";
+
   }else{
-    $("coverPreview").style.display="none";
+
+    $("coverPreview")
+      .style.display="none";
+
   }
+
 }
 
-/* ---------- OPEN LIBRARY COVER SEARCH ---------- */
+/* ======================
+   ONLINE COVER
+====================== */
 
-$("onlineCoverBtn").onclick=async()=>{
-  const title=$("bookTitle").value.trim();
+$("onlineCoverBtn").onclick=
+async()=>{
+
+  const title=
+    $("bookTitle")
+      .value
+      .trim();
 
   if(!title){
-    $("coverSearchMessage").textContent="請先輸入書名。";
+
+    $("coverSearchMessage")
+      .textContent=
+        "請先輸入書名。";
+
+    return;
+
+  }
+
+  $("coverSearchMessage")
+    .textContent=
+      "正在尋找可能的封面……";
+
+  $("coverResults")
+    .innerHTML="";
+
+  try{
+
+    const url=
+      "https://openlibrary.org/search.json"+
+      "?title="+
+      encodeURIComponent(title)+
+      "&limit=12"+
+      "&fields=key,title,author_name,cover_i,isbn";
+
+    const response=
+      await fetch(url);
+
+    if(!response.ok){
+      throw new Error();
+    }
+
+    const data=
+      await response.json();
+
+    const results=
+      (data.docs || [])
+        .filter(
+          item=>item.cover_i
+        )
+        .slice(0,6);
+
+    if(!results.length){
+
+      $("coverSearchMessage")
+        .textContent=
+          "沒有找到合適封面。台灣中文版建議直接上傳家裡實際版本。";
+
+      return;
+
+    }
+
+    $("coverSearchMessage")
+      .textContent=
+        "請確認封面是不是你家裡實際的版本：";
+
+    results.forEach(item=>{
+
+      const coverUrl=
+        "https://covers.openlibrary.org/b/id/"+
+        item.cover_i+
+        "-L.jpg";
+
+      const button=
+        document.createElement(
+          "button"
+        );
+
+      button.type=
+        "button";
+
+      button.className=
+        "cover-choice";
+
+      const image=
+        document.createElement(
+          "img"
+        );
+
+      image.src=
+        coverUrl;
+
+      image.alt=
+        item.title || title;
+
+      button.appendChild(
+        image
+      );
+
+      button.onclick=()=>{
+
+        document
+          .querySelectorAll(
+            ".cover-choice"
+          )
+          .forEach(choice=>
+            choice.classList
+              .remove("selected")
+          );
+
+        button.classList
+          .add("selected");
+
+        pendingCover=
+          coverUrl;
+
+        updateCoverPreview();
+
+      };
+
+      $("coverResults")
+        .appendChild(button);
+
+    });
+
+  }catch(error){
+
+    $("coverSearchMessage")
+      .textContent=
+        "目前無法連線搜尋封面，可以改用手機照片。";
+
+  }
+
+};
+
+/* ======================
+   LOCAL COVER
+====================== */
+
+function compressImage(file){
+
+  return new Promise(
+    (resolve,reject)=>{
+
+      const reader=
+        new FileReader();
+
+      reader.onload=()=>{
+
+        const image=
+          new Image();
+
+        image.onload=()=>{
+
+          const scale=
+            Math.min(
+              1,
+              650/image.width,
+              900/image.height
+            );
+
+          const canvas=
+            document.createElement(
+              "canvas"
+            );
+
+          canvas.width=
+            Math.round(
+              image.width*
+              scale
+            );
+
+          canvas.height=
+            Math.round(
+              image.height*
+              scale
+            );
+
+          const ctx=
+            canvas.getContext(
+              "2d"
+            );
+
+          ctx.fillStyle="#fff";
+
+          ctx.fillRect(
+            0,
+            0,
+            canvas.width,
+            canvas.height
+          );
+
+          ctx.drawImage(
+            image,
+            0,
+            0,
+            canvas.width,
+            canvas.height
+          );
+
+          resolve(
+            canvas.toDataURL(
+              "image/jpeg",
+              .68
+            )
+          );
+
+        };
+
+        image.onerror=
+          reject;
+
+        image.src=
+          reader.result;
+
+      };
+
+      reader.onerror=
+        reject;
+
+      reader.readAsDataURL(
+        file
+      );
+
+    }
+  );
+
+}
+
+$("coverFile").onchange=
+async function(){
+
+  const file=
+    this.files?.[0];
+
+  if(!file){
     return;
   }
 
-  $("coverSearchMessage").textContent="正在尋找可能的封面……";
-  $("coverResults").innerHTML="";
-
   try{
-    const url=
-      "https://openlibrary.org/search.json?title="+
-      encodeURIComponent(title)+
-      "&limit=12&fields=key,title,author_name,cover_i,isbn";
 
-    const response=await fetch(url);
+    pendingCover=
+      await compressImage(
+        file
+      );
 
-    if(!response.ok)throw new Error();
-
-    const data=await response.json();
-
-    const results=(data.docs||[])
-      .filter(item=>item.cover_i)
-      .slice(0,6);
-
-    if(!results.length){
-      $("coverSearchMessage").textContent=
-        "沒有找到合適封面。中文／台灣版本建議直接從手機上傳實際封面。";
-      return;
-    }
-
-    $("coverSearchMessage").textContent=
-      "找到以下候選。請確認是不是你家裡實際的版本：";
-
-    results.forEach(item=>{
-      const coverUrl=
-        `https://covers.openlibrary.org/b/id/${item.cover_i}-L.jpg`;
-
-      const button=document.createElement("button");
-      button.type="button";
-      button.className="cover-choice";
-
-      const image=document.createElement("img");
-      image.src=coverUrl;
-      image.alt=item.title||title;
-
-      button.appendChild(image);
-
-      button.onclick=()=>{
-        document.querySelectorAll(".cover-choice")
-          .forEach(choice=>choice.classList.remove("selected"));
-
-        button.classList.add("selected");
-
-        pendingCover=coverUrl;
-        updateCoverPreview();
-      };
-
-      $("coverResults").appendChild(button);
-    });
-
-  }catch{
-    $("coverSearchMessage").textContent=
-      "目前無法連線搜尋封面，可以改用手機照片。";
-  }
-};
-
-/* ---------- LOCAL COVER ---------- */
-
-function compressImage(file){
-  return new Promise((resolve,reject)=>{
-    const reader=new FileReader();
-
-    reader.onload=()=>{
-      const image=new Image();
-
-      image.onload=()=>{
-        const scale=Math.min(1,650/image.width,900/image.height);
-
-        const canvas=document.createElement("canvas");
-        canvas.width=Math.round(image.width*scale);
-        canvas.height=Math.round(image.height*scale);
-
-        const ctx=canvas.getContext("2d");
-
-        ctx.fillStyle="#fff";
-        ctx.fillRect(0,0,canvas.width,canvas.height);
-        ctx.drawImage(image,0,0,canvas.width,canvas.height);
-
-        resolve(canvas.toDataURL("image/jpeg",.68));
-      };
-
-      image.onerror=reject;
-      image.src=reader.result;
-    };
-
-    reader.onerror=reject;
-    reader.readAsDataURL(file);
-  });
-}
-
-$("coverFile").onchange=async function(){
-  const file=this.files?.[0];
-  if(!file)return;
-
-  try{
-    pendingCover=await compressImage(file);
     updateCoverPreview();
-  }catch{
-    alert("封面照片讀取失敗。");
+
+  }catch(error){
+
+    alert(
+      "封面照片讀取失敗。"
+    );
+
   }
+
 };
 
-/* ---------- SAVE BOOK ---------- */
+/* ======================
+   SAVE BOOK
+====================== */
 
-$("bookForm").onsubmit=event=>{
+$("bookForm").onsubmit=
+event=>{
+
   event.preventDefault();
 
   const data={
-    title:$("bookTitle").value.trim(),
-    category:$("bookCategory").value,
-    age:$("bookAge").value.trim()||"不限",
-    readingStatus:$("bookStatus").value,
-    spineColor:$("spineColor").value,
-    note:$("bookNote").value.trim(),
-    cover:pendingCover
+
+    title:
+      $("bookTitle")
+        .value
+        .trim(),
+
+    spineTitle:
+      $("bookSpineTitle")
+        .value
+        .trim(),
+
+    category:
+      $("bookCategory")
+        .value,
+
+    age:
+      $("bookAge")
+        .value
+        .trim()
+      || "不限",
+
+    readingStatus:
+      $("bookStatus")
+        .value,
+
+    spineColor:
+      $("spineColor")
+        .value,
+
+    note:
+      $("bookNote")
+        .value
+        .trim(),
+
+    cover:
+      pendingCover
+
   };
 
   if(editingId){
-    const book=getBook(editingId);
 
-    if(book)Object.assign(book,data);
+    const book=
+      getBook(editingId);
+
+    if(book){
+
+      Object.assign(
+        book,
+        data
+      );
+
+    }
 
   }else{
+
     books.push({
-      id:makeId("book"),
+
+      id:
+        makeId("book"),
+
       ...data,
+
       favorite:false,
+
       readingHistory:[],
+
       emoji:"📖"
+
     });
+
   }
 
   if(save()){
-    $("editDialog").close();
+
+    $("editDialog")
+      .close();
+
     renderAll();
+
   }
+
 };
 
-/* ---------- DELETE ---------- */
+/* ======================
+   DELETE BOOK
+====================== */
 
 $("deleteBtn").onclick=()=>{
-  const book=getBook(selectedId);
-  if(!book)return;
 
-  if(!confirm(
-    `確定刪除《${book.title}》嗎？\n\n封面、筆記和共讀紀錄都會一起刪除。`
-  ))return;
+  const book=
+    getBook(selectedId);
 
-  books=books.filter(item=>item.id!==book.id);
+  if(!book){
+    return;
+  }
+
+  const ok=
+    confirm(
+      `確定刪除《${book.title}》嗎？\n\n`+
+      "封面、筆記和共讀紀錄都會一起刪除。"
+    );
+
+  if(!ok){
+    return;
+  }
+
+  books=
+    books.filter(
+      item=>item.id!==book.id
+    );
 
   selectedId=null;
 
   save();
 
-  $("detailDialog").close();
+  $("detailDialog")
+    .close();
 
   renderAll();
+
 };
 
-/* ---------- BACKUP ---------- */
+/* ======================
+   EXPORT
+====================== */
 
 $("exportBtn").onclick=()=>{
+
   const backup={
-    version:8,
-    exportedAt:new Date().toISOString(),
+
+    version:9,
+
+    exportedAt:
+      new Date()
+        .toISOString(),
+
     books
+
   };
 
-  const blob=new Blob(
-    [JSON.stringify(backup,null,2)],
-    {type:"application/json"}
-  );
+  const blob=
+    new Blob(
+      [
+        JSON.stringify(
+          backup,
+          null,
+          2
+        )
+      ],
+      {
+        type:
+          "application/json"
+      }
+    );
 
-  const url=URL.createObjectURL(blob);
+  const url=
+    URL.createObjectURL(
+      blob
+    );
 
-  const link=document.createElement("a");
+  const link=
+    document.createElement(
+      "a"
+    );
+
   link.href=url;
-  link.download="Jessie-Library-backup.json";
+
+  link.download=
+    "Jessie-Library-backup.json";
+
   link.click();
 
-  setTimeout(()=>URL.revokeObjectURL(url),1000);
+  setTimeout(
+    ()=>
+      URL.revokeObjectURL(url),
+    1000
+  );
+
 };
 
-$("importBtn").onclick=()=>$("importFile").click();
+/* ======================
+   IMPORT
+====================== */
 
-$("importFile").onchange=function(){
-  const file=this.files?.[0];
-  if(!file)return;
+$("importBtn").onclick=()=>{
 
-  const reader=new FileReader();
+  $("importFile")
+    .click();
+
+};
+
+$("importFile").onchange=
+function(){
+
+  const file=
+    this.files?.[0];
+
+  if(!file){
+    return;
+  }
+
+  const reader=
+    new FileReader();
 
   reader.onload=()=>{
+
     try{
-      const parsed=JSON.parse(reader.result);
-      const incoming=Array.isArray(parsed)?parsed:parsed.books;
 
-      if(!Array.isArray(incoming))throw new Error();
+      const parsed=
+        JSON.parse(
+          reader.result
+        );
 
-      if(!confirm("匯入備份會取代目前的書櫃，確定嗎？"))return;
+      const incoming=
+        Array.isArray(parsed)
+        ? parsed
+        : parsed.books;
+
+      if(
+        !Array.isArray(
+          incoming
+        )
+      ){
+        throw new Error();
+      }
+
+      const ok=
+        confirm(
+          "匯入備份會取代目前書櫃，確定嗎？"
+        );
+
+      if(!ok){
+        return;
+      }
 
       books=incoming;
+
       save();
+
       location.reload();
 
-    }catch{
-      alert("這不是有效的 Jessie 書櫃備份。");
+    }catch(error){
+
+      alert(
+        "這不是有效的 Jessie 書櫃備份。"
+      );
+
     }
+
   };
 
-  reader.readAsText(file);
+  reader.readAsText(
+    file
+  );
+
 };
 
-/* ---------- TOAST ---------- */
+/* ======================
+   TOAST
+====================== */
 
-function showToast(text,undo=false){
-  clearTimeout(toastTimer);
+function showToast(
+  text,
+  undo=false
+){
 
-  $("toastText").textContent=text;
-  $("undoBtn").style.display=undo?"block":"none";
+  clearTimeout(
+    toastTimer
+  );
 
-  $("toast").classList.add("show");
+  $("toastText")
+    .textContent=text;
 
-  toastTimer=setTimeout(hideToast,8000);
+  $("undoBtn")
+    .style.display=
+      undo
+      ? "block"
+      : "none";
+
+  $("toast")
+    .classList
+    .add("show");
+
+  toastTimer=
+    setTimeout(
+      hideToast,
+      8000
+    );
+
 }
 
 function hideToast(){
-  $("toast").classList.remove("show");
+
+  $("toast")
+    .classList
+    .remove("show");
+
 }
 
-/* ---------- RENDER ---------- */
+/* ======================
+   RENDER
+====================== */
 
 function renderAll(){
+
   renderStats();
+
   renderToday();
+
   renderLibrary();
+
 }
 
 load();
+
 renderAll();
 
 })();
