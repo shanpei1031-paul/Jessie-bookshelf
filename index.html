@@ -16,9 +16,11 @@
   --butter:#F3DFA7;
   --sage:#AAB9A0;
   --peach:#E7BFA5;
+
   --brown:#51483F;
   --brown-soft:#74695F;
   --muted:#958B80;
+
   --line:#EAE0CF;
   --soft:#F7F0E4;
   --danger:#B96565;
@@ -27,6 +29,11 @@
     3px 4px 0 rgba(224,214,199,.85),
     7px 10px 18px rgba(73,57,42,.12);
 }
+
+
+/* ==============================
+   BASE
+============================== */
 
 *{
   box-sizing:border-box;
@@ -46,7 +53,9 @@ html{
 
 body{
   min-height:100vh;
-  padding-bottom:calc(100px + env(safe-area-inset-bottom));
+
+  padding-bottom:
+    calc(100px + env(safe-area-inset-bottom));
 
   background:
     radial-gradient(
@@ -90,9 +99,9 @@ img{
 }
 
 
-/* =========================
+/* ==============================
    HEADER
-========================= */
+============================== */
 
 header{
   padding:
@@ -114,7 +123,9 @@ header{
 
 h1{
   margin:0;
+
   color:var(--brown);
+
   font-size:30px;
   line-height:1.15;
   letter-spacing:-1px;
@@ -123,26 +134,33 @@ h1{
 
 .subtitle{
   margin-top:7px;
+
   color:var(--muted);
+
   font-size:13px;
   line-height:1.4;
 }
 
 .stats{
   flex:0 0 auto;
+
   padding:8px 11px;
+
   border:1px solid var(--line);
   border-radius:999px;
+
   background:rgba(255,252,246,.9);
+
   color:var(--brown-soft);
+
   font-size:11px;
   font-weight:800;
 }
 
 
-/* =========================
+/* ==============================
    SEARCH
-========================= */
+============================== */
 
 .search-wrap{
   padding:0 20px 16px;
@@ -154,25 +172,35 @@ h1{
 
 .search-icon{
   position:absolute;
+
   left:16px;
   top:50%;
+
   transform:translateY(-50%);
+
   color:#B3A89D;
+
   font-size:18px;
+
   pointer-events:none;
 }
 
 .search input{
   width:100%;
   height:50px;
+
   padding:0 42px;
+
   border:1px solid var(--line);
   border-radius:18px;
+
   outline:none;
+
   background:rgba(255,252,246,.95);
+
   color:var(--brown);
+
   font-size:15px;
-  box-shadow:0 4px 14px rgba(75,59,44,.025);
 }
 
 .search input::placeholder{
@@ -181,21 +209,28 @@ h1{
 
 .search input:focus{
   border-color:#D7C7AF;
-  box-shadow:0 0 0 3px rgba(243,223,167,.2);
+
+  box-shadow:
+    0 0 0 3px rgba(243,223,167,.2);
 }
 
 
-/* =========================
+/* ==============================
    TODAY
-========================= */
+============================== */
 
 .today{
   margin:0 20px 22px;
+
   padding:16px;
+
   border:1px solid var(--line);
   border-radius:22px;
+
   background:rgba(255,252,246,.92);
-  box-shadow:0 5px 18px rgba(78,61,44,.035);
+
+  box-shadow:
+    0 5px 18px rgba(78,61,44,.035);
 }
 
 .section-heading{
@@ -207,52 +242,70 @@ h1{
 
 .section-heading h2{
   margin:0;
+
   font-size:17px;
   font-weight:900;
 }
 
 .section-count{
   color:var(--muted);
+
   font-size:12px;
 }
 
 .today-empty{
   margin-top:10px;
+
   color:var(--muted);
+
   font-size:13px;
 }
 
 .today-books{
   display:flex;
   gap:13px;
+
   margin-top:14px;
+
   overflow-x:auto;
+
   scrollbar-width:none;
+
   padding-bottom:3px;
 }
 
-.today-books::-webkit-scrollbar,
-.filters::-webkit-scrollbar{
+.today-books::-webkit-scrollbar{
   display:none;
 }
 
 .today-book{
   flex:0 0 78px;
+
   padding:0;
+
   border:0;
+
   background:transparent;
+
   color:var(--brown);
+
   text-align:left;
 }
 
 .today-cover{
   width:78px;
   height:100px;
+
+  padding:3px;
+
   display:flex;
   align-items:center;
   justify-content:center;
+
   overflow:hidden;
+
   border-radius:7px;
+
   background:#F7F2E9;
 
   box-shadow:
@@ -261,17 +314,27 @@ h1{
 }
 
 .today-cover img{
-  width:100%;
-  height:100%;
+  width:auto;
+  height:auto;
+
+  max-width:100%;
+  max-height:100%;
+
   object-fit:contain;
   object-position:center;
+
+  border-radius:5px;
+
   background:#fff;
 }
 
 .today-title{
   margin-top:7px;
+
   overflow:hidden;
+
   color:var(--brown);
+
   font-size:11px;
   font-weight:750;
   line-height:1.35;
@@ -283,31 +346,46 @@ h1{
 
 .today-read-count{
   margin-top:3px;
+
   color:var(--muted);
+
   font-size:10px;
 }
 
 
-/* =========================
+/* ==============================
    FILTERS
-========================= */
+============================== */
 
 .filters{
   display:flex;
   gap:8px;
+
   padding:0 20px 20px;
+
   overflow-x:auto;
+
   scrollbar-width:none;
+}
+
+.filters::-webkit-scrollbar{
+  display:none;
 }
 
 .filter{
   flex:0 0 auto;
+
   min-height:38px;
+
   padding:0 15px;
+
   border:1px solid var(--line);
   border-radius:999px;
+
   background:rgba(255,252,246,.94);
+
   color:var(--brown-soft);
+
   font-size:12px;
   font-weight:850;
 
@@ -322,15 +400,19 @@ h1{
 
 .filter.active{
   border-color:#75695F;
+
   background:#75695F;
+
   color:#FFFDF8;
-  box-shadow:0 4px 10px rgba(70,55,43,.10);
+
+  box-shadow:
+    0 4px 10px rgba(70,55,43,.10);
 }
 
 
-/* =========================
+/* ==============================
    LIBRARY
-========================= */
+============================== */
 
 .library{
   padding:0 20px;
@@ -338,54 +420,123 @@ h1{
 
 .library-heading{
   display:flex;
-  align-items:flex-end;
+  align-items:center;
   justify-content:space-between;
   gap:10px;
+
   margin-bottom:17px;
 }
 
 .library-heading h2{
   margin:0;
+
   color:var(--brown);
+
   font-size:22px;
   font-weight:900;
   letter-spacing:-.4px;
 }
 
-.library-heading span{
+.library-right{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:7px;
+}
+
+.result-count{
+  flex:0 0 auto;
+
   color:var(--muted);
-  font-size:12px;
+
+  font-size:11px;
+}
+
+.sort-select{
+  width:auto;
+  max-width:120px;
+
+  padding:
+    7px 27px
+    7px 10px;
+
+  border:1px solid var(--line);
+  border-radius:999px;
+
+  background:
+    linear-gradient(
+      45deg,
+      transparent 50%,
+      #8B8177 50%
+    )
+    calc(100% - 13px)
+    50% / 5px 5px
+    no-repeat,
+
+    linear-gradient(
+      135deg,
+      #8B8177 50%,
+      transparent 50%
+    )
+    calc(100% - 9px)
+    50% / 5px 5px
+    no-repeat,
+
+    rgba(255,252,246,.95);
+
+  color:var(--brown-soft);
+
+  font-size:11px;
+  font-weight:800;
+
+  outline:none;
 }
 
 
-/* =========================
+/* ==============================
    BOOK GRID
-========================= */
+============================== */
 
 .book-grid{
   display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:30px 17px;
+
+  grid-template-columns:
+    repeat(2,minmax(0,1fr));
+
+  gap:
+    30px 17px;
 }
 
 .book-card{
   min-width:0;
+
   padding:0;
+
   border:0;
+
   background:transparent;
+
   color:var(--brown);
+
   text-align:left;
 }
 
 
-/* =========================
-   BOOK COVER
-========================= */
+/* ==============================
+   SMART BOOK COVER
+
+   外層維持整齊
+   書本本身保留原始比例
+============================== */
 
 .cover{
   position:relative;
+
   width:100%;
+
   aspect-ratio:3 / 4;
+
+  padding:8px;
 
   display:flex;
   align-items:center;
@@ -394,73 +545,84 @@ h1{
   overflow:visible;
 
   border-radius:8px;
+
   background:#F8F4ED;
 
-  box-shadow:var(--book-shadow);
+  box-shadow:
+    var(--book-shadow);
 
   transition:
     transform .15s ease,
     box-shadow .15s ease;
 }
 
-/* 完整封面，不裁切 */
-
 .cover > img{
   position:relative;
   z-index:1;
 
-  width:100%;
-  height:100%;
+  width:auto;
+  height:auto;
+
+  max-width:100%;
+  max-height:100%;
 
   object-fit:contain;
   object-position:center;
 
   border-radius:7px;
-  background:#fff;
-}
 
-/* 左側淡淡裝訂感 */
+  background:#fff;
+
+  box-shadow:
+    0 4px 12px rgba(63,49,38,.07);
+}
 
 .cover::before{
   content:"";
+
   position:absolute;
+
   z-index:2;
 
-  top:2px;
-  bottom:2px;
-  left:0;
+  top:8px;
+  bottom:8px;
+  left:8px;
 
-  width:5px;
+  width:4px;
 
-  border-radius:7px 0 0 7px;
+  border-radius:
+    6px 0 0 6px;
 
   background:
     linear-gradient(
       90deg,
-      rgba(59,45,35,.10),
-      rgba(255,255,255,.02)
+      rgba(59,45,35,.08),
+      rgba(255,255,255,.01)
     );
 
   pointer-events:none;
 }
 
-/* 右下書頁厚度 */
-
 .cover::after{
   content:"";
+
   position:absolute;
+
   z-index:-1;
 
   left:5px;
   right:-4px;
+
   top:5px;
   bottom:-5px;
 
   border-radius:8px;
+
   background:#EEE7DB;
 
   box-shadow:
-    3px 4px 8px rgba(62,47,36,.07);
+    3px 4px 8px
+    rgba(62,47,36,.07);
 
   pointer-events:none;
 }
@@ -477,6 +639,7 @@ h1{
 
 .cover-placeholder{
   position:relative;
+
   z-index:1;
 
   width:100%;
@@ -499,16 +662,19 @@ h1{
     );
 
   color:#8B7968;
+
   text-align:center;
 }
 
 .cover-placeholder span{
   margin-bottom:9px;
+
   font-size:26px;
 }
 
 .favorite{
   position:absolute;
+
   z-index:5;
 
   top:8px;
@@ -521,25 +687,31 @@ h1{
   height:30px;
 
   border:1px solid rgba(234,224,207,.75);
+
   border-radius:50%;
 
   background:rgba(255,252,246,.94);
+
   color:#C38D7C;
 
-  box-shadow:0 2px 7px rgba(60,45,35,.08);
+  box-shadow:
+    0 2px 7px rgba(60,45,35,.08);
 
   font-size:14px;
 }
 
 
-/* =========================
+/* ==============================
    BOOK INFO
-========================= */
+============================== */
 
 .book-title{
   margin-top:12px;
+
   overflow:hidden;
+
   color:var(--brown);
+
   font-size:14px;
   font-weight:900;
   line-height:1.4;
@@ -553,42 +725,55 @@ h1{
   display:flex;
   flex-wrap:wrap;
   gap:5px;
+
   margin-top:7px;
 }
 
 .tag{
   padding:4px 8px;
+
   border-radius:999px;
+
   background:var(--soft);
+
   color:#85796D;
+
   font-size:10px;
   font-weight:750;
 }
 
 .no-results{
   grid-column:1/-1;
-  padding:55px 20px;
+
+  padding:
+    55px 20px;
+
   color:var(--muted);
+
   text-align:center;
 }
 
 
-/* =========================
+/* ==============================
    DIALOG
-========================= */
+============================== */
 
 dialog{
   width:min(94vw,450px);
+
   max-height:92dvh;
 
   margin:auto;
   padding:0;
+
   overflow:auto;
 
   border:1px solid rgba(234,224,207,.8);
+
   border-radius:28px;
 
   background:var(--milk);
+
   color:var(--brown);
 
   box-shadow:
@@ -596,8 +781,11 @@ dialog{
 }
 
 dialog::backdrop{
-  background:rgba(57,48,41,.50);
-  backdrop-filter:blur(4px);
+  background:
+    rgba(57,48,41,.50);
+
+  backdrop-filter:
+    blur(4px);
 }
 
 .modal{
@@ -606,7 +794,9 @@ dialog::backdrop{
 
 .close{
   position:sticky;
+
   top:0;
+
   z-index:30;
 
   display:grid;
@@ -618,18 +808,20 @@ dialog::backdrop{
   margin-left:auto;
 
   border:1px solid var(--line);
+
   border-radius:50%;
 
   background:#F8F1E6;
+
   color:var(--brown-soft);
 
   font-size:23px;
 }
 
 
-/* =========================
-   BOOK DETAIL
-========================= */
+/* ==============================
+   DETAIL
+============================== */
 
 .detail-photo-wrap{
   min-height:285px;
@@ -638,27 +830,24 @@ dialog::backdrop{
   align-items:center;
   justify-content:center;
 
-  padding:0 20px 15px;
+  padding:
+    0 20px 15px;
 }
-
-/*
-  詳情頁只顯示封面。
-  不再有實體書照片 / 去背照片。
-*/
 
 .detail-fallback{
   position:relative;
 
-  width:190px;
-  aspect-ratio:3 / 4;
+  width:min(78vw,250px);
+  height:300px;
+
+  padding:8px;
 
   display:flex;
   align-items:center;
   justify-content:center;
 
-  overflow:visible;
-
   border-radius:8px;
+
   background:#F7F3EC;
 
   box-shadow:
@@ -666,37 +855,30 @@ dialog::backdrop{
     8px 13px 25px rgba(55,42,31,.15);
 }
 
-.detail-fallback::after{
-  content:"";
-
-  position:absolute;
-  z-index:-1;
-
-  left:5px;
-  right:-4px;
-  top:5px;
-  bottom:-5px;
-
-  border-radius:8px;
-  background:#EEE7DB;
-}
-
 .detail-fallback img{
-  width:100%;
-  height:100%;
+  width:auto;
+  height:auto;
+
+  max-width:100%;
+  max-height:100%;
 
   object-fit:contain;
   object-position:center;
 
   border-radius:7px;
+
   background:#fff;
 }
 
 .detail-title{
-  margin:7px 7px 13px;
+  margin:
+    7px 7px 13px;
+
   color:var(--brown);
+
   font-size:24px;
   line-height:1.3;
+
   text-align:center;
 }
 
@@ -704,68 +886,90 @@ dialog::backdrop{
   display:flex;
   justify-content:center;
   flex-wrap:wrap;
+
   gap:7px;
 }
 
 .detail-tag{
-  padding:7px 11px;
+  padding:
+    7px 11px;
+
   border-radius:999px;
+
   background:#F4EBDD;
+
   color:#75695E;
+
   font-size:12px;
   font-weight:800;
 }
 
 .detail-tag.now{
   background:#E8EEE3;
+
   color:#66735F;
 }
 
 
-/* =========================
+/* ==============================
    READ STATS
-========================= */
+============================== */
 
 .read-stats{
   display:grid;
-  grid-template-columns:1fr 1fr;
+
+  grid-template-columns:
+    1fr 1fr;
+
   gap:9px;
+
   margin-top:18px;
 }
 
 .read-stat{
-  padding:14px;
+  padding:12px;
+
   border:1px solid #EFE5D6;
+
   border-radius:18px;
+
   background:#FBF5EA;
+
   text-align:center;
 }
 
 .read-stat strong{
   display:block;
+
   color:var(--brown);
-  font-size:25px;
+
+  font-size:23px;
 }
 
 .read-stat span{
   color:var(--muted);
+
   font-size:11px;
 }
 
 
-/* =========================
+/* ==============================
    READ BUTTON
-========================= */
+============================== */
 
 .read-btn{
   width:100%;
+
   min-height:59px;
+
   margin-top:11px;
 
   border:0;
+
   border-radius:19px;
 
   background:#75695F;
+
   color:#FFFDF8;
 
   font-size:16px;
@@ -784,45 +988,58 @@ dialog::backdrop{
 }
 
 
-/* =========================
+/* ==============================
    DETAIL ACTIONS
-========================= */
+============================== */
 
 .detail-actions{
   display:grid;
-  grid-template-columns:1fr 1fr;
+
+  grid-template-columns:
+    1fr 1fr;
+
   gap:8px;
+
   margin-top:9px;
 }
 
 .detail-actions button{
   min-height:47px;
+
   border:1px solid var(--line);
+
   border-radius:16px;
+
   background:#FFFDF9;
+
   color:#74695F;
+
   font-size:12px;
   font-weight:850;
 }
 
 
-/* =========================
+/* ==============================
    NOTE
-========================= */
+============================== */
 
 .note{
   display:none;
 
   margin-top:15px;
+
   padding:15px;
 
   border:1px solid #EFE5D6;
+
   border-radius:18px;
 
   background:#FBF5EA;
+
   color:#6F655C;
 
   line-height:1.6;
+
   font-size:13px;
 }
 
@@ -831,14 +1048,18 @@ body.parent .note{
 }
 
 
-/* =========================
+/* ==============================
    PARENT ACTIONS
-========================= */
+============================== */
 
 .parent-actions{
   display:none;
-  grid-template-columns:1fr 1fr;
+
+  grid-template-columns:
+    1fr 1fr;
+
   gap:8px;
+
   margin-top:9px;
 }
 
@@ -848,41 +1069,50 @@ body.parent .parent-actions{
 
 .parent-actions button{
   min-height:47px;
+
   border:0;
+
   border-radius:16px;
+
   font-weight:850;
 }
 
 .edit-btn{
   background:#EFE6D8;
+
   color:#6F6459;
 }
 
 .delete-btn{
   background:#F6E2DE;
+
   color:var(--danger);
 }
 
 
-/* =========================
+/* ==============================
    HISTORY
-========================= */
+============================== */
 
 .history-list{
   display:flex;
   flex-direction:column;
+
   gap:8px;
+
   margin-top:14px;
 }
 
 .history-row{
   display:flex;
   align-items:center;
+
   gap:8px;
 
   padding:12px;
 
   border:1px solid #EFE5D6;
+
   border-radius:14px;
 
   background:#FBF5EA;
@@ -890,18 +1120,22 @@ body.parent .parent-actions{
 
 .history-time{
   flex:1;
+
   font-size:13px;
 }
 
 .history-delete{
   display:none;
 
-  padding:6px 10px;
+  padding:
+    6px 10px;
 
   border:0;
+
   border-radius:10px;
 
   background:#F3DCD8;
+
   color:var(--danger);
 
   font-size:11px;
@@ -913,19 +1147,24 @@ body.parent .history-delete{
 }
 
 
-/* =========================
+/* ==============================
    FORM
-========================= */
+============================== */
 
 .form-title{
-  margin:0 0 18px;
+  margin:0;
+
   font-size:23px;
 }
 
 label{
   display:block;
-  margin:13px 2px 6px;
+
+  margin:
+    13px 2px 6px;
+
   color:#665C53;
+
   font-size:12px;
   font-weight:850;
 }
@@ -934,14 +1173,17 @@ input,
 select,
 textarea{
   width:100%;
+
   padding:12px;
 
   border:1px solid #E4D9CA;
+
   border-radius:13px;
 
   outline:none;
 
   background:#FFFDF9;
+
   color:var(--brown);
 
   font-size:16px;
@@ -953,17 +1195,21 @@ textarea:focus{
   border-color:#D2BEA3;
 
   box-shadow:
-    0 0 0 3px rgba(243,223,167,.18);
+    0 0 0 3px
+    rgba(243,223,167,.18);
 }
 
 textarea{
   min-height:95px;
+
   resize:vertical;
 }
 
 .form-help{
   margin-top:6px;
+
   color:var(--muted);
+
   font-size:11px;
   line-height:1.5;
 }
@@ -974,31 +1220,81 @@ textarea{
   max-width:160px;
   max-height:190px;
 
-  margin:12px auto;
+  margin:
+    12px auto;
 
   object-fit:contain;
 
   border-radius:8px;
-
-  box-shadow:
-    2px 3px 0 #E7DED2,
-    5px 8px 15px rgba(55,42,31,.10);
 }
 
 
-/* =========================
+/* ==============================
+   EDIT HEADER
+============================== */
+
+.edit-modal{
+  padding-top:0;
+}
+
+.edit-header{
+  position:sticky;
+
+  top:0;
+
+  z-index:40;
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  gap:12px;
+
+  margin:
+    0 -18px 8px;
+
+  padding:
+    14px 18px 10px;
+
+  background:
+    rgba(255,252,246,.97);
+
+  border-bottom:
+    1px solid rgba(234,224,207,.75);
+
+  backdrop-filter:
+    blur(12px);
+
+  -webkit-backdrop-filter:
+    blur(12px);
+}
+
+.edit-close{
+  position:static;
+
+  flex:0 0 auto;
+
+  margin:0;
+}
+
+
+/* ==============================
    COVER SEARCH
-========================= */
+============================== */
 
 .cover-search-btn{
   width:100%;
+
   min-height:46px;
+
   margin-bottom:9px;
 
   border:1px solid var(--line);
+
   border-radius:14px;
 
   background:#F4EBDD;
+
   color:#70655B;
 
   font-size:12px;
@@ -1007,16 +1303,22 @@ textarea{
 
 .cover-results{
   display:grid;
-  grid-template-columns:repeat(3,1fr);
+
+  grid-template-columns:
+    repeat(3,1fr);
+
   gap:8px;
+
   margin-top:9px;
 }
 
 .cover-choice{
   padding:4px;
+
   overflow:hidden;
 
   border:2px solid transparent;
+
   border-radius:9px;
 
   background:#F3EBDD;
@@ -1028,59 +1330,104 @@ textarea{
 
 .cover-choice img{
   width:100%;
+
   aspect-ratio:3 / 4;
 
   object-fit:contain;
 
   background:#fff;
+
   border-radius:5px;
 }
 
 .search-message{
   margin-top:7px;
+
   color:var(--muted);
+
   font-size:11px;
 }
 
 
-/* =========================
-   FORM BUTTONS
-========================= */
+/* ==============================
+   STICKY FORM ACTIONS
+============================== */
 
 .form-actions{
   display:grid;
-  grid-template-columns:1fr 1fr;
+
+  grid-template-columns:
+    1fr 1fr;
+
   gap:9px;
+
   margin-top:19px;
+}
+
+.form-actions.sticky-actions{
+  position:sticky;
+
+  z-index:35;
+
+  bottom:-18px;
+
+  margin:
+    20px -18px -18px;
+
+  padding:
+    12px 18px
+    calc(18px + env(safe-area-inset-bottom));
+
+  background:
+    rgba(255,252,246,.97);
+
+  border-top:
+    1px solid rgba(234,224,207,.75);
+
+  backdrop-filter:
+    blur(12px);
+
+  -webkit-backdrop-filter:
+    blur(12px);
 }
 
 .form-actions button{
   min-height:49px;
+
   border:0;
+
   border-radius:15px;
+
   font-weight:900;
 }
 
 .cancel{
   background:#F0E7D9;
+
   color:#756A60;
 }
 
 .save{
   background:#75695F;
+
   color:#FFFDF8;
 }
 
 
-/* =========================
+/* ==============================
    PARENT TOOLS
-========================= */
+============================== */
 
 .parent-tools{
   display:none;
-  grid-template-columns:repeat(3,1fr);
+
+  grid-template-columns:
+    repeat(3,1fr);
+
   gap:8px;
-  padding:25px 20px 0;
+
+  padding:
+    25px 20px 0;
 }
 
 body.parent .parent-tools{
@@ -1089,12 +1436,15 @@ body.parent .parent-tools{
 
 .parent-tools button{
   min-height:46px;
+
   padding:8px;
 
   border:1px solid var(--line);
+
   border-radius:14px;
 
   background:#FFFDF8;
+
   color:#6F645A;
 
   font-size:11px;
@@ -1102,12 +1452,13 @@ body.parent .parent-tools{
 }
 
 
-/* =========================
-   BOTTOM PARENT BUTTON
-========================= */
+/* ==============================
+   BOTTOM
+============================== */
 
 .bottom{
   position:fixed;
+
   z-index:50;
 
   left:0;
@@ -1118,8 +1469,7 @@ body.parent .parent-tools{
   justify-content:center;
 
   padding:
-    30px
-    12px
+    30px 12px
     calc(12px + env(safe-area-inset-bottom));
 
   background:
@@ -1135,12 +1485,17 @@ body.parent .parent-tools{
   pointer-events:auto;
 
   min-height:49px;
-  padding:0 20px;
+
+  padding:
+    0 20px;
 
   border:1px solid #E6D9C8;
+
   border-radius:999px;
 
-  background:rgba(255,252,246,.96);
+  background:
+    rgba(255,252,246,.96);
+
   color:#70665C;
 
   font-size:12px;
@@ -1151,12 +1506,13 @@ body.parent .parent-tools{
 }
 
 
-/* =========================
+/* ==============================
    TOAST
-========================= */
+============================== */
 
 .toast{
   position:fixed;
+
   z-index:200;
 
   left:50%;
@@ -1173,18 +1529,23 @@ body.parent .parent-tools{
 
   gap:10px;
 
-  width:calc(100% - 30px);
+  width:
+    calc(100% - 30px);
+
   max-width:400px;
 
-  padding:12px 14px;
+  padding:
+    12px 14px;
 
   border-radius:16px;
 
   background:#665B52;
+
   color:#FFFDF8;
 
   box-shadow:
-    0 10px 30px rgba(55,42,31,.18);
+    0 10px 30px
+    rgba(55,42,31,.18);
 
   opacity:0;
 
@@ -1198,23 +1559,32 @@ body.parent .parent-tools{
 
 .toast.show{
   opacity:1;
-  transform:translate(-50%,0);
+
+  transform:
+    translate(-50%,0);
+
   pointer-events:auto;
 }
 
 .toast button{
-  padding:6px 11px;
+  padding:
+    6px 11px;
+
   border:0;
+
   border-radius:999px;
+
   background:#FFF9ED;
+
   color:#665B52;
+
   font-weight:850;
 }
 
 
-/* =========================
+/* ==============================
    TABLET
-========================= */
+============================== */
 
 @media(min-width:600px){
 
@@ -1236,14 +1606,16 @@ body.parent .parent-tools{
     grid-template-columns:
       repeat(3,minmax(0,1fr));
 
-    gap:32px 22px;
+    gap:
+      32px 22px;
   }
+
 }
 
 
-/* =========================
+/* ==============================
    LARGE TABLET
-========================= */
+============================== */
 
 @media(min-width:850px){
 
@@ -1253,22 +1625,44 @@ body.parent .parent-tools{
   }
 
 }
+
+
+/* ==============================
+   MOBILE EDIT
+============================== */
+
+@media(max-width:599px){
+
+  #editDialog{
+    width:min(96vw,450px);
+
+    max-height:94dvh;
+  }
+
+}
 </style>
 </head>
+
 
 <body>
 
 <div class="app">
 
+
 <header>
+
   <div class="header-top">
 
     <div class="title-wrap">
-      <h1>潔心的小圖書館</h1>
+
+      <h1>
+        潔心的小圖書館
+      </h1>
 
       <div class="subtitle">
         閱讀，陪你長大的每一天 ♡
       </div>
+
     </div>
 
     <div
@@ -1277,6 +1671,7 @@ body.parent .parent-tools{
     ></div>
 
   </div>
+
 </header>
 
 
@@ -1335,9 +1730,37 @@ body.parent .parent-tools{
       全部藏書
     </h2>
 
-    <span id="resultCount"></span>
+    <div class="library-right">
+
+      <span
+        class="result-count"
+        id="resultCount"
+      ></span>
+
+      <select
+        id="sortSelect"
+        class="sort-select"
+        aria-label="藏書排序"
+      >
+
+        <option value="added">
+          最近加入
+        </option>
+
+        <option value="read">
+          最近共讀
+        </option>
+
+        <option value="title">
+          書名排序
+        </option>
+
+      </select>
+
+    </div>
 
   </div>
+
 
   <div
     class="book-grid"
@@ -1370,6 +1793,7 @@ body.parent .parent-tools{
 
 </section>
 
+
 </div>
 
 
@@ -1382,9 +1806,7 @@ body.parent .parent-tools{
 </div>
 
 
-<!-- =========================
-     BOOK DETAIL
-========================= -->
+<!-- BOOK DETAIL -->
 
 <dialog id="detailDialog">
 
@@ -1393,19 +1815,23 @@ body.parent .parent-tools{
     <button
       class="close"
       id="closeDetail"
+      type="button"
     >
       ×
     </button>
+
 
     <div
       class="detail-photo-wrap"
       id="detailPhotoWrap"
     ></div>
 
+
     <h2
       class="detail-title"
       id="detailTitle"
     ></h2>
+
 
     <div class="detail-tags">
 
@@ -1460,6 +1886,7 @@ body.parent .parent-tools{
     <button
       class="read-btn"
       id="readBtn"
+      type="button"
     >
       📖 完成一次共讀
     </button>
@@ -1467,11 +1894,17 @@ body.parent .parent-tools{
 
     <div class="detail-actions">
 
-      <button id="favoriteBtn">
+      <button
+        id="favoriteBtn"
+        type="button"
+      >
         ♡ 收藏
       </button>
 
-      <button id="historyBtn">
+      <button
+        id="historyBtn"
+        type="button"
+      >
         共讀紀錄
       </button>
 
@@ -1497,6 +1930,7 @@ body.parent .parent-tools{
       <button
         class="edit-btn"
         id="editBtn"
+        type="button"
       >
         編輯
       </button>
@@ -1504,6 +1938,7 @@ body.parent .parent-tools{
       <button
         class="delete-btn"
         id="deleteBtn"
+        type="button"
       >
         刪除
       </button>
@@ -1515,9 +1950,7 @@ body.parent .parent-tools{
 </dialog>
 
 
-<!-- =========================
-     HISTORY
-========================= -->
+<!-- HISTORY -->
 
 <dialog id="historyDialog">
 
@@ -1526,6 +1959,7 @@ body.parent .parent-tools{
     <button
       class="close"
       id="closeHistory"
+      type="button"
     >
       ×
     </button>
@@ -1552,23 +1986,34 @@ body.parent .parent-tools{
 </dialog>
 
 
-<!-- =========================
-     ADD / EDIT BOOK
-========================= -->
+<!-- ADD / EDIT -->
 
 <dialog id="editDialog">
 
   <form
-    class="modal"
+    class="modal edit-modal"
     id="bookForm"
   >
 
-    <h2
-      class="form-title"
-      id="formTitle"
-    >
-      新增書籍
-    </h2>
+    <div class="edit-header">
+
+      <h2
+        class="form-title"
+        id="formTitle"
+      >
+        新增書籍
+      </h2>
+
+      <button
+        type="button"
+        class="close edit-close"
+        id="closeEdit"
+        aria-label="關閉編輯"
+      >
+        ×
+      </button>
+
+    </div>
 
 
     <label>
@@ -1611,7 +2056,7 @@ body.parent .parent-tools{
     >
 
     <div class="form-help">
-      首頁與書籍詳情都會完整顯示封面，不裁切上下或左右。
+      直式、方形、橫式封面都會完整顯示，不裁切圖片。
     </div>
 
     <img
@@ -1695,7 +2140,7 @@ body.parent .parent-tools{
     ></textarea>
 
 
-    <div class="form-actions">
+    <div class="form-actions sticky-actions">
 
       <button
         type="button"
@@ -1719,6 +2164,8 @@ body.parent .parent-tools{
 </dialog>
 
 
+<!-- TOAST -->
+
 <div
   class="toast"
   id="toast"
@@ -1726,7 +2173,10 @@ body.parent .parent-tools{
 
   <span id="toastText"></span>
 
-  <button id="undoBtn">
+  <button
+    id="undoBtn"
+    type="button"
+  >
     復原
   </button>
 
@@ -1738,9 +2188,9 @@ body.parent .parent-tools{
 "use strict";
 
 
-/* =========================
+/* ==============================
    CONFIG
-========================= */
+============================== */
 
 const STORAGE_KEY =
   "jessie-bookshelf-v5";
@@ -1751,42 +2201,76 @@ const PIN =
 
 const categories = [
 
-  { id:"all", name:"全部" },
+  {
+    id:"all",
+    name:"全部"
+  },
 
-  { id:"story", name:"故事" },
+  {
+    id:"story",
+    name:"故事"
+  },
 
-  { id:"english", name:"英文" },
+  {
+    id:"english",
+    name:"英文"
+  },
 
-  { id:"sensory", name:"感官" },
+  {
+    id:"sensory",
+    name:"感官"
+  },
 
-  { id:"readalong", name:"點讀" },
+  {
+    id:"readalong",
+    name:"點讀"
+  },
 
-  { id:"cognitive", name:"認知" },
+  {
+    id:"cognitive",
+    name:"認知"
+  },
 
-  { id:"music", name:"兒歌" },
+  {
+    id:"music",
+    name:"兒歌"
+  },
 
-  { id:"favorite", name:"♡ 最愛" },
+  {
+    id:"favorite",
+    name:"♡ 最愛"
+  },
 
-  { id:"later", name:"長大再讀" }
+  {
+    id:"later",
+    name:"長大再讀"
+  }
 
 ];
 
 
 const categoryNames = {
 
-  story:"故事繪本",
+  story:
+    "故事繪本",
 
-  english:"英文繪本",
+  english:
+    "英文繪本",
 
-  sensory:"感官・互動",
+  sensory:
+    "感官・互動",
 
-  readalong:"點讀・有聲",
+  readalong:
+    "點讀・有聲",
 
-  cognitive:"認知探索",
+  cognitive:
+    "認知探索",
 
-  music:"兒歌・音樂",
+  music:
+    "兒歌・音樂",
 
-  other:"其他"
+  other:
+    "其他"
 
 };
 
@@ -1797,28 +2281,39 @@ let selectedId = null;
 
 let editingId = null;
 
-let currentFilter = "all";
+let currentFilter =
+  "all";
 
-let keyword = "";
+let keyword =
+  "";
 
-let pendingCover = "";
+let sortMode =
+  "added";
 
-let lastReading = null;
+let pendingCover =
+  "";
 
-let readLocked = false;
+let lastReading =
+  null;
 
-let toastTimer = null;
+let readLocked =
+  false;
+
+let toastTimer =
+  null;
 
 
 const $ = id =>
   document.getElementById(id);
 
 
-/* =========================
+/* ==============================
    HELPERS
-========================= */
+============================== */
 
-function makeId(prefix="id"){
+function makeId(
+  prefix="id"
+){
 
   return (
     prefix +
@@ -1849,6 +2344,7 @@ function dayKey(
 
   const date =
     new Date(timestamp);
+
 
   return [
 
@@ -1889,7 +2385,9 @@ function todayReads(book){
     if(record.dateKey){
 
       return (
-        record.dateKey === today
+        record.dateKey
+        ===
+        today
       );
 
     }
@@ -1909,6 +2407,22 @@ function todayReads(book){
     return false;
 
   }).length;
+
+}
+
+
+function latestReadTime(book){
+
+  return Math.max(
+    0,
+    ...(book.readingHistory || [])
+      .map(
+        record =>
+          Number(record.timestamp)
+          ||
+          0
+      )
+  );
 
 }
 
@@ -1941,9 +2455,9 @@ function formatTime(timestamp){
 }
 
 
-/* =========================
+/* ==============================
    STORAGE
-========================= */
+============================== */
 
 function load(){
 
@@ -1971,6 +2485,7 @@ function load(){
 
   }
 
+
   catch(error){
 
     console.error(error);
@@ -1980,108 +2495,127 @@ function load(){
   }
 
 
-  books.forEach(book=>{
+  books.forEach(
+    (book,index)=>{
 
-    if(!book.id){
+      if(!book.id){
 
-      book.id =
-        makeId("book");
-
-    }
-
-
-    if(!book.category){
-
-      book.category =
-        "other";
-
-    }
-
-
-    if(!book.readingStatus){
-
-      book.readingStatus =
-        "now";
-
-    }
-
-
-    if(
-      typeof book.favorite
-      !==
-      "boolean"
-    ){
-
-      book.favorite =
-        false;
-
-    }
-
-
-    /*
-      舊版資料如果還有 bookPhoto，
-      這一版直接忽略。
-      不需要破壞性清除舊資料。
-    */
-
-
-    /*
-      舊版只有 readCount 時，
-      轉換成 legacy 共讀紀錄。
-    */
-
-    if(
-      !Array.isArray(
-        book.readingHistory
-      )
-    ){
-
-      book.readingHistory = [];
-
-
-      const oldCount =
-        Number(
-          book.readCount
-        ) || 0;
-
-
-      for(
-        let i=0;
-        i<oldCount;
-        i++
-      ){
-
-        book.readingHistory.push({
-
-          id:
-            makeId("legacy"),
-
-          timestamp:
-            null,
-
-          legacy:
-            true
-
-        });
+        book.id =
+          makeId("book");
 
       }
 
-    }
+
+      if(!book.category){
+
+        book.category =
+          "other";
+
+      }
 
 
-    book.readingHistory
-      .forEach(record=>{
+      if(!book.readingStatus){
 
-        if(!record.id){
+        book.readingStatus =
+          "now";
 
-          record.id =
-            makeId("read");
+      }
+
+
+      if(
+        typeof book.favorite
+        !==
+        "boolean"
+      ){
+
+        book.favorite =
+          false;
+
+      }
+
+
+      /*
+        舊書原本沒有 createdAt，
+        不破壞資料。
+
+        用目前資料順序建立一個
+        穩定的排序基準。
+      */
+
+      if(
+        typeof book.createdAt
+        !==
+        "number"
+      ){
+
+        book.createdAt =
+          index;
+
+      }
+
+
+      /*
+        舊版只有 readCount，
+        轉成 legacy 紀錄。
+
+        legacy 不會算進今天。
+      */
+
+      if(
+        !Array.isArray(
+          book.readingHistory
+        )
+      ){
+
+        book.readingHistory =
+          [];
+
+
+        const oldCount =
+          Number(
+            book.readCount
+          ) || 0;
+
+
+        for(
+          let i=0;
+          i<oldCount;
+          i++
+        ){
+
+          book.readingHistory
+            .push({
+
+              id:
+                makeId("legacy"),
+
+              timestamp:
+                null,
+
+              legacy:
+                true
+
+            });
 
         }
 
-      });
+      }
 
-  });
+
+      book.readingHistory
+        .forEach(record=>{
+
+          if(!record.id){
+
+            record.id =
+              makeId("read");
+
+          }
+
+        });
+
+    }
+  );
 
 
   save();
@@ -2103,6 +2637,7 @@ function save(){
 
   }
 
+
   catch(error){
 
     console.error(error);
@@ -2122,33 +2657,37 @@ function save(){
 }
 
 
-/* =========================
+/* ==============================
    STATS
-========================= */
+============================== */
 
 function renderStats(){
 
   const reads =
     books.reduce(
       (sum,book)=>
-        sum + totalReads(book),
+        sum +
+        totalReads(book),
       0
     );
 
 
-  $("stats").textContent =
-    `${books.length} 本 · ${reads} 次`;
+  $("stats")
+    .textContent =
+      `${books.length} 本 · ${reads} 次`;
 
 }
 
 
-/* =========================
+/* ==============================
    FILTERS
-========================= */
+============================== */
 
 function renderFilters(){
 
-  $("filters").innerHTML = "";
+  $("filters")
+    .innerHTML =
+      "";
 
 
   categories.forEach(
@@ -2170,9 +2709,10 @@ function renderFilters(){
         currentFilter
       ){
 
-        button.classList.add(
-          "active"
-        );
+        button.classList
+          .add(
+            "active"
+          );
 
       }
 
@@ -2195,7 +2735,9 @@ function renderFilters(){
 
 
       $("filters")
-        .appendChild(button);
+        .appendChild(
+          button
+        );
 
     }
   );
@@ -2203,9 +2745,9 @@ function renderFilters(){
 }
 
 
-/* =========================
-   FILTER BOOKS
-========================= */
+/* ==============================
+   FILTER + SORT
+============================== */
 
 function filteredBooks(){
 
@@ -2214,7 +2756,8 @@ function filteredBooks(){
 
 
   if(
-    currentFilter ===
+    currentFilter
+    ===
     "favorite"
   ){
 
@@ -2228,7 +2771,8 @@ function filteredBooks(){
 
 
   else if(
-    currentFilter ===
+    currentFilter
+    ===
     "later"
   ){
 
@@ -2244,20 +2788,25 @@ function filteredBooks(){
 
 
   else if(
-    currentFilter !==
+    currentFilter
+    !==
     "all"
   ){
 
     list =
       list.filter(
         book =>
+
           book.category
           ===
           currentFilter
+
           &&
+
           book.readingStatus
           !==
           "later"
+
       );
 
   }
@@ -2287,14 +2836,68 @@ function filteredBooks(){
   }
 
 
+  if(
+    sortMode
+    ===
+    "read"
+  ){
+
+    list.sort(
+      (a,b)=>
+        latestReadTime(b)
+        -
+        latestReadTime(a)
+    );
+
+  }
+
+
+  else if(
+    sortMode
+    ===
+    "title"
+  ){
+
+    list.sort(
+      (a,b)=>
+
+        (a.title || "")
+          .localeCompare(
+            b.title || "",
+            "zh-Hant",
+            {
+              numeric:true,
+              sensitivity:"base"
+            }
+          )
+
+    );
+
+  }
+
+
+  else{
+
+    list.sort(
+      (a,b)=>
+
+        (Number(b.createdAt) || 0)
+        -
+        (Number(a.createdAt) || 0)
+
+    );
+
+  }
+
+
   return list;
 
 }
 
 
-/* =========================
+/* ==============================
    COVER
-========================= */
+============================== */
 
 function createCoverContent(
   book,
@@ -2384,14 +2987,15 @@ function createCoverContent(
 }
 
 
-/* =========================
+/* ==============================
    TODAY
-========================= */
+============================== */
 
 function renderToday(){
 
   $("todayContent")
-    .innerHTML = "";
+    .innerHTML =
+      "";
 
 
   const todayBooks =
@@ -2420,7 +3024,7 @@ function renderToday(){
 
   $("todayTotal")
     .textContent =
-      `${total} 次`;
+      `${total} 次 · ${todayBooks.length} 本`;
 
 
   if(
@@ -2442,7 +3046,9 @@ function renderToday(){
 
 
     $("todayContent")
-      .appendChild(empty);
+      .appendChild(
+        empty
+      );
 
 
     return;
@@ -2533,14 +3139,16 @@ function renderToday(){
 
 
   $("todayContent")
-    .appendChild(row);
+    .appendChild(
+      row
+    );
 
 }
 
 
-/* =========================
+/* ==============================
    BOOK CARD
-========================= */
+============================== */
 
 function createBookCard(book){
 
@@ -2555,7 +3163,9 @@ function createBookCard(book){
 
 
   const cover =
-    createCoverContent(book);
+    createCoverContent(
+      book
+    );
 
 
   if(book.favorite){
@@ -2703,9 +3313,9 @@ function createBookCard(book){
 }
 
 
-/* =========================
+/* ==============================
    RENDER BOOKS
-========================= */
+============================== */
 
 function renderBooks(){
 
@@ -2714,7 +3324,8 @@ function renderBooks(){
 
 
   $("bookGrid")
-    .innerHTML = "";
+    .innerHTML =
+      "";
 
 
   let title =
@@ -2780,7 +3391,9 @@ function renderBooks(){
 
 
     $("bookGrid")
-      .appendChild(empty);
+      .appendChild(
+        empty
+      );
 
 
     return;
@@ -2800,9 +3413,9 @@ function renderBooks(){
 }
 
 
-/* =========================
+/* ==============================
    SEARCH
-========================= */
+============================== */
 
 $("searchInput")
   .addEventListener(
@@ -2820,14 +3433,34 @@ $("searchInput")
   );
 
 
-/* =========================
+/* ==============================
+   SORT
+============================== */
+
+$("sortSelect")
+  .addEventListener(
+    "change",
+    event=>{
+
+      sortMode =
+        event.target.value;
+
+
+      renderBooks();
+
+    }
+  );
+
+
+/* ==============================
    DETAIL
-========================= */
+============================== */
 
 function renderDetail(book){
 
   $("detailPhotoWrap")
-    .innerHTML = "";
+    .innerHTML =
+      "";
 
 
   const fallback =
@@ -3025,9 +3658,9 @@ $("closeDetail")
   };
 
 
-/* =========================
+/* ==============================
    ADD READ
-========================= */
+============================== */
 
 $("readBtn")
   .onclick = ()=>{
@@ -3070,7 +3703,9 @@ $("readBtn")
 
 
     book.readingHistory
-      .push(record);
+      .push(
+        record
+      );
 
 
     lastReading = {
@@ -3100,11 +3735,13 @@ $("readBtn")
 
     $("readBtn")
       .classList
-      .add("done");
+      .add(
+        "done"
+      );
 
 
     showToast(
-      "已記錄一次共讀 ♡",
+      `✓ 已記錄《${book.title}》`,
       true
     );
 
@@ -3128,7 +3765,9 @@ $("readBtn")
 
         $("readBtn")
           .classList
-          .remove("done");
+          .remove(
+            "done"
+          );
 
       }
 
@@ -3137,9 +3776,9 @@ $("readBtn")
   };
 
 
-/* =========================
+/* ==============================
    UNDO
-========================= */
+============================== */
 
 $("undoBtn")
   .onclick = ()=>{
@@ -3197,9 +3836,9 @@ $("undoBtn")
   };
 
 
-/* =========================
+/* ==============================
    FAVORITE
-========================= */
+============================== */
 
 $("favoriteBtn")
   .onclick = ()=>{
@@ -3230,9 +3869,9 @@ $("favoriteBtn")
   };
 
 
-/* =========================
+/* ==============================
    HISTORY
-========================= */
+============================== */
 
 $("historyBtn")
   .onclick = ()=>{
@@ -3271,7 +3910,8 @@ $("historyBtn")
 function renderHistory(book){
 
   $("historyList")
-    .innerHTML = "";
+    .innerHTML =
+      "";
 
 
   const history =
@@ -3330,6 +3970,10 @@ function renderHistory(book){
 
       remove.className =
         "history-delete";
+
+
+      remove.type =
+        "button";
 
 
       remove.textContent =
@@ -3416,9 +4060,9 @@ $("closeHistory")
   };
 
 
-/* =========================
+/* ==============================
    PARENT MODE
-========================= */
+============================== */
 
 $("parentBtn")
   .onclick = ()=>{
@@ -3491,9 +4135,9 @@ $("parentBtn")
   };
 
 
-/* =========================
+/* ==============================
    IMAGE COMPRESSION
-========================= */
+============================== */
 
 function compressImage(
   file,
@@ -3621,9 +4265,9 @@ function compressImage(
 }
 
 
-/* =========================
+/* ==============================
    COVER PREVIEW
-========================= */
+============================== */
 
 function updateCoverPreview(){
 
@@ -3658,9 +4302,9 @@ function updateCoverPreview(){
 }
 
 
-/* =========================
+/* ==============================
    OPEN FORM
-========================= */
+============================== */
 
 function openForm(
   id=null
@@ -3715,15 +4359,18 @@ function openForm(
 
 
   $("coverFile")
-    .value = "";
+    .value =
+      "";
 
 
   $("coverResults")
-    .innerHTML = "";
+    .innerHTML =
+      "";
 
 
   $("coverSearchMessage")
-    .textContent = "";
+    .textContent =
+      "";
 
 
   updateCoverPreview();
@@ -3735,9 +4382,9 @@ function openForm(
 }
 
 
-/* =========================
-   ADD / EDIT
-========================= */
+/* ==============================
+   ADD / EDIT BUTTONS
+============================== */
 
 $("addBookBtn")
   .onclick = ()=>{
@@ -3770,9 +4417,18 @@ $("cancelEdit")
   };
 
 
-/* =========================
+$("closeEdit")
+  .onclick = ()=>{
+
+    $("editDialog")
+      .close();
+
+  };
+
+
+/* ==============================
    COVER UPLOAD
-========================= */
+============================== */
 
 $("coverFile")
   .onchange =
@@ -3794,11 +4450,14 @@ $("coverFile")
           file,
           {
 
-            maxWidth:700,
+            maxWidth:
+              700,
 
-            maxHeight:1000,
+            maxHeight:
+              1000,
 
-            quality:.76
+            quality:
+              .76
 
           }
         );
@@ -3823,9 +4482,9 @@ $("coverFile")
   };
 
 
-/* =========================
-   OPEN LIBRARY SEARCH
-========================= */
+/* ==============================
+   ONLINE COVER SEARCH
+============================== */
 
 $("onlineCoverBtn")
   .onclick =
@@ -3855,7 +4514,8 @@ $("onlineCoverBtn")
 
 
     $("coverResults")
-      .innerHTML = "";
+      .innerHTML =
+        "";
 
 
     try{
@@ -4010,9 +4670,9 @@ $("onlineCoverBtn")
   };
 
 
-/* =========================
+/* ==============================
    SAVE BOOK
-========================= */
+============================== */
 
 $("bookForm")
   .onsubmit =
@@ -4086,6 +4746,9 @@ $("bookForm")
         favorite:
           false,
 
+        createdAt:
+          Date.now(),
+
         readingHistory:
           []
 
@@ -4107,9 +4770,9 @@ $("bookForm")
   };
 
 
-/* =========================
+/* ==============================
    DELETE BOOK
-========================= */
+============================== */
 
 $("deleteBtn")
   .onclick = ()=>{
@@ -4162,16 +4825,17 @@ $("deleteBtn")
   };
 
 
-/* =========================
+/* ==============================
    EXPORT
-========================= */
+============================== */
 
 $("exportBtn")
   .onclick = ()=>{
 
     const backup = {
 
-      version:13,
+      version:
+        13,
 
       name:
         "潔心的小圖書館",
@@ -4235,9 +4899,9 @@ $("exportBtn")
   };
 
 
-/* =========================
+/* ==============================
    IMPORT
-========================= */
+============================== */
 
 $("importBtn")
   .onclick = ()=>{
@@ -4340,9 +5004,9 @@ $("importFile")
   };
 
 
-/* =========================
+/* ==============================
    TOAST
-========================= */
+============================== */
 
 function showToast(
   text,
@@ -4393,9 +5057,9 @@ function hideToast(){
 }
 
 
-/* =========================
+/* ==============================
    RENDER ALL
-========================= */
+============================== */
 
 function renderAll(){
 
@@ -4410,9 +5074,9 @@ function renderAll(){
 }
 
 
-/* =========================
+/* ==============================
    START
-========================= */
+============================== */
 
 load();
 
