@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Jessie 的電子書櫃</title>
+  <!-- 連結外部 CSS 檔案 -->
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <header>
+    <h1>Jessie 的書櫃 📚</h1>
+    <input id="search" type="search" placeholder="搜尋書名...">
+  </header>
+
+  <nav id="categories">
+    <button data-category="all" class="active">全部</button>
+    <button data-category="story">故事</button>
+    <button data-category="english">英文繪本</button>
+    <button data-category="sensory">感官</button>
+    <button data-category="cognitive">認知</button>
+    <button data-category="music">兒歌</button>
+  </nav>
+
+  <main id="bookshelf"></main>
+
+  <button id="addBook">＋ 新增書籍</button>
+
+  <!-- 新增書籍表單 (彈出視窗) -->
+  <dialog id="bookModal">
+    <form id="bookForm" method="dialog">
+      <h2>新增書籍</h2>
+      <input type="text" id="bookTitle" placeholder="書名 (必填)" required>
+      <select id="bookCategory" required>
+        <option value="" disabled selected>選擇分類</option>
+        <option value="story">故事</option>
+        <option value="english">英文繪本</option>
+        <option value="sensory">感官</option>
+        <option value="cognitive">認知</option>
+        <option value="music">兒歌</option>
+      </select>
+      <input type="text" id="bookAge" placeholder="適合年齡 (例如: 0-2歲)">
+      <input type="url" id="bookCover" placeholder="封面圖片網址 (選填)">
+      
+      <div class="dialog-buttons">
+        <button type="button" class="btn-cancel" id="cancelBtn">取消</button>
+        <button type="submit" class="btn-submit">儲存</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- 連結外部 JavaScript 檔案 -->
+  <script src="script.js"></script>
+
+</body>
+</html>
