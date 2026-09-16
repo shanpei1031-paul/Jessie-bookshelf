@@ -1640,6 +1640,12 @@ body.parent .parent-tools{
   }
 
 }
+
+
+/* ==============================
+   FAMILY CLOUD SYNC
+============================== */
+.cloud-bar{margin:0 20px 14px;padding:11px 13px;border:1px solid var(--line);border-radius:16px;background:rgba(255,252,246,.92);display:flex;align-items:center;justify-content:space-between;gap:10px}.cloud-status{min-width:0;color:var(--muted);font-size:11px;line-height:1.4}.cloud-status strong{display:block;color:var(--brown-soft);font-size:12px}.cloud-btn{flex:0 0 auto;min-height:38px;padding:0 13px;border:1px solid var(--line);border-radius:999px;background:#FFFDF8;color:#70665C;font-size:11px;font-weight:850}.cloud-dot{display:inline-block;width:7px;height:7px;margin-right:6px;border-radius:50%;background:#C7BDB1}.cloud-dot.online{background:#87967F}.cloud-dot.busy{background:#D4AE67}@media(min-width:600px){.cloud-bar{margin-left:30px;margin-right:30px}}
 </style>
 </head>
 
@@ -1673,6 +1679,15 @@ body.parent .parent-tools{
   </div>
 
 </header>
+
+<section class="cloud-bar" id="cloudBar">
+  <div class="cloud-status">
+    <strong><span class="cloud-dot" id="cloudDot"></span><span id="cloudTitle">本機書庫</span></strong>
+    <span id="cloudText">資料目前保存在這台裝置</span>
+  </div>
+  <button class="cloud-btn" id="cloudBtn" type="button">Google 登入</button>
+</section>
+
 
 
 <section class="search-wrap">
@@ -2183,7 +2198,10 @@ body.parent .parent-tools{
 </div>
 
 
-<script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
+import { getFirestore, collection, doc, getDocs, setDoc, updateDoc, deleteDoc, onSnapshot, arrayUnion, arrayRemove, writeBatch } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
 (()=>{
 "use strict";
 
@@ -2197,6 +2215,26 @@ const STORAGE_KEY =
 
 const PIN =
   "1234";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAR0VXqUw0sUaezOQaHPjExXn4LRwFbqWk",
+  authDomain: "jessie-bookshelf.firebaseapp.com",
+  projectId: "jessie-bookshelf",
+  storageBucket: "jessie-bookshelf.firebasestorage.app",
+  messagingSenderId: "304720995154",
+  appId: "1:304720995154:web:22d57d1e13f52a24a3508b"
+};
+
+const firebaseApp = initializeApp(firebaseConfig);
+const auth = getAuth(firebaseApp);
+const db = getFirestore(firebaseApp);
+const googleProvider = new GoogleAuthProvider();
+const booksCollection = collection(db,"libraries","jessie","books");
+
+let cloudReady = false;
+let cloudUser = null;
+let unsubscribeBooks = null;
+let applyingCloudSnapshot = false;
 
 
 const categories = [
@@ -2459,6 +2497,128 @@ function formatTime(timestamp){
    STORAGE
 ============================== */
 
+function normalizeBook(book,index=0){
+
+
+  if(!book.id){
+
+    book.id =
+      makeId("book");
+
+  }
+
+
+  if(!book.category){
+
+    book.category =
+      "other";
+
+  }
+
+
+  if(!book.readingStatus){
+
+    book.readingStatus =
+      "now";
+
+  }
+
+
+  if(
+    typeof book.favorite
+    !==
+    "boolean"
+  ){
+
+    book.favorite =
+      false;
+
+  }
+
+
+  /*
+    舊書原本沒有 createdAt，
+    不破壞資料。
+
+    用目前資料順序建立一個
+    穩定的排序基準。
+  */
+
+  if(
+    typeof book.createdAt
+    !==
+    "number"
+  ){
+
+    book.createdAt =
+      index;
+
+  }
+
+
+  /*
+    舊版只有 readCount，
+    轉成 legacy 紀錄。
+
+    legacy 不會算進今天。
+  */
+
+  if(
+    !Array.isArray(
+      book.readingHistory
+    )
+  ){
+
+    book.readingHistory =
+      [];
+
+
+    const oldCount =
+      Number(
+    book.readCount
+      ) || 0;
+
+
+    for(
+      let i=0;
+      i<oldCount;
+      i++
+    ){
+
+      book.readingHistory
+    .push({
+
+      id:
+        makeId("legacy"),
+
+      timestamp:
+        null,
+
+      legacy:
+        true
+
+    });
+
+    }
+
+  }
+
+
+  book.readingHistory
+    .forEach(record=>{
+
+      if(!record.id){
+
+    record.id =
+      makeId("read");
+
+      }
+
+    });
+
+}
+
+
 function load(){
 
   try{
@@ -2495,127 +2655,7 @@ function load(){
   }
 
 
-  books.forEach(
-    (book,index)=>{
-
-      if(!book.id){
-
-        book.id =
-          makeId("book");
-
-      }
-
-
-      if(!book.category){
-
-        book.category =
-          "other";
-
-      }
-
-
-      if(!book.readingStatus){
-
-        book.readingStatus =
-          "now";
-
-      }
-
-
-      if(
-        typeof book.favorite
-        !==
-        "boolean"
-      ){
-
-        book.favorite =
-          false;
-
-      }
-
-
-      /*
-        舊書原本沒有 createdAt，
-        不破壞資料。
-
-        用目前資料順序建立一個
-        穩定的排序基準。
-      */
-
-      if(
-        typeof book.createdAt
-        !==
-        "number"
-      ){
-
-        book.createdAt =
-          index;
-
-      }
-
-
-      /*
-        舊版只有 readCount，
-        轉成 legacy 紀錄。
-
-        legacy 不會算進今天。
-      */
-
-      if(
-        !Array.isArray(
-          book.readingHistory
-        )
-      ){
-
-        book.readingHistory =
-          [];
-
-
-        const oldCount =
-          Number(
-            book.readCount
-          ) || 0;
-
-
-        for(
-          let i=0;
-          i<oldCount;
-          i++
-        ){
-
-          book.readingHistory
-            .push({
-
-              id:
-                makeId("legacy"),
-
-              timestamp:
-                null,
-
-              legacy:
-                true
-
-            });
-
-        }
-
-      }
-
-
-      book.readingHistory
-        .forEach(record=>{
-
-          if(!record.id){
-
-            record.id =
-              makeId("read");
-
-          }
-
-        });
-
-    }
-  );
+  books.forEach((book,index)=>normalizeBook(book,index));
 
 
   save();
@@ -2655,6 +2695,186 @@ function save(){
   }
 
 }
+
+
+/* ==============================
+   FIREBASE CLOUD SYNC
+============================== */
+
+function setCloudUI(state,text=""){
+  const dot=$("cloudDot");
+  dot.className="cloud-dot" + (state==="online" ? " online" : state==="busy" ? " busy" : "");
+  if(state==="online"){
+    $("cloudTitle").textContent="家庭書庫已同步";
+    $("cloudText").textContent=text || (cloudUser?.displayName ? `${cloudUser.displayName} · Firebase` : "Firebase 雲端同步中");
+    $("cloudBtn").textContent="登出";
+  }else if(state==="busy"){
+    $("cloudTitle").textContent="正在連接家庭書庫";
+    $("cloudText").textContent=text || "請稍候…";
+    $("cloudBtn").textContent="請稍候";
+  }else{
+    $("cloudTitle").textContent="本機書庫";
+    $("cloudText").textContent=text || "登入後可和家人同步";
+    $("cloudBtn").textContent="Google 登入";
+  }
+}
+
+function approxBookBytes(book){
+  return new Blob([JSON.stringify(book)]).size;
+}
+
+async function syncBookToCloud(book){
+  if(!cloudReady || !cloudUser || !book) return;
+  if(approxBookBytes(book) > 900000){
+    alert(`《${book.title}》的封面檔案太大，已保留在本機，但暫時無法同步到雲端。\n\n請重新編輯這本書並上傳較小的封面。`);
+    return;
+  }
+  try{
+    await setDoc(doc(booksCollection,book.id),book);
+  }catch(error){
+    console.error(error);
+    showToast("雲端同步失敗，本機資料仍保留",false);
+  }
+}
+
+async function addReadingToCloud(bookId,record){
+  if(!cloudReady || !cloudUser) return;
+  try{
+    await updateDoc(doc(booksCollection,bookId),{readingHistory:arrayUnion(record)});
+  }catch(error){ console.error(error); showToast("共讀已存本機，雲端同步失敗",false); }
+}
+
+async function removeReadingFromCloud(bookId,record){
+  if(!cloudReady || !cloudUser) return;
+  try{
+    await updateDoc(doc(booksCollection,bookId),{readingHistory:arrayRemove(record)});
+  }catch(error){ console.error(error); showToast("本機已更新，雲端同步失敗",false); }
+}
+
+async function deleteBookFromCloud(bookId){
+  if(!cloudReady || !cloudUser) return;
+  try{ await deleteDoc(doc(booksCollection,bookId)); }
+  catch(error){ console.error(error); showToast("本機已刪除，但雲端刪除失敗",false); }
+}
+
+async function uploadLocalLibrary(){
+  const oversized=books.filter(book=>approxBookBytes(book)>900000);
+  if(oversized.length){
+    alert(`有 ${oversized.length} 本書的封面資料太大，為避免遺失，這次不會開始搬移。\n\n請保留剛才的 JSON 備份，再把這些書的封面重新上傳成較小圖片。`);
+    return false;
+  }
+  setCloudUI("busy",`正在上傳 ${books.length} 本書…`);
+  try{
+    const batch=writeBatch(db);
+    books.forEach(book=>batch.set(doc(booksCollection,book.id),book));
+    await batch.commit();
+    return true;
+  }catch(error){
+    console.error(error);
+    alert("第一次上傳失敗。你的原本書庫仍完整保留在這台裝置與備份檔中。\n\n"+(error?.message||""));
+    return false;
+  }
+}
+
+async function replaceCloudLibrary(){
+  if(!cloudReady || !cloudUser) return;
+  try{
+    const snap=await getDocs(booksCollection);
+    const batch=writeBatch(db);
+    snap.forEach(item=>batch.delete(item.ref));
+    for(const book of books){
+      if(approxBookBytes(book)>900000) throw new Error(`《${book.title}》封面資料太大`);
+      batch.set(doc(booksCollection,book.id),book);
+    }
+    await batch.commit();
+  }catch(error){ console.error(error); alert("雲端匯入同步失敗；本機匯入資料仍保留。\n"+(error?.message||"")); }
+}
+
+function startCloudListener(){
+  if(unsubscribeBooks) unsubscribeBooks();
+  unsubscribeBooks=onSnapshot(booksCollection,snapshot=>{
+    if(!cloudReady) return;
+    applyingCloudSnapshot=true;
+    books=snapshot.docs.map(item=>item.data());
+    books.forEach((book,index)=>normalizeBook(book,index));
+    try{ localStorage.setItem(STORAGE_KEY,JSON.stringify(books)); }catch(error){ console.error(error); }
+    renderAll();
+    if(selectedId){ const selected=getBook(selectedId); if(selected && $("detailDialog").open) renderDetail(selected); }
+    applyingCloudSnapshot=false;
+    setCloudUI("online");
+  },async error=>{
+    console.error(error);
+    cloudReady=false;
+    if(error?.code==="permission-denied"){
+      alert("這個 Google 帳號沒有家庭書庫的使用權限。請改用已授權的帳號登入。");
+      try{ await signOut(auth); }catch(_){}
+    }else{
+      setCloudUI("offline","雲端連線中斷，本機資料仍可使用");
+    }
+  });
+}
+
+async function prepareCloud(user){
+  cloudUser=user;
+  setCloudUI("busy","正在檢查雲端書庫…");
+  try{
+    const snapshot=await getDocs(booksCollection);
+    const cloudBooks=snapshot.docs.map(item=>item.data());
+    if(cloudBooks.length===0 && books.length>0){
+      const ok=confirm(`雲端書庫目前是空的。\n\n這台裝置有 ${books.length} 本書。要把這台現有書庫上傳成家庭共用書庫嗎？\n\n你的本機資料與備份不會被刪除。`);
+      if(!ok){
+        cloudReady=false;
+        setCloudUI("offline","尚未搬移；目前仍使用本機書庫");
+        return;
+      }
+      const uploaded=await uploadLocalLibrary();
+      if(!uploaded){ cloudReady=false; setCloudUI("offline","第一次上傳尚未完成"); return; }
+    }else if(cloudBooks.length>0){
+      books=cloudBooks;
+      books.forEach((book,index)=>normalizeBook(book,index));
+      try{ localStorage.setItem(STORAGE_KEY,JSON.stringify(books)); }catch(error){ console.error(error); }
+      renderAll();
+    }
+    cloudReady=true;
+    setCloudUI("online");
+    startCloudListener();
+  }catch(error){
+    console.error(error);
+    cloudReady=false;
+    if(error?.code==="permission-denied"){
+      alert("這個 Google 帳號沒有家庭書庫的使用權限。請改用已授權的帳號登入。");
+      await signOut(auth);
+    }else{
+      setCloudUI("offline","無法連接 Firebase，本機資料仍可使用");
+      alert("目前無法連接家庭書庫。你的本機資料沒有被刪除。\n\n"+(error?.message||""));
+    }
+  }
+}
+
+$("cloudBtn").onclick=async()=>{
+  if(cloudUser){
+    if(confirm("要登出家庭書庫嗎？")) await signOut(auth);
+    return;
+  }
+  try{
+    setCloudUI("busy","正在開啟 Google 登入…");
+    await signInWithPopup(auth,googleProvider);
+  }catch(error){
+    console.error(error);
+    if(error?.code!=="auth/popup-closed-by-user") alert("Google 登入沒有完成。請再試一次。\n\n"+(error?.message||""));
+    setCloudUI("offline");
+  }
+};
+
+onAuthStateChanged(auth,user=>{
+  if(user){
+    prepareCloud(user);
+  }else{
+    cloudUser=null; cloudReady=false;
+    if(unsubscribeBooks){ unsubscribeBooks(); unsubscribeBooks=null; }
+    setCloudUI("offline","登入後可和家人同步");
+  }
+});
 
 
 /* ==============================
@@ -3720,6 +3940,7 @@ $("readBtn")
 
 
     save();
+    addReadingToCloud(book.id,record);
 
     renderAll();
 
@@ -3796,6 +4017,8 @@ $("undoBtn")
 
     if(book){
 
+      const removedRecord = book.readingHistory.find(record=>record.id===lastReading.recordId);
+
       book.readingHistory =
         book.readingHistory
           .filter(record=>
@@ -3808,6 +4031,7 @@ $("undoBtn")
 
 
       save();
+      if(removedRecord) removeReadingFromCloud(book.id,removedRecord);
 
       renderAll();
 
@@ -3859,6 +4083,7 @@ $("favoriteBtn")
 
 
     save();
+    syncBookToCloud(book);
 
     renderAll();
 
@@ -4005,6 +4230,7 @@ function renderHistory(book){
 
 
         save();
+        removeReadingFromCloud(book.id,record);
 
         renderAll();
 
@@ -4759,6 +4985,9 @@ $("bookForm")
 
     if(save()){
 
+      const changedBook = editingId ? getBook(editingId) : books[books.length-1];
+      syncBookToCloud(changedBook);
+
       $("editDialog")
         .close();
 
@@ -4814,6 +5043,7 @@ $("deleteBtn")
 
 
     save();
+    deleteBookFromCloud(book.id);
 
 
     $("detailDialog")
@@ -4977,6 +5207,13 @@ $("importFile")
 
         save();
 
+        if(cloudReady && cloudUser){
+          const syncNow = confirm("目前已連接家庭書庫。要用這份備份取代雲端書庫嗎？");
+          if(syncNow){
+            replaceCloudLibrary().then(()=>location.reload());
+            return;
+          }
+        }
 
         location.reload();
 
