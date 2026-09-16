@@ -3,188 +3,128 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Jessie 的電子書櫃 📚</title>
-  
-  <!-- 可愛字型 -->
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;700&family=Zen+Maru+Gothic:wght@500;700&display=swap" rel="stylesheet">
+  <title>Jessie 的電子書櫃</title>
 
   <style>
-    /* --- 童趣木櫃風格主題設定 --- */
+    /* 基礎設定 */
     :root {
-      --wood-dark: #7a4b21;
-      --wood-medium: #b87b43;
-      --wood-light: #e4aa69;
-      --wood-shelf: #8c5324;
-      --bg-cream: #fbf5ed;
-      --primary: #ff7b93;
-      --text-color: #4a3525;
+      --primary: #ff8fa3;
+      --bg: #f9f9f9;
+      --text: #333;
+      --card-bg: #fff;
     }
-
+    
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: 'Zen Maru Gothic', 'Fredoka', 'PingFang TC', sans-serif;
+      font-family: 'Helvetica Neue', Arial, 'PingFang TC', 'Heiti TC', 'Microsoft JhengHei', sans-serif;
     }
-
+    
     body {
-      background-color: var(--bg-cream);
-      background-image: radial-gradient(#e2d5c3 10%, transparent 11%);
-      background-size: 20px 20px;
-      color: var(--text-color);
-      padding-bottom: 90px;
+      background-color: var(--bg);
+      color: var(--text);
+      padding-bottom: 80px; /* 留空間給底部的新增按鈕 */
     }
 
-    /* --- 頂部木頭招牌 --- */
-    header.wooden-header {
-      padding: 15px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 12px;
+    /* 頂部標題與搜尋 */
+    header {
+      background-color: #fff;
+      padding: 20px 15px 15px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
       position: sticky;
       top: 0;
-      z-index: 100;
-      background: rgba(251, 245, 237, 0.95);
-      backdrop-filter: blur(5px);
+      z-index: 10;
     }
 
-    .wooden-sign {
-      background: var(--wood-medium);
-      border: 4px solid var(--wood-dark);
-      border-radius: 20px;
-      padding: 10px 25px;
-      box-shadow: 0 6px 0px var(--wood-dark), 0 10px 15px rgba(0,0,0,0.15);
-    }
-
-    .wooden-sign h1 {
-      color: #fff;
-      font-size: 22px;
-      text-shadow: 2px 2px 0px var(--wood-dark);
-      letter-spacing: 1px;
-    }
-
-    .search-box {
-      width: 100%;
-      max-width: 400px;
+    h1 {
+      font-size: 24px;
+      margin-bottom: 15px;
+      color: var(--primary);
     }
 
     #search {
       width: 100%;
-      padding: 12px 20px;
-      border: 3px solid var(--wood-light);
+      padding: 12px 15px;
+      border: 1px solid #ddd;
       border-radius: 25px;
-      font-size: 15px;
+      font-size: 16px;
       outline: none;
-      background: #fff;
-      box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
-      transition: all 0.3s;
+      transition: border-color 0.3s;
     }
 
     #search:focus {
-      border-color: var(--wood-medium);
-      box-shadow: 0 0 8px rgba(184, 123, 67, 0.4);
+      border-color: var(--primary);
     }
 
-    /* --- 分類選單 --- */
+    /* 分類導覽列 (可橫向滾動) */
     #categories {
       display: flex;
       overflow-x: auto;
-      padding: 10px 15px;
+      padding: 15px;
       gap: 10px;
-      scrollbar-width: none;
+      white-space: nowrap;
+      /* 隱藏捲軸 */
+      scrollbar-width: none; 
     }
-
     #categories::-webkit-scrollbar {
       display: none;
     }
 
     #categories button {
       background: #fff;
-      border: 2px solid var(--wood-light);
+      border: 1px solid #ddd;
       padding: 8px 16px;
-      border-radius: 18px;
+      border-radius: 20px;
       font-size: 14px;
-      font-weight: bold;
       cursor: pointer;
-      color: var(--text-color);
-      white-space: nowrap;
+      color: #666;
       transition: all 0.2s;
-      box-shadow: 0 3px 0 var(--wood-light);
     }
 
-    #categories button.active, #categories button:active {
-      background: var(--wood-medium);
+    #categories button.active {
+      background: var(--primary);
       color: #fff;
-      border-color: var(--wood-dark);
-      box-shadow: 0 0px 0 var(--wood-dark);
-      transform: translateY(3px);
+      border-color: var(--primary);
     }
 
-    /* --- 木頭書櫃本體 --- */
-    .shelf-container {
-      max-width: 800px;
-      margin: 10px auto;
-      padding: 15px;
-      background: var(--wood-medium);
-      border: 6px solid var(--wood-dark);
-      border-radius: 24px;
-      box-shadow: inset 0 0 20px rgba(0,0,0,0.3), 0 10px 25px rgba(0,0,0,0.15);
-    }
-
+    /* 書櫃網格 */
     #bookshelf {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 25px 15px;
+      grid-template-columns: repeat(2, 1fr); /* 手機版一排兩本 */
+      gap: 15px;
+      padding: 0 15px 15px;
     }
 
-    @media (min-width: 600px) {
-      #bookshelf {
-        grid-template-columns: repeat(3, 1fr);
-      }
-    }
-
-    /* --- 書籍卡片與滑過跳出變大效果 --- */
+    /* 書籍卡片 */
     .book {
-      background: #fff;
+      background: var(--card-bg);
       border-radius: 12px;
-      padding: 8px;
-      box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+      overflow: hidden;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.04);
       position: relative;
       cursor: pointer;
       display: flex;
       flex-direction: column;
-      border-bottom: 8px solid var(--wood-shelf);
-      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease, z-index 0s;
-      transform-origin: center bottom;
-    }
-
-    .book:hover, .book:active {
-      transform: translateY(-16px) scale(1.08) rotate(-1.5deg);
-      box-shadow: 0 20px 25px rgba(0,0,0,0.25);
-      z-index: 10;
     }
 
     .book img {
       width: 100%;
-      aspect-ratio: 3/4;
+      aspect-ratio: 3/4; /* 統一封面比例 */
       object-fit: cover;
-      border-radius: 8px;
       background-color: #eee;
-      box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
     }
 
     .book-info {
-      padding: 8px 4px 4px;
+      padding: 10px;
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: 5px;
       flex-grow: 1;
     }
 
     .book-info strong {
       font-size: 14px;
-      color: var(--text-color);
       line-height: 1.3;
       display: -webkit-box;
       -webkit-line-clamp: 2;
@@ -197,361 +137,197 @@
       justify-content: space-between;
       align-items: center;
       margin-top: auto;
-      font-size: 11px;
     }
 
-    .category-tag {
-      background: #ffe3e8;
-      color: #d84a6b;
+    .book-meta span {
+      font-size: 12px;
+      color: #888;
+    }
+
+    .book-meta .category-tag {
+      background: #f0f0f0;
       padding: 2px 6px;
-      border-radius: 6px;
-      font-weight: bold;
-    }
-
-    .age-tag {
-      color: #777;
-    }
-
-    .note-badge {
-      font-size: 11px;
-      color: #885e3a;
-      background: #f7e8d3;
-      padding: 3px 6px;
       border-radius: 4px;
-      margin-top: 4px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      color: #555;
     }
 
-    /* --- 刪除按鈕 --- */
+    /* 刪除按鈕 */
     .delete-btn {
       position: absolute;
-      top: -8px;
-      right: -8px;
-      background: #ff5252;
+      top: 8px;
+      right: 8px;
+      background: rgba(255, 59, 48, 0.9);
       color: white;
-      border: 2px solid #fff;
+      border: none;
       width: 28px;
       height: 28px;
       border-radius: 50%;
-      font-size: 12px;
+      font-size: 14px;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 3px 6px rgba(0,0,0,0.2);
-      z-index: 5;
-      transition: transform 0.2s;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
     }
 
-    .delete-btn:hover {
-      transform: scale(1.2);
-    }
-
-    /* --- 固定新增按鈕 --- */
-    .wooden-btn-add {
+    /* 新增按鈕 (固定於底部) */
+    #addBook {
       position: fixed;
       bottom: 20px;
       left: 50%;
       transform: translateX(-50%);
-      background: var(--wood-medium);
+      background: var(--primary);
       color: white;
-      border: 3px solid var(--wood-dark);
-      padding: 12px 30px;
+      border: none;
+      padding: 14px 30px;
       border-radius: 30px;
       font-size: 16px;
       font-weight: bold;
-      box-shadow: 0 6px 0 var(--wood-dark), 0 10px 15px rgba(0,0,0,0.2);
+      box-shadow: 0 4px 12px rgba(255, 143, 163, 0.4);
       cursor: pointer;
-      z-index: 90;
-      transition: all 0.2s;
+      z-index: 20;
     }
 
-    .wooden-btn-add:active {
-      transform: translateX(-50%) translateY(4px);
-      box-shadow: 0 2px 0 var(--wood-dark);
-    }
-
-    /* --- 彈出視窗 --- */
-    .wooden-modal {
+    /* 新增書籍的彈出視窗 */
+    dialog {
       width: 90%;
-      max-width: 420px;
+      max-width: 400px;
       margin: auto;
-      border: 4px solid var(--wood-dark);
-      border-radius: 20px;
+      border: none;
+      border-radius: 16px;
       padding: 20px;
-      background: #fff;
-      box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
     }
-
-    .wooden-modal::backdrop {
+    
+    dialog::backdrop {
       background: rgba(0,0,0,0.5);
-      backdrop-filter: blur(3px);
     }
 
-    .wooden-modal h2 {
-      font-size: 18px;
-      color: var(--wood-dark);
+    dialog h2 {
       margin-bottom: 15px;
-      text-align: center;
+      font-size: 20px;
+      color: var(--primary);
     }
 
-    .wooden-modal label {
-      font-size: 13px;
-      font-weight: bold;
-      color: var(--wood-dark);
-      display: block;
-      margin-top: 10px;
-      margin-bottom: 3px;
-    }
-
-    .wooden-modal input, .wooden-modal select, .wooden-modal textarea {
+    dialog input, dialog select {
       width: 100%;
-      padding: 10px;
-      border: 2px solid var(--wood-light);
-      border-radius: 10px;
-      font-size: 14px;
-      outline: none;
+      padding: 12px;
+      margin-bottom: 12px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 16px;
     }
 
     .dialog-buttons {
       display: flex;
       justify-content: flex-end;
       gap: 10px;
-      margin-top: 15px;
+      margin-top: 10px;
     }
 
     .dialog-buttons button {
-      padding: 10px 18px;
-      border-radius: 12px;
-      font-size: 14px;
-      font-weight: bold;
-      cursor: pointer;
+      padding: 10px 20px;
       border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
     }
 
     .btn-cancel {
       background: #eee;
-      color: #555;
+      color: #333;
     }
 
     .btn-submit {
-      background: var(--wood-medium);
+      background: var(--primary);
       color: white;
-    }
-
-    .detail-content {
-      text-align: center;
-    }
-
-    .detail-content img {
-      max-width: 180px;
-      border-radius: 10px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-      margin-bottom: 12px;
-    }
-
-    .detail-content h3 {
-      color: var(--wood-dark);
-      margin-bottom: 8px;
-    }
-
-    .detail-tags {
-      margin-bottom: 12px;
-    }
-
-    .detail-note-box {
-      background: #fdf6ec;
-      border: 2px dashed var(--wood-light);
-      padding: 12px;
-      border-radius: 10px;
-      text-align: left;
-      font-size: 13px;
-      color: #5a4028;
     }
   </style>
 </head>
 
 <body>
 
-  <!-- 頂部木頭招牌與搜尋 -->
-  <header class="wooden-header">
-    <div class="wooden-sign">
-      <h1>Jessie 的電子書櫃 🪵✨</h1>
-    </div>
-    <div class="search-box">
-      <input id="search" type="search" placeholder="🔍 搜尋書名或備註...">
-    </div>
+  <header>
+    <h1>Jessie 的書櫃 📚</h1>
+    <input id="search" type="search" placeholder="搜尋書名...">
   </header>
 
-  <!-- 分類選單 -->
   <nav id="categories">
-    <button data-category="all" class="active">🌟 全部</button>
-    <button data-category="story">📖 故事</button>
-    <button data-category="english">🔤 英文繪本</button>
-    <button data-category="sensory">✋ 感官</button>
-    <button data-category="cognitive">🧠 認知</button>
-    <button data-category="music">🎵 兒歌</button>
+    <button data-category="all" class="active">全部</button>
+    <button data-category="story">故事</button>
+    <button data-category="english">英文繪本</button>
+    <button data-category="sensory">感官</button>
+    <button data-category="cognitive">認知</button>
+    <button data-category="music">兒歌</button>
   </nav>
 
-  <!-- 木頭書櫃本體 -->
-  <div class="shelf-container">
-    <main id="bookshelf"></main>
-  </div>
+  <main id="bookshelf"></main>
 
-  <!-- 固定底部新增按鈕 -->
-  <button id="addBook" class="wooden-btn-add">
-    <span>➕ 新增繪本</span>
-  </button>
+  <button id="addBook">＋ 新增書籍</button>
 
-  <!-- 視窗：新增書籍表單 -->
-  <dialog id="bookModal" class="wooden-modal">
+  <!-- 新增書籍表單 (彈出視窗) -->
+  <dialog id="bookModal">
     <form id="bookForm" method="dialog">
-      <h2>✨ 新增繪本書籍</h2>
-      
-      <label>繪本書名 (必填)：</label>
-      <input type="text" id="bookTitle" placeholder="例：小黃點" required>
-      
-      <label>繪本分類：</label>
+      <h2>新增書籍</h2>
+      <input type="text" id="bookTitle" placeholder="書名 (必填)" required>
       <select id="bookCategory" required>
-        <option value="" disabled selected>選擇分類...</option>
+        <option value="" disabled selected>選擇分類</option>
         <option value="story">故事</option>
         <option value="english">英文繪本</option>
         <option value="sensory">感官</option>
         <option value="cognitive">認知</option>
         <option value="music">兒歌</option>
       </select>
-      
-      <label>適合年齡：</label>
-      <input type="text" id="bookAge" placeholder="例：0–2歲">
-      
-      <label>上傳封面照片 (從手機/電腦選圖)：</label>
-      <input type="file" id="bookCoverFile" accept="image/*">
-      <div style="text-align: center; margin: 5px 0; font-size: 12px; color: #888;">或使用網路圖片網址：</div>
-      <input type="url" id="bookCoverUrl" placeholder="https://...">
-
-      <label>文字備註 / 閱讀心得：</label>
-      <textarea id="bookNote" rows="3" placeholder="備註（例：寶寶最喜歡看裡面的彩色氣球...）"></textarea>
+      <input type="text" id="bookAge" placeholder="適合年齡 (例如: 0-2歲)">
+      <input type="url" id="bookCover" placeholder="封面圖片網址 (選填)">
       
       <div class="dialog-buttons">
         <button type="button" class="btn-cancel" id="cancelBtn">取消</button>
-        <button type="submit" class="btn-submit">💾 儲存繪本</button>
+        <button type="submit" class="btn-submit">儲存</button>
       </div>
     </form>
   </dialog>
 
-  <!-- 視窗：查看書籍詳情/備註 -->
-  <dialog id="detailModal" class="wooden-modal">
-    <div class="detail-content">
-      <img id="detailImg" src="" alt="封面">
-      <h3 id="detailTitle"></h3>
-      <div class="detail-tags">
-        <span id="detailCategory" class="category-tag"></span>
-        <span id="detailAge" class="age-tag"></span>
-      </div>
-      <div class="detail-note-box">
-        <strong>📝 閱讀備註：</strong>
-        <p id="detailNote">無備註</p>
-      </div>
-      <div class="dialog-buttons" style="margin-top: 15px;">
-        <button type="button" class="btn-cancel" id="closeDetailBtn">關閉</button>
-      </div>
-    </div>
-  </dialog>
-
   <script>
-    // --- 預設 12 本書籍資料 ---
-    const defaultBooks = [
+    // 預設書籍資料
+    // 圖片網址暫時替換為 placehold.co 產生器，以確保你現在能看到畫面。
+    // 你可以隨時改回原本的 "covers/xxx.jpg"
+    let books = [
       {
         title: "See, Touch, Feel",
         category: "sensory",
         age: "0–1歲",
-        cover: "https://placehold.co/300x400/FFE4E1/555?text=See+Touch+Feel",
-        note: "觸覺觸摸書，寶寶最喜歡摸裡面的觸感細節。"
-      },
-      {
-        title: "這是，什麼聲音？交通",
-        category: "sensory",
-        age: "1歲+",
-        cover: "https://placehold.co/300x400/E0FFFF/555?text=交通聲音",
-        note: "發聲按鍵書，按壓有各種車輛音效。"
-      },
-      {
-        title: "0歲 Book：寶寶與動物",
-        category: "cognitive",
-        age: "0歲",
-        cover: "https://placehold.co/300x400/F5F5DC/555?text=寶寶與動物",
-        note: "高對比動物圖案，適合早期視覺刺激。"
-      },
-      {
-        title: "0歲 Book：找一找彩色襪子",
-        category: "cognitive",
-        age: "0歲",
-        cover: "https://placehold.co/300x400/FFF8DC/555?text=彩色襪子",
-        note: "訓練視覺對比與色彩觀察力。"
-      },
-      {
-        title: "0歲 Book：找一找美味櫻桃",
-        category: "cognitive",
-        age: "0歲",
-        cover: "https://placehold.co/300x400/FFC0CB/555?text=美味櫻桃",
-        note: "認識形狀與生活中的常見物體。"
-      },
-      {
-        title: "手指點讀互動圖典",
-        category: "cognitive",
-        age: "1歲+",
-        cover: "https://placehold.co/300x400/F0F8FF/555?text=手指點讀",
-        note: "中英雙語點讀發聲，詞彙非常豐富。"
-      },
-      {
-        title: "小寶貝愛唱歌 1",
-        category: "music",
-        age: "0-3歲",
-        cover: "https://placehold.co/300x400/E6E6FA/555?text=愛唱歌+1",
-        note: "歡樂音樂按鍵，培養韻律感與唱跳能力。"
-      },
-      {
-        title: "小寶貝愛唱歌 2",
-        category: "music",
-        age: "0-3歲",
-        cover: "https://placehold.co/300x400/F8F8FF/555?text=愛唱歌+2",
-        note: "經典童謠旋律，適合睡前或遊戲時聽。"
-      },
-      {
-        title: "小黃點",
-        category: "story",
-        age: "3–6歲",
-        cover: "https://placehold.co/300x400/FFFFE0/555?text=小黃點",
-        note: "超有趣的互動繪本，用手指點點、搖一搖。"
-      },
-      {
-        title: "小藍和小黃",
-        category: "story",
-        age: "1歲+",
-        cover: "https://placehold.co/300x400/ADD8E6/555?text=小藍和小黃",
-        note: "經典混色概念與友情故事。"
+        cover: "https://placehold.co/300x400/FFE4E1/555?text=See+Touch+Feel" 
       },
       {
         title: "Brown Bear, Brown Bear, What Do You See?",
         category: "english",
         age: "0–2歲",
-        cover: "https://placehold.co/300x400/D2B48C/555?text=Brown+Bear",
-        note: "重複句型與色彩動物，英文啟蒙神書。"
+        cover: "https://placehold.co/300x400/E6E6FA/555?text=Brown+Bear"
       },
       {
         title: "Dear Zoo",
         category: "english",
         age: "0–2歲",
-        cover: "https://placehold.co/300x400/FFE4B5/555?text=Dear+Zoo",
-        note: "翻翻書設計，學習動物英文單字。"
+        cover: "https://placehold.co/300x400/FFF0F5/555?text=Dear+Zoo"
+      },
+      {
+        title: "小藍和小黃",
+        category: "story",
+        age: "1歲+",
+        cover: "https://placehold.co/300x400/E0FFFF/555?text=小藍和小黃"
+      },
+      {
+        title: "100種動物",
+        category: "cognitive",
+        age: "1歲+",
+        cover: "https://placehold.co/300x400/F5F5DC/555?text=100種動物"
       }
     ];
 
-    let books = [];
     let currentCategory = 'all';
 
+    // 類別對照表 (供顯示用)
     const categoryNames = {
       story: "故事",
       english: "英文繪本",
@@ -560,14 +336,15 @@
       music: "兒歌"
     };
 
+    // 顯示書籍
     function renderBooks(list = books) {
       const shelf = document.getElementById("bookshelf");
       shelf.innerHTML = "";
 
       list.forEach((book, index) => {
+        // 如果沒有圖片，給一張預設圖
+        const imgUrl = book.cover ? book.cover : "https://placehold.co/300x400/ddd/555?text=No+Cover";
         const catName = categoryNames[book.category] || "其他";
-        const imgUrl = book.cover || "https://placehold.co/300x400/ddd/555?text=無封面";
-        const noteText = book.note ? `📝 ${book.note}` : '';
 
         const element = document.createElement("article");
         element.className = "book";
@@ -578,59 +355,57 @@
           <div class="book-info">
             <strong>${book.title}</strong>
             <div class="book-meta">
+              <span>${book.age}</span>
               <span class="category-tag">${catName}</span>
-              <span class="age-tag">${book.age || ''}</span>
             </div>
-            ${noteText ? `<div class="note-badge">${noteText}</div>` : ''}
           </div>
         `;
 
-        element.onclick = () => openDetailModal(book);
+        element.onclick = () => openBook(index);
         shelf.appendChild(element);
       });
     }
 
+    // 刪除書籍
     function deleteBook(index, event) {
-      event.stopPropagation();
-      if (confirm(`確定要將《${books[index].title}》刪除嗎？`)) {
+      event.stopPropagation(); // 避免觸發點擊書籍的動作
+      if(confirm(`確定要刪除這本書嗎？`)) {
         books.splice(index, 1);
         saveBooks();
-        filterBooks();
+        filterBooks(); // 重新渲染目前的分類狀態
       }
     }
 
-    function openDetailModal(book) {
-      document.getElementById("detailImg").src = book.cover || "https://placehold.co/300x400/ddd/555?text=無封面";
-      document.getElementById("detailTitle").innerText = book.title;
-      document.getElementById("detailCategory").innerText = categoryNames[book.category] || "其他";
-      document.getElementById("detailAge").innerText = book.age ? `適合年齡：${book.age}` : '';
-      document.getElementById("detailNote").innerText = book.note || "暫無文字備註。";
-
-      document.getElementById("detailModal").showModal();
+    // 點擊書籍 (預留功能)
+    function openBook(index) {
+      alert(`你點擊了：${books[index].title}\n(這裡可以接後續的閱讀或編輯頁面)`);
     }
 
-    document.getElementById("closeDetailBtn").onclick = () => {
-      document.getElementById("detailModal").close();
-    };
+    // 搜尋
+    document.getElementById("search").addEventListener("input", event => {
+      filterBooks();
+    });
 
-    document.getElementById("search").addEventListener("input", filterBooks);
-
+    // 分類按鈕點擊
     const categoryButtons = document.querySelectorAll("#categories button");
     categoryButtons.forEach(btn => {
       btn.addEventListener("click", (e) => {
+        // 移除所有 active 樣式
         categoryButtons.forEach(b => b.classList.remove("active"));
+        // 加上目前點擊的 active 樣式
         e.target.classList.add("active");
+        
         currentCategory = e.target.getAttribute("data-category");
         filterBooks();
       });
     });
 
+    // 綜合過濾 (搜尋 + 分類)
     function filterBooks() {
       const keyword = document.getElementById("search").value.toLowerCase();
       
       const results = books.filter(book => {
-        const matchKeyword = book.title.toLowerCase().includes(keyword) || 
-                             (book.note && book.note.toLowerCase().includes(keyword));
+        const matchKeyword = book.title.toLowerCase().includes(keyword);
         const matchCategory = (currentCategory === "all") || (book.category === currentCategory);
         return matchKeyword && matchCategory;
       });
@@ -638,74 +413,58 @@
       renderBooks(results);
     }
 
+    // --- 新增書籍功能 ---
     const modal = document.getElementById("bookModal");
     const btnAdd = document.getElementById("addBook");
     const btnCancel = document.getElementById("cancelBtn");
     const form = document.getElementById("bookForm");
 
-    btnAdd.onclick = () => {
-      form.reset();
+    // 打開視窗
+    btnAdd.addEventListener("click", () => {
+      form.reset(); // 清空表單
       modal.showModal();
-    };
+    });
 
-    btnCancel.onclick = () => modal.close();
+    // 關閉視窗
+    btnCancel.addEventListener("click", () => {
+      modal.close();
+    });
 
-    form.onsubmit = async (e) => {
-      e.preventDefault();
-
-      const title = document.getElementById("bookTitle").value;
-      const category = document.getElementById("bookCategory").value;
-      const age = document.getElementById("bookAge").value;
-      const note = document.getElementById("bookNote").value;
-      const fileInput = document.getElementById("bookCoverFile");
-      const urlInput = document.getElementById("bookCoverUrl").value;
-
-      let coverUrl = urlInput;
-
-      if (fileInput.files && fileInput.files[0]) {
-        coverUrl = await readAsBase64(fileInput.files[0]);
-      }
-
+    // 表單送出 (新增書籍)
+    form.addEventListener("submit", () => {
       const newBook = {
-        title,
-        category,
-        age: age || "不限",
-        cover: coverUrl,
-        note
+        title: document.getElementById("bookTitle").value,
+        category: document.getElementById("bookCategory").value,
+        age: document.getElementById("bookAge").value || "不限",
+        cover: document.getElementById("bookCover").value
       };
 
       books.push(newBook);
       saveBooks();
       
-      document.querySelector('[data-category="all"]').click();
-      modal.close();
-    };
+      // 切換回「全部」分類以便看到新書
+      document.querySelector('[data-category="all"]').click(); 
+    });
 
-    function readAsBase64(file) {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = error => reject(error); 
-        reader.readAsDataURL(file);
-      });
-    }
 
+    // 儲存至 localStorage
     function saveBooks() {
-      localStorage.setItem("jessie-bookshelf-v3", JSON.stringify(books));
+      localStorage.setItem("jessie-bookshelf", JSON.stringify(books));
     }
 
+    // 讀取 localStorage
     function loadBooks() {
-      const saved = localStorage.getItem("jessie-bookshelf-v3");
+      const saved = localStorage.getItem("jessie-bookshelf");
       if (saved) {
         books = JSON.parse(saved);
-      } else {
-        books = [...defaultBooks];
-        saveBooks();
       }
       renderBooks();
     }
 
+    // 啟動程式
     loadBooks();
+
   </script>
+
 </body>
 </html>
